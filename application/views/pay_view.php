@@ -5,7 +5,7 @@
  }else{
      echo '<input id="paket" type="hidden" value="'.$pac = ($data['paket']+1).'"/>';
  }
-// print_r($data['credit']);
+ print_r($data['credit']);
 ?>
 <script type="text/javascript">
 var tariff_list = {};
@@ -41,7 +41,7 @@ var tariff_list = {};
                             foreach ($value['cost'] as $val) {
                                 
                                 $all = round($val['cost']*$val['produced'],2);
-                                echo "<tr id='r{$trow}' class='cr{$key}'>";
+                                echo "<tr id='r{$trow}' class='cr{$key}' name='{$val['row']}'>";
                                 echo "<td>$trow</td><td id='td{$value['staff']}'>{$value['surname']}</td><td>{$val['short']}</td><td>{$val['cost']}</td><td>{$val['produced']}</td><td>{$all}</td>";
                                 echo    "<td><a class='ico-info' title='Изменить'></a></td></tr>";
                                 if($numrow > 0){
@@ -115,7 +115,7 @@ var tariff_list = {};
                             </select>
                         </td>
                         <td>
-                            <input type="text" id="count" value=""/>
+                            <input type="text" id="count" value="" size='6'/>
                         </td>
                         <td>
                             

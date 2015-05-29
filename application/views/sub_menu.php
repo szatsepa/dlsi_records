@@ -13,6 +13,10 @@ class SubMenu {
         {	
                 $controller_name = $routes[1];
         }
+        
+        if($controller_name === '404'){
+            return;
+        }
 //        $sub_menu = array();
 //            $sub_menu['staff'] = array('staff'=>"Персонал",'func'=>'Должности','action'=>'Функции');
 //            $sub_menu['pay'] = array('tsh'=>'Табель','imprest'=>"Аванс/Выплаты/Штрафы",'payment'=>"Зарплата - расчет",'tariff'=>'Тарифы','his'=>'История');

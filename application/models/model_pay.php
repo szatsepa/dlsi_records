@@ -46,7 +46,7 @@ class Model_Pay extends Model
             foreach ($tmpc as $value) {
                 $data['credit'][$value['id']] = array('surname'=>$value['surname'],'cost'=>array());
                 
-                $tmp = self::querySelect("SELECT  tf.`short`, tf.`tariff`, t.`produced`,  tf.`cost`
+                $tmp = self::querySelect("SELECT  tf.`short`, tf.`tariff`, t.`produced`,  tf.`cost`,t.`id` AS 'row'
                                               FROM `timesheet` AS t 
                                               LEFT JOIN function AS f ON t.`function` = f.`id` 
                                               LEFT JOIN `tariff` AS tf ON t.`tariff` = tf.`id` 
@@ -58,7 +58,7 @@ class Model_Pay extends Model
                 
                 $tmpi = self::querySelect("SELECT 'Аванс' AS 'short',
                             (i.`cost` * ( -1 )) AS 'cost',
-                            '1' AS 'produced'
+                            '1' AS 'produced', `id` AS 'row'
                         FROM `imprest` AS i
                         WHERE i.`staff` ={$value['id']}
                         AND (i.`details` <> 3)

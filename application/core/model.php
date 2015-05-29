@@ -22,10 +22,7 @@ class Model
        }
 
        // метод выборки данных
-	public function get_data()
-	{
-		// todo
-	}
+
         public function querySelect($query) {
             
             $str = stripslashes($query);
@@ -62,6 +59,7 @@ class Model
             
         }
         public function actUpdate($query) {
+            
             $str = stripslashes($query);
             
             $result = mysql_query($str);

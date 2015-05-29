@@ -4,10 +4,15 @@ $(document).ready(function(){
 
 
     $("#printTab").mousedown(function(){
-
-        $('div#tablesheet').printElement();
+        
+        $("table tbody tr").css({'font-weight':'normal','font': '0.6em/1.5 "arial",sans-serif'});
+        $("table tbody tr.cost").css({'background-color':'RGB(255, 255, 255)'});
+//        $('div#tablesheet').printElement();
     });
 
+    $("#a_v_zad").mousedown(function(){
+        history.go(-1);
+    });
 
     $("table tbody tr.sum").css({'text-align':'left','font-weight':'bold','background-color':'RGB(249, 201, 16)'});
     $("table tbody tr.surname").css({'text-align':'left','font-weight':'bold','background-color':'RGB(19, 255, 116)'});
