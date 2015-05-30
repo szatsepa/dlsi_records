@@ -77,7 +77,7 @@ $(document).ready(function(){
         $("#tariff_list").clone().appendTo($(trobj).find("td:eq(3)"));
         $(trobj).find("td:eq(4)").empty().html("<input type='text' id='edit_count' value='' size='6'/>");
         $(trobj).find("td:eq(4) input").focus();
-        $(trobj).find("td:eq(6)").empty().html("<a class='ico-done' id='edit-ivo' title='Зберегти'></a><a class='ico-arrow-left' title='Вернуться'></a><a class='ico-delete' title='Удалить строку'></a>");
+        $(trobj).find("td:eq(6)").empty().html("<a class='ico-done' id='edit-ivo' title='Зберегти'></a><a class='ico-arrow-left' title='Вернуться'></a>s</a>");
 
     });
     
@@ -128,7 +128,7 @@ $(document).ready(function(){
         $(trobj).find("td:eq(2)").empty().text(func);
         $(trobj).find("td:eq(3)").empty().text(tariff);
         $(trobj).find("td:eq(4)").empty().text(count);
-        $(trobj).find("td:eq(6)").empty().html("<a class='ico-info' title='Изменить'></a>");
+        $(trobj).find("td:eq(6)").empty().html("<a class='ico-info' title='Изменить'></a>&nbsp;&nbsp;<a class='ico-delete' title='Удалить строку'></a>");
     });
 
     $("a.ico-done").live('click', function(){
@@ -184,31 +184,36 @@ $(document).ready(function(){
     $("a.ico-delete").live('click',function(){
         var obj = $(this).parent().parent();
         var id = $(obj).attr('name');
-        var func = $("#function_list option:selected").val();
+        var func = $(obj).find("td:eq(2)").text();
+//        query = '';
         var query = '';
-            query = "DELETE FROM `imprest` WHERE `id` = "+id;
-        if(func === '14'){
             
-        } else{
+        if(func === 'Аванс' || func === 'ДРВ'){
+            query = "DELETE FROM `imprest` WHERE `id` = "+id;
+        }else{
             query = "DELETE FROM `timesheet` WHERE `id` = "+id;
         }
-             
         
-        if(confirm("Удалить строку?"+query)){
-            $.ajax({
-                asinc:false,
-                url:'pay/del',
-                type:'post',
-                dataType:'text',
-                data:{'query':query},
-                success:function(data){
-                    alert(data);
-                    document.location.reload();
-                }
-            });
-        }else{
-            return false;
-        }
+        
+        
+//        del(query);
+        
+       
+                if(confirm("Удалить строку 1?"+query)){
+                $.ajax({
+                    asinc:false,
+                    url:'pay/del',
+                    type:'post',
+                    dataType:'text',
+                    data:{'query':query},
+                    success:function(data){
+
+                    }
+                });
+           }
+//        function del(query,query1){ }
+        
+        
 
     });
 

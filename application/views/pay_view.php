@@ -43,7 +43,7 @@ var tariff_list = {};
                                 $all = round($val['cost']*$val['produced'],2);
                                 echo "<tr id='r{$trow}' class='cr{$key}' name='{$val['row']}'>";
                                 echo "<td>$trow</td><td id='td{$value['staff']}'>{$value['surname']}</td><td>{$val['short']}</td><td>{$val['cost']}</td><td>{$val['produced']}</td><td>{$all}</td>";
-                                echo    "<td><a class='ico-info' title='Изменить'></a></td></tr>";
+                                echo    "<td><a class='ico-info' title='Изменить'></a>&nbsp;&nbsp;<a class='ico-delete' title='Удалить строку'></a></td></tr>";
                                 if($numrow > 0){
                                     
                                 }
