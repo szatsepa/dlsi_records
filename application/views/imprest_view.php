@@ -2,8 +2,8 @@
 <h1>Боржники та інша наволоч</h1>                    
 <div id="staff_tab">
     <?php
-    print_r($data['staff'][0]);
-    echo "<br>".$data['staff'][0]['surname'];
+//    print_r($data['staff'][0]);
+//    echo "<br>".$data['staff'][0]['surname'];
 
     ?>
                             <table class="info_tables" id="table_i">
@@ -62,15 +62,11 @@
                                             <select id="workers">
                                                 <option value='0' selected>Виберіть когось</option>
                                             <?php
-//                                            $urow = 0;
+                                            
                                             foreach ($data['staff'] as $value) {
     
-//                                                if($urow === 0){
-//                                                    echo ;
-//                                                }else{}
                                                     echo "<option value='{$value['id']}'>{$value['surname']}</option>";
                                                 
-//                                                $urow++;
                                             }
                                             ?>
                                         </select> 

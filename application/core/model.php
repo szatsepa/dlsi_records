@@ -55,14 +55,26 @@ class Model
             
             $result = mysql_query($str);
             
-            return $query;
+            if(!$result){
+                return NULL;
+                
+            }  else {
+                
+                return mysql_affected_rows();
+            }
+        }
+        
+        public function actDelete($query) {
             
-//            if(!$result){
-//                return NULL;
-//                
-//            }  else {
-//                
-//                return mysql_affected_rows();
-//            }
+            $qr = explode(';', $query);
+            
+            $out = '';
+            
+            foreach ($qr as $value) {
+                mysql_query($value);
+                $out .= $value;
+            }
+            
+            return $out;
         }
 }

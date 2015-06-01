@@ -171,24 +171,27 @@ $(document).ready(function(){
     $("a.ico-delete").live('click',function(){
         var obj = $(this).parent().parent();
         var next = $(obj).next();
-//        alert($(next).attr('name'));
+        var prev = $(obj).prev();
         var id = $(obj).attr('name');
-        var aid = $(next).attr('name');
+        var nid = $(next).attr('name');
+        var pid = $(prev).attr('name');
         var func = $(obj).find("td:eq(2)").text();
 //        query = '';
         var query = '';
             
-        if(func === 'ДРВ'){
-            query = "DELETE FROM `imprest` WHERE `id` = "+aid+";\nDELETE FROM `timesheet` WHERE `id` = "+id+";";
-        }else{
+        if(func === 'ДРВ')
+        {
+            query = "DELETE FROM `imprest` WHERE `id` = "+nid+"; DELETE FROM `timesheet` WHERE `id` = "+id+";";
+        }
+        else if(func === 'Аванс')
+        {
+            query = "DELETE FROM `imprest` WHERE `id` = "+id+"; DELETE FROM `timesheet` WHERE `id` = "+pid+";";
+        }
+        else
+        {
             query = "DELETE FROM `timesheet` WHERE `id` = "+id;
         }
         
-        
-        
-//        alert(query);
-        
-       
                 if(confirm("Удалить строку?")){
                 $.ajax({
                     asinc:false,
@@ -198,14 +201,11 @@ $(document).ready(function(){
                     data:{'query':query},
                     success:function(data){
                         
-                        document.write(data);
+                        document.location.reload();
 
                     }
                 });
            }
-//        function del(query,query1){ }
-        
-        
 
     });
 
@@ -250,6 +250,8 @@ $(document).ready(function(){
         
         $("#tariff_list option").remove();
         
+        $("#count").focus();
+        
         $.each(tariff_list, function(){
          $("#tariff_list").append("<option value='"+this['id']+"' selected name='"+this['action']+"' alt='"+this['tariff']+"'>"+this['short']+"</option>");   
         });
@@ -261,6 +263,7 @@ $(document).ready(function(){
         });
         $("#tariff_list").find("option:eq(0)").attr('selected',true);
     });
+    
     function _show(flag){
         if(flag){
             $("#tablesheet").show();

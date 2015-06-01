@@ -9,10 +9,17 @@ class Model_Staff extends Model
             
             $data['staff'] =  self::querySelect("SELECT id, surname, phone,  address FROM staff WHERE activity = 1");
             
-//            $data['type'] = self::querySelect("SELECT * FROM `providers_type`");
-            
             return $data;
 	}
+        
+        public function get_work() 
+        {
+            $data = array();
+            
+            $data['work'] =  self::querySelect("SELECT * FROM function WHERE activity = 1");
+            
+            return $data;
+        }
         
         public function add($param) {
             

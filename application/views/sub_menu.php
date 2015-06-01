@@ -43,23 +43,16 @@ class SubMenu {
                 case 'staff':
                 case 'work':
                 case 'func':
-                    $sub_menu = array('staff'=>"Персонал",'work'=>'Должности');
+                    $sub_menu = array('staff'=>"Персонал",'staff/work'=>'Должности');
                     break;
-                case 'pay':
-                case 'payment':
-                case 'tariff':
-                case 'pay/his':
-                case 'imprest':    
+                case 'pay':                   
                     $sub_menu = array('pay'=>'Табель','pay/payment'=>"Порахувати",'pay/tariff'=>'Тарифы','pay/his'=>'История','pay/imprest'=>"Аванс");
                     break;
                                     
                 default:
                     break;
             } 
-            
-//            unset($sub_menu[$controller_name]) ;
-//            print_r($sub_menu);
-            
+     
             
             if($controller_name !== 'main'){
                 $str = '<ul  class="box" id="s_m">';

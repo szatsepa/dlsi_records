@@ -177,7 +177,7 @@ class Model_Pay extends Model
         
         public function del($param) {
             
-            $result = self::actUpdate($param);
+            $result = self::actDelete($param);
             
             echo $result;
             
