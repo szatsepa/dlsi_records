@@ -107,19 +107,12 @@ $(document).ready(function(){
             var url = "pay/update";
             var query = "UPDATE `timesheet` SET `function`= '"+$("#function_list option:selected").val()+"',`tariff`='"+$("#tariff_list option:selected").val()+"',`produced`='"+count+"',`recorded`=Now() WHERE `id` = "+rowid;
             
-            var func = $("#function_list option:selected").val();
-                    
-            
             if(func === '14'){
-              query = "UPDATE `imprest` SET `cost` = '"+count+"', `recorded` = Now() WHERE `id` = "+rowid
-          }
-            
-            
-         
-             addRecord(url,query);
-//        if(confirm(query)){ }else{
-//             document.location.reload();
-//         }
+                  document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
+            }
+
+            addRecord(url,query);
+
         }
     });
 
@@ -138,7 +131,9 @@ $(document).ready(function(){
         var trobj = $(this).parent().parent();
         var url = '';
         var count = $("input#edit").val();
-        
+        if(count === '' || count === undefined){
+            count = $("input#count").val();
+        }
         if(count === '' || count === undefined){
             alert("Не заполнено поле КОЛИЧЕСТВО!");
             return;
@@ -153,8 +148,6 @@ $(document).ready(function(){
         }else{
             
             var rowid = $(trobj).attr('name');
-//            alert(rowid);
-//            rowid = rowid.substr(2);
             query="UPDATE `timesheet` SET `function`= '"+$("#function_list option:selected").val()+"',`tariff`='"+$("#tariff_list option:selected").val()+"',`produced`='"+count+"',`recorded`=Now() WHERE `id` = "+rowid;
             url = "pay/update";
 
@@ -167,13 +160,7 @@ $(document).ready(function(){
             
             
               if(func === '14'){
-                  var today = new Date();
-                  var YY = today.getFullYear();
-                  var mm = today.getMonth();
-                  var dd = today.getDate();
-                  
-                  addRecord(url,"INSERT INTO `imprest` (`staff`, `cost`, `recorded`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#count").val()+"','"+YY+"-"+mm+"-"+dd+"')",true);              
-            
+                  document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
             }
     });
 
@@ -183,23 +170,26 @@ $(document).ready(function(){
     
     $("a.ico-delete").live('click',function(){
         var obj = $(this).parent().parent();
+        var next = $(obj).next();
+//        alert($(next).attr('name'));
         var id = $(obj).attr('name');
+        var aid = $(next).attr('name');
         var func = $(obj).find("td:eq(2)").text();
 //        query = '';
         var query = '';
             
-        if(func === 'Аванс' || func === 'ДРВ'){
-            query = "DELETE FROM `imprest` WHERE `id` = "+id;
+        if(func === 'ДРВ'){
+            query = "DELETE FROM `imprest` WHERE `id` = "+aid+";\nDELETE FROM `timesheet` WHERE `id` = "+id+";";
         }else{
             query = "DELETE FROM `timesheet` WHERE `id` = "+id;
         }
         
         
         
-//        del(query);
+//        alert(query);
         
        
-                if(confirm("Удалить строку 1?"+query)){
+                if(confirm("Удалить строку?")){
                 $.ajax({
                     asinc:false,
                     url:'pay/del',
@@ -207,6 +197,8 @@ $(document).ready(function(){
                     dataType:'text',
                     data:{'query':query},
                     success:function(data){
+                        
+                        document.write(data);
 
                     }
                 });
@@ -223,7 +215,11 @@ $(document).ready(function(){
         var query = '';
         if(e.which === 13){
             
-            var count = $("#count").val();
+        var count = $("input#edit").val();
+        
+        if(count === '' || count === undefined){
+            count = $("input#count").val();
+        }
             
             if(count === '' || count === undefined){
                 alert("Не заполнено поле КОЛИЧЕСТВО!");
@@ -238,12 +234,9 @@ $(document).ready(function(){
              
             if(func === '14'){
                 
-                  var today = new Date();
-                  var YY = today.getFullYear();
-                  var mm = today.getMonth();
-                  var dd = today.getDate();
+                document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
                   
-                  addRecord(url,"INSERT INTO `imprest` (`staff`, `cost`, `recorded`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#count").val()+"','"+YY+"-"+mm+"-"+dd+"')",true);              
+//                  addRecord(url,"INSERT INTO `imprest` (`staff`, `cost`, `recorded`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#count").val()+"','"+YY+"-"+mm+"-"+dd+"')",true);              
             
             }
             
@@ -279,6 +272,14 @@ $(document).ready(function(){
     }
     function addRecord(url,out,flag){
         var flag = flag;
+        if(flag){
+            alert(out);
+        }
+        var count = $("input#edit").val();
+        
+        if(count === '' || count === undefined){
+            count = $("input#count").val();
+        }
         $.ajax({
             asinc:false,
             url:url,
@@ -289,6 +290,8 @@ $(document).ready(function(){
                 alert(data);
                 if(!flag){
                     document.location.reload();
+                }else{
+                    document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
                 }
                 
             }

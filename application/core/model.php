@@ -55,12 +55,14 @@ class Model
             
             $result = mysql_query($str);
             
-            if(!$result){
-                return NULL;
-                
-            }  else {
-                
-                return mysql_affected_rows();
-            }
+            return $query;
+            
+//            if(!$result){
+//                return NULL;
+//                
+//            }  else {
+//                
+//                return mysql_affected_rows();
+//            }
         }
 }

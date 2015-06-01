@@ -11,7 +11,7 @@
                 <link rel="stylesheet" type="text/css" href="/css/mystyle.css" />
                 <link rel="stylesheet" type="text/css" href="/css/main.css" />
                 <style type="text/css">
-                    @import "css/jquery.datepick.css";
+                    @import "/css/jquery.datepick.css";
                     /* Or use these for a ThemeRoller theme instead
                     @import "themes16/southstreet/ui.all.css";
                     @import "css/ui-southstreet.datepick.css";

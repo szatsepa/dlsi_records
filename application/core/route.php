@@ -14,7 +14,7 @@ class Route
 		$controller_name = 'Main';
 		$action_name = 'index';
                 $list = NULL;
-		
+		$param = NULL;
 		$routes = explode('/', $_SERVER['REQUEST_URI']);
 
 		// получаем имя контроллера
@@ -31,6 +31,11 @@ class Route
                 
                 if(!empty($routes[3])){
                     $list = $routes[3];
+//                    echo "$list";
+                }
+                
+                if(!empty($routes[4])){
+                    $param = $routes[4];
 //                    echo "$list";
                 }
 
@@ -79,8 +84,9 @@ class Route
 		{
                     
 			// вызываем действие контроллера
-			$controller->$action($list);
-                        
+                                            
+                            $controller->$action($list,$param);
+                       
 		}
 		else
 		{

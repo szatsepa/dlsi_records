@@ -29,6 +29,26 @@ class Controller_Pay extends Controller
             $this->view->generate('pay_part_view.php', 'template_view.php',$data);
         }
         
+        function action_imprest($list,$param) {
+            
+            $data = $this->model->get_imprest($list,$param);
+            
+            $this->view->generate('imprest_view.php', 'template_view.php',$data);
+        }
+        
+        function action_payment() {
+            $data = $this->model->get_credits();
+            
+            $this->view->generate('payment_view.php', 'template_view.php',$data);
+        }
+        
+        function action_tariff() {
+            
+            $data = $this->model->get_tariff();
+            
+            $this->view->generate('tariff_view.php', 'template_view.php',$data);
+        }
+        
         function action_add() {
             $data = $this->model->add($_POST['query']);
         }

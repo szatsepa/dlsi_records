@@ -5,7 +5,7 @@
  }else{
      echo '<input id="paket" type="hidden" value="'.$pac = ($data['paket']+1).'"/>';
  }
- print_r($data['credit']);
+// print_r($data['credit']);
 ?>
 <script type="text/javascript">
 var tariff_list = {};
@@ -121,7 +121,6 @@ var tariff_list = {};
                             
                         </td>
                         <td>
-                            <!--<a class='ico-plus' title='Додати ще'></a>&nbsp;-->
                                 
                             <a class='ico-done' title='Зберегти'></a> 
                         </td>
@@ -133,6 +132,4 @@ var tariff_list = {};
                 </tbody>
             </table>
         </div>
-<!--</div>-->
-
 <script type="text/javascript" src="/js/pay.js"></script>

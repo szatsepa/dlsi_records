@@ -75,6 +75,33 @@ class Model_Pay extends Model
             return $data;
         }
         
+        function get_imprest($list,$param) {
+            
+            $data = array();
+            
+            $whereS = "";
+                        
+            if(!empty($list)){
+               $whereS = " AND `id` = {$list}"; 
+            }
+            
+            $data['staff'] = self::querySelect("SELECT `id`, `surname` FROM `staff` WHERE `activity` = 1".$whereS);
+            
+            $data['imprest'] = self::querySelect("SELECT i.`id` , s.`surname` AS 'staff' , i.`cost` , t.`types` AS 'type' , i.`recorded`
+                                                    FROM `imprest` AS i, `staff` AS s, `types_advances` AS t
+                                                    WHERE i.`staff` = s.`id`
+                                                    AND i.`activity` =1
+                                                    AND i.`details` = t.`id`
+                                                    AND i.`repay` =1"); 
+            
+            $data['types'] = self::querySelect("SELECT `id`, `types` AS 'type' FROM `types_advances`");
+            
+            if(!empty($param))$data['cost'] = $param;
+            
+            return $data;
+            
+        }
+        
         public function get_history() {
             
             $data =  self::querySelect("SELECT `recorded` AS 'create',`paket` AS 'list' FROM `timesheet` GROUP BY `paket`");
@@ -127,6 +154,19 @@ class Model_Pay extends Model
             
             return $data; 
         }
+        
+        public function get_tariff()
+	{
+            $data = array();
+            
+            $data['tariff'] =  self::querySelect("SELECT t.`id`, t.`action`, f.`function` AS 'fn', t.`short`, t.`tariff`, t.`cost` "
+                                                    . "FROM `tariff` AS t, `function` AS f "
+                                                    . "WHERE t.`activity` = 1 AND t.`action` = f.`id`");
+            
+            $data['fn'] =  self::querySelect("SELECT `id`, `function` AS 'fn' FROM `function` WHERE `activity` = 1");
+                       
+            return $data;
+	}
         
         public function add($param) {
             

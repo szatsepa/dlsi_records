@@ -17,7 +17,7 @@ $(document).ready(function(){
     }).css({"cursor":"pointer"});
 
     $("#edit").live('click',function(){
-        _save("tariff/edit", "UPDATE `tariff` SET `action`='"+$("#action").val()+"',`short` = '"+$("#short").val()+"',`tariff` = '"+$("#tariff").val()+"',`cost` = '"+$("#cost").val()+"' WHERE `id`="+$("#uid").val());
+        _save("tariff/update", "UPDATE `tariff` SET `action`='"+$("#action").val()+"',`short` = '"+$("#short").val()+"',`tariff` = '"+$("#tariff").val()+"',`cost` = '"+$("#cost").val()+"' WHERE `id`="+$("#uid").val());
     });
 
 
@@ -57,7 +57,7 @@ $(document).ready(function(){
         var id = this.id;
         id = id.substr(2);
         if(confirm("Дійсно видалити запис з таблиці?")){  
-          _save("tariff/edit", "UPDATE `tariff` SET `activity` = 0 WHERE `id` = "+id);
+          _save("tariff/update", "UPDATE `tariff` SET `activity` = 0 WHERE `id` = "+id);
         }
     });
 
@@ -67,7 +67,7 @@ $(document).ready(function(){
             var out = "UPDATE `tariff` SET `cost` = '"+$("#ch_tariff").val()+"' WHERE `id` = "+tariff;
             alert(out);
                $.ajax({
-                   url:'tariff/edit',
+                   url:'tariff/update',
                    type:'post',
                    dataType:'text',
                    data:{'query':out},
@@ -98,7 +98,7 @@ $(document).ready(function(){
     function _save(url, out){
         var url = url;
         var out = out;
-alert(out);
+//alert(out);
 
         $.ajax({
             asinc:false,

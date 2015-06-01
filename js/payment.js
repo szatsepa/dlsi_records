@@ -41,9 +41,9 @@ $(document).ready(function(){
           if(confirm("\t\t\t\tРасчитать?\nПосле этого изменения данных не возможно!!!\n\t\t\tТіко повний відкат!")){
 
           var query = "UPDATE `timesheet` SET `marked`= 1, `open` = '"+$("#open").val()+"', `close` = '"+$("#close").val()+"' WHERE `paket` = "+$("#paket").val() ;
-alert(query);
+//alert(query);
             $.ajax({
-               url:'payment/archive',
+               url:'payment/apdate',
                asinc:false,
                type:'post',
                response:'text',

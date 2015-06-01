@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/jquery.datepick.js"></script>
+<script type="text/javascript" src="/js/jquery.datepick.js"></script>
 <script type="text/javascript" src="/js/jquery.printElement.js"></script> 
 <div id="content">
     <?php

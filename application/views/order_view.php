@@ -1,4 +1,3 @@
-<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="js/jquery.json-2.4.js"></script>
 <script type="text/javascript" src="js/jquery.datepick.js"></script>
 <script type="text/javascript" src="js/jquery.printElement.js"></script>

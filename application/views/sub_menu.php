@@ -50,14 +50,14 @@ class SubMenu {
                 case 'tariff':
                 case 'pay/his':
                 case 'imprest':    
-                    $sub_menu = array('pay'=>'Табель','payment'=>"Порахувати",'tariff'=>'Тарифы','pay/his'=>'История','imprest'=>"Аванс");
+                    $sub_menu = array('pay'=>'Табель','pay/payment'=>"Порахувати",'pay/tariff'=>'Тарифы','pay/his'=>'История','pay/imprest'=>"Аванс");
                     break;
                                     
                 default:
                     break;
             } 
             
-            unset($sub_menu[$controller_name]) ;
+//            unset($sub_menu[$controller_name]) ;
 //            print_r($sub_menu);
             
             
