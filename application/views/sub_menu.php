@@ -41,7 +41,13 @@ class SubMenu {
                 case 'pay':                   
                     $sub_menu = array('pay'=>'Табель','pay/payment'=>"Порахувати",'pay/tariff'=>'Тарифы','pay/his'=>'История','pay/imprest'=>"Аванс");
                     break;
-                                    
+                case 'produce':
+                    $sub_menu = array('produce'=>'Склад','produce/nomenclature'=>'Номенклатура','produce/category'=>'Типы продукции');
+                    break;
+                case 'sale':
+                    $sub_menu = array('sale'=>'Продажи','sale/slo'=>'Расходная накладная');
+                    break;
+                
                 default:
                     break;
             } 

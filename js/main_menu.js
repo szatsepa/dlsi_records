@@ -7,7 +7,7 @@
             }
             else
             {
-                document.location.href = "http://dlsi_acc/sxd/index.php";
+                document.location.href = "http://sxd.dev/index.php";
             }
             
             

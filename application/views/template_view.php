@@ -34,7 +34,7 @@
                 <tr>
                     <td><a class="menu_btn" id="staff">Персонал</a></td>
                     <td><a class="menu_btn" id="pay">Зарплатня</a></td>
-                    <td><a class="menu_btn" id="produc">Производство</a></td>
+                    <td><a class="menu_btn" id="produce">Производство</a></td>
                     <td><a class="menu_btn" id="sale">Реализация</a></td>
                     <td><a class="menu_btn" id="order">Кубатурник</a></td>
                     <td><a class="menu_btn" id="math">Тригон&nbsp;ф-ции</a></td>
