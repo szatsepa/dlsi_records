@@ -83,4 +83,4 @@ foreach ($data['providers'] as $value) {
         </div>
     </div>
 
-<script type="text/javascript" src="js/departs.js"></script>
+<script type="text/javascript" src="/js/departs.js"></script>

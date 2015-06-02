@@ -16,6 +16,40 @@ class Controller_Order extends Controller
                 $this->view->generate('order_view.php', 'template_view.php', $data);
                 
 	}
+        
+        function action_his() {
+            
+                $data = $this->model->get_his();
+                
+		$this->view->generate('his_view.php', 'template_view.php',$data);
+        }
+        
+        function action_providers() {
+            
+            $data = $this->model->get_providers();
+            
+            $this->view->generate('providers_view.php', 'template_view.php',$data);
+            
+        }
+        
+        function action_departs()
+	{
+		$data = $this->model->get_departs();		
+		$this->view->generate('departs_view.php', 'template_view.php', $data);
+	}
+        
+        function action_prices()
+	{
+            $data = $this->model->get_prices();
+            
+            $this->view->generate('prices_view.php', 'template_view.php',$data);
+	}
+        
+        function action_report($param) {
+                $data = $this->model->get_report($param);
+                $this->view->generate('reports_view.php', 'template_view.php', $data);
+        }
+        
         function action_price() {
             
             $data = $this->model->getPrice($_POST);
@@ -29,8 +63,16 @@ class Controller_Order extends Controller
             $data = $this->model->setW($_POST['query']);
             return $data;
         }
-//        function action_saveO() {
-//            $data = $this->model->setOrder($_POST['query']);
-//            return $data;
-//        }
+        
+        function action_add() {
+            $data = $this->model->addNew($_POST['query']);
+        }
+        
+        function action_del() {
+            $data = $this->model->delProvider($_POST['query']);
+        }
+        
+        function action_edit() {
+            $data = $this->model->updateProvider($_POST['query']);
+        }
 }

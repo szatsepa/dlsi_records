@@ -10,7 +10,7 @@ $(document).ready(function(){
     $(".btnV").mousedown(function(){
         console.log($(this).val());
         var num = parseInt($(this).val());
-        document.location = '/reports/part/'+num;
+        document.location = '/order/report/'+num;
     });
 });
 

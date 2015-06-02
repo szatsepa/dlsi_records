@@ -6,7 +6,7 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<title>ДЛСИ</title>
-                <link rel="shortcut icon" href="/design//favicon.gif" type="image/gif"/>
+                <link rel="shortcut icon" href="/design/favicon.ico" type="image/ico"/>
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
                 <link rel="stylesheet" type="text/css" href="/css/mystyle.css" />
                 <link rel="stylesheet" type="text/css" href="/css/main.css" />

@@ -137,6 +137,6 @@ $list = 1+$data['list'][0]['list'];
         
     
 </div>
-<script type="text/javascript" src="./js/order.js"></script>
+<script type="text/javascript" src="/js/order.js"></script>
 
 

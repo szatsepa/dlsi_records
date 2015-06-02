@@ -29,20 +29,13 @@ class SubMenu {
 //            $sub_menu['dump'] = array('dump'=>'Bacup');
 //        echo "$controller_name";     
             switch ($controller_name) {
-                case 'order':
-                case 'his':    
-                case 'reports':
-                case 'providers':
-                case 'departs':
-                case 'prices':    
-                    $sub_menu = array('order'=>'Расчет','his'=>'История','providers'=>'Поставщики','departs'=>'Подразделения','prices'=>'Цены');
+                case 'order':                   
+                    $sub_menu = array('order'=>'Расчет','order/his'=>'История','order/providers'=>'Поставщики','order/departs'=>'Подразделения','order/prices'=>'Цены');
                     break;
                 case 'math':
                     $sub_menu = array('math'=>'Тригонометрия');
                     break;
                 case 'staff':
-                case 'work':
-                case 'func':
                     $sub_menu = array('staff'=>"Персонал",'staff/work'=>'Должности');
                     break;
                 case 'pay':                   

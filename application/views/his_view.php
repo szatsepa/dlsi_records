@@ -37,4 +37,4 @@
 
     
 </div>
-<script type="text/javascript" src="./js/his.js"></script>
+<script type="text/javascript" src="/js/his.js"></script>
