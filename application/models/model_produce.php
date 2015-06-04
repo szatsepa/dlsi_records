@@ -54,6 +54,49 @@ class Model_Produce extends Model
                 return $data;
         }
         
+        public function get_nom($param) {
+            
+            return $this->nomenclature($param);
+        }
+        
+        private function nomenclature($param) {
+            
+            if($param){
+                    $where = "WHERE c.`id` = {$attributes['sort']}";
+                }  else {
+                  
+                    $where = '';
+                }
+            
+            $data = array();
+            
+            $query = "SELECT  n.`id`, 
+                  c.`categories` AS 'type',
+                  n.`nomenclature`, 
+                  n.`price`,
+                  u.`unit`
+            FROM `nomenclature` AS n 
+            LEFT JOIN `categories` AS c
+            ON c.`id` = n.`categories`
+            LEFT JOIN `unit` AS u
+            ON n.`unit` = u.`id`
+            {$where}
+            ORDER BY c.`id`, n.`nomenclature`";
+            
+            $data['nom']  = self::querySelect($query);
+            
+            $data['categories'] = self::querySelect("SELECT `id`, `categories` FROM `categories` WHERE `activity` = 1");
+            
+            $data['selector'] = self::querySelect("SELECT p.`categories` AS 'id', c.`categories` AS 'category'
+                                                        FROM `nomenclature` AS p
+                                                        LEFT JOIN `categories` AS c ON p.`categories` = c.`id`
+                                                        GROUP BY p.`categories`
+                                                        ORDER BY c.`categories`");
+            
+            return $data;
+        }
+
+
         public function get_select($param)
 	{	
 		

@@ -26,11 +26,11 @@ class Controller_Produce extends Controller
                 
 	}
         
-        function action_nomenclature()
+        function action_nomenclature($list,$param)
 	{
-		$data = $this->model->get_nom();
+		$data = $this->model->get_nom($list);
                 
-                $this->view->generate('produce_view.php', 'template_view.php', $data);
+                $this->view->generate('nomenclature_view.php', 'template_view.php', $data);
                 
 	}
         function action_category()
