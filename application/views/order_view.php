@@ -50,20 +50,20 @@ $list = 1+$data['list'][0]['list'];
                 </select><p id="pr"></p>
             </span>
             <span id="sprice">
-                <p><input type="text" id="datepicker" size="18" placeholder="Дата вх док"/></p> 
-                <p><input type="text" id="num_doc" placeholder="Номер документа"/></p>
-                <p><input type="text" id="freighter" placeholder="Перевозчик"/>&nbsp;&nbsp;
+                <p><input type="text" id="datepicker" size="18" placeholder="Дата вх док" value=""/></p> 
+                <p><input type="text" id="num_doc" placeholder="Номер документа" value=""/></p>
+                <p><input type="text" id="freighter" placeholder="Перевозчик" value=""/>&nbsp;&nbsp;
                     
                 </p>
                 <p>
-                    <input type="text" id="vman" placeholder="Водитель"/>&nbsp;&nbsp;
-                    <input type="text" id="vtype" placeholder="Модель"/>&nbsp;&nbsp;
-                    <input type="text" id="vnum" placeholder="Госномер"/>&nbsp;&nbsp;
+                    <input type="text" id="vman" placeholder="Водитель" value=""/>&nbsp;&nbsp;
+                    <input type="text" id="vtype" placeholder="Модель" value=""/>&nbsp;&nbsp;
+                    <input type="text" id="vnum" placeholder="Госномер" value=""/>&nbsp;&nbsp;
                 </p>
                 <p>
-                   <input type="text" id="shipped" placeholder="Отпустил"/>&nbsp;&nbsp;
-                   <input type="text" id="accepted" placeholder="Принял"/>&nbsp;&nbsp; 
-                   <input type="text" id="freight" placeholder="Стоимость г/п"/>&nbsp;&nbsp;
+                   <input type="text" id="shipped" placeholder="Отпустил" value=""/>&nbsp;&nbsp;
+                   <input type="text" id="accepted" placeholder="Принял" value=""/>&nbsp;&nbsp; 
+                   <input type="text" id="freight" placeholder="Стоимость г/п" value=""/>&nbsp;&nbsp;
                 </p>
             </span>
             </div>
