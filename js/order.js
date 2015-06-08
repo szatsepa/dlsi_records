@@ -210,7 +210,7 @@
                 pd = $("#pdep").find("option:selected").val();
             }
             
-            var str = "INSERT INTO `woods_doc`(`shipped`, `num_doc`, `date_doc`, `freighter`, `V_type`, `V_num`, `V_man`, `accepted`, `providers`, `pdep`, `freighte`) VALUES ('"+$("#shipped").val()+"','"+$("#num_doc").val()+"','"+$("#datepicker").val()+"','"+$("#freighter").val()+"','"+$("#vtype").val()+"','"+$("#vnum").val()+"','"+$("#vman").val()+"','"+$("#accepted").val()+"','"+$("#providers").find('option:selected').val()+"','"+pd+"','"+fr+"')";
+            var str = "INSERT INTO `woods_doc`(`shipped`, `num_doc`, `date_doc`, `freighter`, `V_type`, `V_num`, `V_man`, `accepted`, `providers`, `pdep`, `freighte`) VALUES ('"+$("#shipped").find("option:selected").val()+"','"+$("#num_doc").val()+"','"+$("#datepicker").val()+"','"+$("#freighter").val()+"','"+$("#vtype").val()+"','"+$("#vnum").val()+"','"+$("#vman").val()+"','"+$("#accepted").val()+"','"+$("#providers").find('option:selected').val()+"','"+pd+"','"+fr+"')";
                        
             numrow = 0;
             
@@ -265,7 +265,8 @@
                    success:function(responce){
                        alert('Data - '+responce);
                        docid = responce;
-                       query = query.replace('DOCID',docid);
+//                       docid = docid.substr(2);
+                       query = query.replace('DOCID',docid.substr(2));
                        alert('DOCID - '+docid);
                        _cont(query);
                     }
