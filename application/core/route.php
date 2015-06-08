@@ -98,7 +98,6 @@ class Route
 
 	function ErrorPage404()
 	{
-//            echo 'Ще не зроблено тшчього отутичкы';
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
         header("Status: 404 Not Found");

@@ -176,10 +176,9 @@ class Model_Order extends Model
             echo $result;
         }
         
-//        function setOrder($param) {
-//            
-//            $result = self::setInsert($param);
-//            
-//            return $result;
-//        }
+        function setUpdate($param) {
+            $result = self::actUpdate($param);
+            
+            echo $result;
+        }
 }

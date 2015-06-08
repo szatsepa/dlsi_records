@@ -65,14 +65,17 @@ class Controller_Order extends Controller
         }
         
         function action_add() {
-            $data = $this->model->addNew($_POST['query']);
+            $data = $this->model->setW($_POST['query']);
+            return $data;
         }
         
         function action_del() {
-            $data = $this->model->delProvider($_POST['query']);
+            $data = $this->model->setUpdate($_POST['query']);
+            return $data;
         }
         
         function action_edit() {
-            $data = $this->model->updateProvider($_POST['query']);
+            $data = $this->model->setUpdate($_POST['query']);
+            return $data;
         }
 }
