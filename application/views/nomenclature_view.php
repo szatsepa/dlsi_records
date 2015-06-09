@@ -3,7 +3,7 @@
             <div id="sort">
                 <label>Выберите категорию продукции: </label>
                 <?php
-                print_r($data['selector']);
+//                print_r($data['selector']);
                 if(count($data['selector'])>0){
                     echo "<select id='sort'>";
                     echo "<option value='0'>Все</option>";

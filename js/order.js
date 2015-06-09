@@ -134,7 +134,7 @@
                success:function(responce){
                    
                    var p = responce.toString();
-                   p = p.substr(3);
+//                   p = p.substr(3);
                    $("#hprice").empty().val(p);
                 }
             });
@@ -159,7 +159,7 @@
                success:function(responce){
                    
                    var p = responce;
-                   p = p.substr(3);
+//                   p = p.substr(3);
                    p = p.replace(',','.');
                    $("#hvolume").empty().val(p);
                 }
@@ -254,7 +254,7 @@
             var docid = 0;
             var str = str;
             var query = query;
-            alert(str);
+//            alert(str);
             $.ajax({
                    url:'/order/saveW',
                    asinc:false,
@@ -263,11 +263,11 @@
                    cache: false,
                    data:{'query':str},
                    success:function(responce){
-                       alert('Data - '+responce);
+//                       alert('Data - '+responce);
                        docid = responce;
 //                       docid = docid.substr(2);
-                       query = query.replace('DOCID',docid.substr(3));
-                       alert('DOCID - '+docid);
+                       query = query.replace('DOCID',docid);
+//                       alert('DOCID - '+docid);
                        _cont(query);
                     }
             });
@@ -275,7 +275,7 @@
             function _cont(query){
                
                 var query = query;
-                 alert(query);
+//                 alert(query);
                 $.ajax({
                    url:'/order/saveW',
                    asinc:false,

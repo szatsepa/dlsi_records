@@ -38,63 +38,62 @@ $(document).ready(function(){
 
 //    $("#staff_tab tbody tr td").css('text-align','center');
 
-//    $("#categories").change(function(){
+    $("#categories").change(function(){
+
+            var id = $(this).find("option:selected").val();
+            
+            $.ajax({
+               url:'/produce/getNom',
+               type:'post',
+               dataType:'json',
+               asinc:false,
+               data:{'id':id},
+               success:function(data){
+                   
+                   
+
+                   $("#nom_cat").append("<option>Выберите позицию</option>");
+                   $.each(data,function(){
+                       $("#nom_cat").append("<option value='"+this['id']+"'>"+this['nomenclature']+"</option>");
+                   });
+                   $("#nom").show();
+                   $("#nom_cat").focus();
+               }
+            });
 //
-//            var id = $(this).find("option:selected").val();
-//            var out = {'cat':id};
-//            $.ajax({
-//               url:'query/select_nomenclature.php',
-//               type:'post',
-//               dataType:'json',
-//               asinc:false,
-//               data:out,
-//               success:function(data){
-//                   $("#nom_cat").append("<option>Выберите позицию</option>");
-//                   $.each(data,function(i){
-//                       $("#nom_cat").append("<option value='"+i+"'>"+this+"</option>");
-//                   });
-//                   $("#nom").show();
-//                   $("#nom_cat").focus();
-//               },
-//               error:function(data){
-//                    document.write(data['responseText']);
-//               }
-//            });
+    });
+
+    $("#nom_cat").change(function(){
+        $("#count").focus();
+    });
+
+    $("#count").keypress(function(e){
+        if(e.which === 13){
+             _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories option:selected").val()+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
+        } 
+    });
+
+    $("#save").mousedown(function(){       
+        
+        _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories option:selected").val()+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
+    });
 //
-//    });
-//
-//    $("#nom_cat").change(function(){
-//        $("#count").focus();
-//    });
-//
-//    $("#count").keypress(function(e){
-//        if(e.which === 13){
-//            $("#save").focus();
-//        } 
-//    });
-//
-//    $("#save").mousedown(function(){
-//        var out = {'cat':$("#categories option:selected").val(),'nom':$("#nom_cat option:selected").val(),'count':$("#count").val()};
-//        _save('action/add_to_sklad.php',out);
-//    });
-//
-//    function _save(url,out){
-//        $.ajax({
-//           url:url,
-//           asinc:false,
-//           type:'post',
-//           dataType:'json',
-//           data:out,
-//           success:function(data){
-//               if(data['ok']){
-//                   document.location = "index.php?part=pro&chapter=skl";
-//               }
-//           },
-//           error:function(data){
-//                document.write(data['responseText']);
-//           }
-//        });
-//    }
+    function _save(url,out){
+        var cat = $("#categories option:selected").val();
+        var query = out;
+        $.ajax({
+           url:url,
+           asinc:false,
+           type:'post',
+           dataType:'text',
+           data:{'query':query},
+           success:function(){
+//               alert(data);
+                   document.location='/produce/select/'+cat;
+              
+           }
+        });
+    }
 //
 //var count = 0;
 ////    var obj = {};

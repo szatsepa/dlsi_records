@@ -106,4 +106,17 @@ class Model_Produce extends Model
             return $data;
 	}
         
+        public function getNom($param) {
+            
+            $data = self::querySelect($param);
+            
+            return $data;
+        }
+        
+        public function addNew($param) {
+            
+            $data = self::setInsert($param);
+            
+            return $data;
+        }
 }

@@ -79,14 +79,14 @@
             </select>
             <br/><br/>
             <span id="nom">
-            <label for input>Добавьте наименование далее по смыслу.</label>
+            <label>Добавьте наименование далее по смыслу.</label>
             <br/><br/>
             <select id="nom_cat">
                 
             </select>
             <br/>
             <br/>
-            <input id="count" value="" size="8" required placeholder="Введите количество"/>
+            <input id="count" value="" size="18" required placeholder="Введите количество"/>
             <br/><br/>
 <!--            <select id="units">
                 <?php
@@ -96,7 +96,7 @@
                                 }
                 ?>
             </select>-->
-            <p style="text-align: center;"><input id="save" type="button" class="btn-save" value="Сохранить"/>&nbsp;&nbsp;<input id="back" type="button" value="Вернуцца в зад"/>&nbsp;&nbsp;</p>
+            <p style="text-align: center;"><input id="save" type="button" class="btn-save" value="Сохранить"/>&nbsp;&nbsp;<input id="back" class="btn-save" type="button" value="Вернуцца в зад"/>&nbsp;&nbsp;</p>
             <br/>
             <br/>
             </span>

@@ -1,8 +1,9 @@
  $(document).ready(function(){
        
-        $(".menu_btn").mousedown(function(){
+        $("#m_menu tbody tr td a").mousedown(function(){
             var str = this.id;
-            if(str != 'dump'){
+//            alert(str);
+            if(str !== 'dump'){
                 document.location = '/'+str;
             }
             else
