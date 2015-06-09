@@ -1,6 +1,11 @@
+<?php
+$routes = explode('/', $_SERVER['REQUEST_URI']);
+$type = $routes[3];
+?>
+
 <div id="content">
         <div id="staff_tab">
-            <div id="sort">
+            <div id="sortN">
                 <label>Выберите категорию продукции: </label>
                 <?php
 //                print_r($data['selector']);
@@ -8,11 +13,11 @@
                     echo "<select id='sort'>";
                     echo "<option value='0'>Все</option>";
                     foreach ($data['selector'] as  $value){
-//                        if($attributes['sort'] == $key){
-//                            echo "<option value='{$key}' selected>{$value}</option>";
-//                        }else{}
-                            echo "<option value='{$value['id']}'>{$value['category']}</option>";
-                        
+                         if(!empty($routes[3]) and $routes[3] === $value['id']){
+                                echo "<option value='{$value['id']}' selected>{$value['category']}</option>";
+                            }else{
+                                echo "<option value='{$value['id']}'>{$value['category']}</option>";
+                            }
 
                     }
                     echo "</select>";
@@ -45,25 +50,25 @@
             ?>    
                 </tbody>
             </table>
-            <p style="text-align: center;"><input id="new_products" type="button" value="Добавить позицию"/></p>
+            <p style="text-align: center;"><input id="new_products" class="btn-save" type="button" value="Добавить позицию"/></p>
         </div>
     <div class="right_block">
-        <br/><br/>
+<!--        <br/><br/>
         <label>Выберите тип продукции.</label>
         <br/><br/>
         <select id="categories">
             <?php
-            $n = 0;
-            foreach ($data['categories'] as $value) {
-//                if($n === 0){
-//                    echo "<option value='{$value['id']}' selected>{$value['categories']}</option>"; 
-//                }else{}
-                    echo "<option value='{$value['id']}'>{$value['categories']}</option>";
-                
-                $n++;
-            }
+//            $n = 0;
+//            foreach ($data['categories'] as $value) {
+////                if($n === 0){
+////                    echo "<option value='{$value['id']}' selected>{$value['categories']}</option>"; 
+////                }else{}
+//                    echo "<option value='{$value['id']}'>{$value['categories']}</option>";
+//                
+//                $n++;
+//            }
             ?>
-        </select>
+        </select>-->
         <br/><br/>
         <label>Добавьте наименование далее по смыслу.</label>
         <br/><br/>
@@ -74,13 +79,14 @@
         <br/>
         <br/>
         <select id="units">
-            <option selected>шт</option>
+            <option>Од. виміру</option>
+            <option>шт</option>
             <option>м.куб</option>
             <option>м.кв</option>
             <option>м.пог</option>
             <option>кг.</option>
         </select>
-        <p style="text-align: center;"><input id="d_save" type="button" value="Сохранить"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<input id="back" type="button" value="Вернуцца в зад"/>&nbsp;&nbsp;;</p>
+        <p style="text-align: center;"><input id="d_save" class="btn-save" type="button" value="Сохранить"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<input id="back" type="button" class="btn-save" value="Вернуцца в зад"/>&nbsp;&nbsp;;</p>
         <br/>
         <br/>
     </div>

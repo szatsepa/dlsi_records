@@ -19,7 +19,6 @@ class Controller_Produce extends Controller
         
         function action_select($list,$param)
 	{
-//            echo "LIST _ ".$list." ".$param;
 		$data = $this->model->get_select($list);
                 
                 $this->view->generate('produce_view.php', 'template_view.php', $data);
@@ -53,12 +52,15 @@ class Controller_Produce extends Controller
             
             echo $data;
         }
-        
+            
         function action_del() {
             $data = $this->model->delProvider($_POST['query']);
         }
         
         function action_edit() {
-            $data = $this->model->updateProvider($_POST['query']);
+            
+            $data = $this->model->update($_POST['query']);
+            
+            echo $data;
         }
 }

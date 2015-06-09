@@ -8,7 +8,7 @@
     <h1>Наявність продукції</h1>
     
     <div id="staff_tab">
-            <div id="sort">
+            <div id="sorts">
                 <label>Выберите категорию продукции: </label>
                 <?php
                 if(count($data['selector'])>0){

@@ -34,9 +34,33 @@ $(document).ready(function(){
 
     $("#new_products").mousedown(function(){
             _show(true);
+//            
+//            var id = $("select #sort").find("option:selected").val();
+//            
+//            $.ajax({
+//               url:'/produce/getNom',
+//               type:'post',
+//               dataType:'json',
+//               asinc:false,
+//               data:{'id':id},
+//               success:function(data){
+//                   
+//                   
+//
+//                   $("#nom_cat").append("<option>Выберите позицию</option>");
+//                   $.each(data,function(){
+//                       $("#nom_cat").append("<option value='"+this['id']+"'>"+this['nomenclature']+"</option>");
+//                   });
+////                   $("#right_block").show();
+////                   $("#nom").show();
+////                   $("#nom_cat").focus();
+//               }
+//
+//        });
+//                   $("#nom").show();
+//                   $("#nom_cat").focus();
     });
 
-//    $("#staff_tab tbody tr td").css('text-align','center');
 
     $("#categories").change(function(){
 
@@ -60,7 +84,7 @@ $(document).ready(function(){
                    $("#nom_cat").focus();
                }
             });
-//
+            
     });
 
     $("#nom_cat").change(function(){
@@ -77,7 +101,7 @@ $(document).ready(function(){
         
         _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories option:selected").val()+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
     });
-//
+    
     function _save(url,out){
         var cat = $("#categories option:selected").val();
         var query = out;
@@ -88,84 +112,79 @@ $(document).ready(function(){
            dataType:'text',
            data:{'query':query},
            success:function(){
-//               alert(data);
+               
                    document.location='/produce/select/'+cat;
               
            }
         });
     }
+
+    $("a.ico-plus").live('mousedown',function(){
+
+       var obj = $(this).parent().parent();
+        count = $(obj).find("td:eq(4)").text();
+
+        $(obj).find("td:eq(4)").empty().html("<input type='text' value='' id='count-plus' size='8'/>");
+        $(this).parent().empty().html("<a class='ico-done' title='Добавиь'></a>&nbsp;&nbsp;<a class='ico-arrow-left' title='Вернутся'></a>");
+
+        $("#count-plus").attr("flag",'0').attr('placeholder','Добавка');
+        $("#count-plus").focus();
+
+    });
+
+     $("a.ico-minus").live('mousedown',function(){
+
+   var obj = $(this).parent().parent();
+        count = $(obj).find("td:eq(4)").text();
+
+        $(obj).find("td:eq(4)").empty().html("<input type='text' value='' id='count-plus' size='4'/>");
+        $(this).parent().empty().html("<a class='ico-done' title='Добавиь'></a>&nbsp;&nbsp;<a class='ico-arrow-left' title='Вернутся'></a>");
+
+        $("#count-plus").select().attr("flag",'1').attr('placeholder','Отбавка');
+
+    });
 //
-//var count = 0;
-////    var obj = {};
-//    $("a.ico-plus").live('mousedown',function(){
-//
-//   var obj = $(this).parent().parent();
-//        count = $(obj).find("td:eq(4)").text();
-//
-//        $(obj).find("td:eq(4)").empty().html("<input type='text' value='' id='count-plus' size='8'/>");
-//        $(this).parent().empty().html("<a class='ico-done' title='Добавиь'></a>&nbsp;&nbsp;<a class='ico-arrow-left' title='Вернутся'></a>");
-//
-//        $("#count-plus").select().attr("flag",'0').attr('placeholder','Добавка');
-////            // console.log($("#count-plus").attr('flag'));
-//
-//    });
-//
-//     $("a.ico-minus").live('mousedown',function(){
-//
-//   var obj = $(this).parent().parent();
-//        count = $(obj).find("td:eq(4)").text();
-//
-//        $(obj).find("td:eq(4)").empty().html("<input type='text' value='' id='count-plus' size='4'/>");
-//        $(this).parent().empty().html("<a class='ico-done' title='Добавиь'></a>&nbsp;&nbsp;<a class='ico-arrow-left' title='Вернутся'></a>");
-//
-//        $("#count-plus").select().attr("flag",'1').attr('placeholder','Отбавка');
-////            // console.log($("#count-plus").attr('title'));
-//    });
-//
-//    function _addPosition(flag,count,id){
-////            // console.log(flag);
-//        if(flag==='1'){
-//            count = (-1)*parseInt(count);
-////                // console.log(count);
-//        }
-//
-//        $.ajax({
-//            asinc:false,
-//            url:'action/add_position.php',
-//            type:'post',
-//            dataType:'json',
-//            data:{'count':count,'id':id},
-//            success:function(data){
-////                    document.write(data['query']);
-//                document.location.reload();
-//            },
-//            error:function(data){
-//                document.write(data['responseText']);
-//            }
-//        });
-//    }
-//
-//    $("a.ico-done").live('click',function(){
-////        // console.log($(this).parent().parent().find("td input:text").val());
-//            var cnt = $(this).parent().parent().find("td input:text").val();
-//            var id = $(this).parent().parent().find("td:eq(0)").text();
-//            var flag = $(this).parent().parent().find("td input:text").attr('flag');
-//            _addPosition(flag,cnt,id);
-//
-//    });
-//
-//    $("#count-plus").live('keypress',function(e){;
-//            if(e.which === 13){
-//                var cnt = $(this).parent().parent().find("td input:text").val();
-//                var id = $(this).parent().parent().find("td:eq(0)").text();
-//                var flag = $(this).parent().parent().find("td input:text").attr('flag');
-//                _addPosition(flag,cnt,id);
-//            }
-//    });
-//
-//
-//
-//    $("a.ico-arrow-left").live('mousedown',function(){
-//        document.location.reload();           
-//    });
+    function _addPosition(flag,count,id){
+
+        if(flag==='1'){
+            count = (-1)*parseInt(count);
+            
+        }
+        
+        $.ajax({
+            asinc:false,
+            url:'/produce/edit',
+            type:'post',
+            dataType:'text',
+            data:{'query':"UPDATE `production` SET `count`= (`count` + ("+count+"))WHERE `id`="+id},
+            success:function(){
+                
+                document.location.reload();
+            }
+        });
+    }
+
+    $("a.ico-done").live('click',function(){
+        
+            var cnt = $(this).parent().parent().find("td input:text").val();
+            var id = $(this).parent().parent().find("td:eq(0)").text();
+            var flag = $(this).parent().parent().find("td input:text").attr('flag');
+            _addPosition(flag,cnt,id);
+
+    });
+
+    $("#count-plus").live('keypress',function(e){;
+            if(e.which === 13){
+                var cnt = $(this).parent().parent().find("td input:text").val();
+                var id = $(this).parent().parent().find("td:eq(0)").text();
+                var flag = $(this).parent().parent().find("td input:text").attr('flag');
+                _addPosition(flag,cnt,id);
+            }
+    });
+
+
+
+    $("a.ico-arrow-left").live('mousedown',function(){
+        document.location.reload();           
+    });
 });

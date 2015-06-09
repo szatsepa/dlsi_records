@@ -62,7 +62,7 @@ class Model_Produce extends Model
         private function nomenclature($param) {
             
             if($param){
-                    $where = "WHERE c.`id` = {$attributes['sort']}";
+                    $where = "WHERE c.`id` = {$param}";
                 }  else {
                   
                     $where = '';
@@ -116,6 +116,13 @@ class Model_Produce extends Model
         public function addNew($param) {
             
             $data = self::setInsert($param);
+            
+            return $data;
+        }
+        
+        public function update($param) {
+            
+            $data = self::actUpdate($param);
             
             return $data;
         }

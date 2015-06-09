@@ -15,10 +15,10 @@ $(document).ready(function(){
     });
 
     $("#d_save").live('click',function(){
+//        alert($("#units").find("option:selected").text());
+        _save("produce/add","INSERT INTO `nomenclature`(`categories`, `nomenclature`, `price`, `unit`) VALUES ('"+$("#sort option:selected").val()+"','"+$("#name").val()+"','"+$("#price_pos").val()+"','"+$("#units").find("option:selected").text()+"')" );
 
-        _save("action/add_product.php", {'cat':$("#categories option:selected").val(),'name':$("#name").val(),'price':$("#price_pos").val(), 'unit':$("#unit option:selected").text()});
-
-    }).css({"cursor":"pointer"});
+    });
 
     $("#edit").live('click',function(){
         _save("action/edit_product.php", {'name':$("#name").val(),'comment':$("#price_pos").val(), 'unit':$("#unit option:selected").text(),'id':$("#uid").val()});
@@ -125,28 +125,16 @@ $(document).ready(function(){
     function _save(url, out){
         var url = url;
         var out = out;
+        alert(url);
         $.ajax({
             asinc:false,
             url:url,
             type:'post',
-            dataType:'json',
-            data:out,
+            responce:'text',
+            data:{'query':out},
             success:function(data){
-                if(url==="action/add_product.php"){
-                    $("#table_staff tbody").append("<tr id='r_"+data['uid']+"><td>"+data['id']+"</td><td>"+data['type']+"</td><td>"+data['surname']+"</td><td>"+data['phone']+"</td ><td>"+data['address']+"</td><td><a id='e_"+data['id']+"' class='ico-info' title='Смотреть'></a><a id='d_"+data['id']+"' class='ico-delete' title='Удалить'></a></td></tr>"); 
-                    _show(false);
-                }else if(url==="action/del_product.php"){
-                    // console.log(data['ok']);
-                    if(data['ok']>0){
-                       $("#r_"+data['uid']).remove(); 
-                    }
-                }else if(url==="action/edit_product.php"){
-                    document.location.reload();
-                }
-                _changeButton(false);
-            },
-            error:function(data){
-                document.write(data['responseText']);
+                alert(data);
+                document.location.reload();
             } 
         });
     }
