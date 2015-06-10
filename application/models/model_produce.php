@@ -113,6 +113,14 @@ class Model_Produce extends Model
             return $data;
         }
         
+        public function get_cat($param) {
+            
+            $data = self::querySelect($param);
+            
+            return $data; 
+            
+        }
+        
         public function addNew($param) {
             
             $data = self::setInsert($param);
@@ -123,6 +131,13 @@ class Model_Produce extends Model
         public function update($param) {
             
             $data = self::actUpdate($param);
+            
+            return $data;
+        }
+        
+        public function getUnit() {
+            
+            $data = self::querySelect("SELECT `id`,`unit` FROM `unit` ORDER BY `id`");
             
             return $data;
         }

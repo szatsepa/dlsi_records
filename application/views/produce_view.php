@@ -4,6 +4,7 @@
 <?php
     $routes = explode('/', $_SERVER['REQUEST_URI']);
     echo "<input type='hidden' id='S' value='{$routes[3]}'/>";
+//    print_r($data['category']);
 ?>
     <h1>Наявність продукції</h1>
     
@@ -66,17 +67,10 @@
             <br/><br/>
             <label>Выберите тип продукции(два тыц - тыц).</label>
             <br/><br/>
-            <select id="categories">
-                <?php
-               echo  "<option value='0' selected>Выберите тип</option>";
-                foreach ($data['category'] as  $value) {
-                    
-                        echo "<option value='{$value['id']}'>{$value['categories']}</option>";
-                    
-                    
-                }
-                ?>
-            </select>
+            <span id="ctg">
+                <input id="categories" type="text" value="" readonly />
+            </span>
+
             <br/><br/>
             <span id="nom">
             <label>Добавьте наименование далее по смыслу.</label>

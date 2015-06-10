@@ -8,6 +8,29 @@ $(document).ready(function(){
 
     $("#new_products").mousedown(function(){
         _show(true);
+        
+                    $("#categories").val($("#sort").find("option:selected").text()).attr('alt',$("#sort").find("option:selected").val());
+             var id = $("#sort").find("option:selected").val();
+            
+            $.ajax({
+               url:'/produce/getNom',
+               type:'post',
+               dataType:'json',
+               asinc:false,
+               data:{'id':id},
+               success:function(data){
+                   
+                   
+
+                   $("#nom_cat").append("<option>Выберите позицию</option>");
+                   $.each(data,function(){
+                       $("#nom_cat").append("<option value='"+this['id']+"'>"+this['nomenclature']+"</option>");
+                   });
+                   $("#nom").show();
+                   $("#nom_cat").focus();
+               }
+               
+        });
     });
 
      $("#sort").change(function(){
@@ -16,7 +39,7 @@ $(document).ready(function(){
 
     $("#d_save").live('click',function(){
 //        alert($("#units").find("option:selected").text());
-        _save("produce/add","INSERT INTO `nomenclature`(`categories`, `nomenclature`, `price`, `unit`) VALUES ('"+$("#sort option:selected").val()+"','"+$("#name").val()+"','"+$("#price_pos").val()+"','"+$("#units").find("option:selected").text()+"')" );
+        _save("/produce/add","INSERT INTO `nomenclature`(`categories`, `nomenclature`, `price`, `unit`) VALUES ('"+$("#categories").attr('alt')+"','"+$("#name").val()+"','"+$("#price_pos").val()+"','"+$("#units").find("option:selected").text()+"')" );
 
     });
 
@@ -43,31 +66,41 @@ $(document).ready(function(){
         $(obj).find("td:eq(5)").empty().html("<a class='ico-done' title='Изменить'></a><a class='ico-arrow-left' title='Вернуцца'></a>");
 
     });
+    
+    $("input#price_pos").live('keypress',function(e){
+        if(e.which === 13){
+            var obj = $(this).parent().parent();
+            var id = $(obj).attr('id');
+            id=id.substr(2);
+    //        var out = {'id':id,'categories':,'nomenclature':,'unit':,'price':};
+            var query = "UPDATE `nomenclature` SET `categories`=(SELECT `id` FROM `categories` WHERE `categories` = '"+$(obj).find('td:eq(1)').text()+"'),`nomenclature`='"+$(obj).find("td:eq(2) input").val()+"',`price`='"+$(obj).find("td:eq(4) input").val()+"',`unit`='"+$(obj).find("td:eq(3) select option:selected").val()+"' WHERE `id`= "+id;
+            _editNom(query);
+        }
+    });
 
     $("a.ico-done").live('click',function(){
         var obj = $(this).parent().parent();
         var id = $(obj).attr('id');
         id=id.substr(2);
-        var out = {'id':id,'categories':$(obj).find('td:eq(1)').text(),'nomenclature':$(obj).find("td:eq(2) input").val(),'unit':$(obj).find("td:eq(3) select option:selected").val(),'price':$(obj).find("td:eq(4) input").val()};
-//      alert(out['unit'])      ;
-        _editNom(out);
+//        var out = {'id':id,'categories':,'nomenclature':,'unit':,'price':};
+        var query = "UPDATE `nomenclature` SET `categories`=(SELECT `id` FROM `categories` WHERE `categories` = '"+$(obj).find('td:eq(1)').text()+"'),`nomenclature`='"+$(obj).find("td:eq(2) input").val()+"',`price`='"+$(obj).find("td:eq(4) input").val()+"',`unit`='"+$(obj).find("td:eq(3) select option:selected").val()+"' WHERE `id`= "+id;
+        _editNom(query);
     });
 
     function _editNom(out){
+        var query = out;
+//        alert(query)
         $.ajax({
             asinc:false,
-            url:'action/edit_nomenclature.php',
+            url:'/produce/edit',
             type:'post',
-            dataType:'json',
-            data:out,
+            dataType:'text',
+            data:{'query':query},
             success:function(data){
-//                    document.write(data['query']);
+//                    alert(data);
 
                 document.location.reload();
-            },
-             error:function(data){
-                document.write(data['responseText']);
-             }       
+            }      
         });
         return false;
     }
@@ -90,14 +123,12 @@ $(document).ready(function(){
 
 //            var select = '';
         $.ajax({
-           url:'query/unit_list.php',
+           url:'/produce/unit',
            type:'post',
            dataType:'text',
            success:function(data){
+//               alert(data);
                $(obj).html(data);
-           },
-           error:function(data){
-               document.write(data['responseText']);
            }
         });
 
@@ -125,7 +156,7 @@ $(document).ready(function(){
     function _save(url, out){
         var url = url;
         var out = out;
-        alert(url);
+//        alert(url);
         $.ajax({
             asinc:false,
             url:url,
@@ -133,7 +164,7 @@ $(document).ready(function(){
             responce:'text',
             data:{'query':out},
             success:function(data){
-                alert(data);
+//                alert(data);
                 document.location.reload();
             } 
         });

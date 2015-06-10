@@ -53,22 +53,12 @@ $type = $routes[3];
             <p style="text-align: center;"><input id="new_products" class="btn-save" type="button" value="Добавить позицию"/></p>
         </div>
     <div class="right_block">
-<!--        <br/><br/>
+        <br/><br/>
         <label>Выберите тип продукции.</label>
         <br/><br/>
-        <select id="categories">
-            <?php
-//            $n = 0;
-//            foreach ($data['categories'] as $value) {
-////                if($n === 0){
-////                    echo "<option value='{$value['id']}' selected>{$value['categories']}</option>"; 
-////                }else{}
-//                    echo "<option value='{$value['id']}'>{$value['categories']}</option>";
-//                
-//                $n++;
-//            }
-            ?>
-        </select>-->
+       <span id="ctg">
+                <input id="categories" type="text" value="" readonly />
+        </span>
         <br/><br/>
         <label>Добавьте наименование далее по смыслу.</label>
         <br/><br/>

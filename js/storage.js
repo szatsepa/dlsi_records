@@ -33,7 +33,32 @@ $(document).ready(function(){
     });
 
     $("#new_products").mousedown(function(){
+        
+        
             _show(true);
+            
+//            $("#sort").clone().attr('id','categories').appendTo("#ctg");
+            $("#categories").val($("#sort").find("option:selected").text()).attr('alt',$("#sort").find("option:selected").val());
+             var id = $("#sort").find("option:selected").val();
+            
+            $.ajax({
+               url:'/produce/getNom',
+               type:'post',
+               dataType:'json',
+               asinc:false,
+               data:{'id':id},
+               success:function(data){
+                   
+                   
+
+                   $("#nom_cat").append("<option>Выберите позицию</option>");
+                   $.each(data,function(){
+                       $("#nom_cat").append("<option value='"+this['id']+"'>"+this['nomenclature']+"</option>");
+                   });
+                   $("#nom").show();
+                   $("#nom_cat").focus();
+               }
+            });
 //            
 //            var id = $("select #sort").find("option:selected").val();
 //            
@@ -93,18 +118,19 @@ $(document).ready(function(){
 
     $("#count").keypress(function(e){
         if(e.which === 13){
-             _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories option:selected").val()+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
+             _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories").attr('alt')+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
         } 
     });
 
     $("#save").mousedown(function(){       
         
-        _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories option:selected").val()+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
+        _save('/produce/add',"INSERT INTO `production`(`category`, `name`,  `unit`, `recorded`,`count`) VALUES ('"+$("#categories").attr('alt')+"','"+$("#nom_cat option:selected").val()+"',(SELECT `unit` FROM `nomenclature` WHERE `id` = '"+$("#nom_cat option:selected").val()+"'),Now(),'"+$("#count").val()+"')");
     });
     
     function _save(url,out){
-        var cat = $("#categories option:selected").val();
+        var cat = $("#categories").attr('alt');
         var query = out;
+//        alert(out);
         $.ajax({
            url:url,
            asinc:false,
@@ -186,5 +212,9 @@ $(document).ready(function(){
 
     $("a.ico-arrow-left").live('mousedown',function(){
         document.location.reload();           
+    });
+    
+    $("#back").live('mousedown',function(){
+        document.location.reload();
     });
 });

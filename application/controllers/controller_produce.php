@@ -34,9 +34,9 @@ class Controller_Produce extends Controller
 	}
         function action_category()
 	{
-		$data = $this->model->get_cat();
+		$data = $this->model->get_cat("SELECT * FROM `categories` WHERE `activity` = 1");
                 
-                $this->view->generate('produce_view.php', 'template_view.php', $data);
+                $this->view->generate('categories_view.php', 'template_view.php', $data);
                 
 	}
         
@@ -62,5 +62,24 @@ class Controller_Produce extends Controller
             $data = $this->model->update($_POST['query']);
             
             echo $data;
+        }
+        
+        function action_unit() {
+            
+            $data = $this->model->getUnit();
+            
+            $select = "<select id='unit'>";
+
+            foreach ($data as $row){
+                
+                $select .= "<option value='{$row['id']}'>{$row['unit']}</option>";
+                
+
+                }
+
+            $select .= "</select>";
+
+            echo $select;
+            
         }
 }
