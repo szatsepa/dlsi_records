@@ -12,7 +12,7 @@ $type = $routes[3];
                 if(count($data['selector'])>0){
                     echo "<select id='sort'>";
                     echo "<option value='0'>Все</option>";
-                    foreach ($data['selector'] as  $value){
+                    foreach ($data['categories'] as  $value){
                          if(!empty($routes[3]) and $routes[3] === $value['id']){
                                 echo "<option value='{$value['id']}' selected>{$value['category']}</option>";
                             }else{
@@ -69,12 +69,12 @@ $type = $routes[3];
         <br/>
         <br/>
         <select id="units">
-            <option>Од. виміру</option>
-            <option>шт</option>
-            <option>м.куб</option>
-            <option>м.кв</option>
-            <option>м.пог</option>
-            <option>кг.</option>
+            <option value="0">Од. виміру</option>
+            <option value="1">шт</option>
+            <option value="2">м.куб</option>
+            <option value="3">м.кв</option>
+            <option value="4">м.пог</option>
+            <option value="5">кг.</option>
         </select>
         <p style="text-align: center;"><input id="d_save" class="btn-save" type="button" value="Сохранить"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<input id="back" type="button" class="btn-save" value="Вернуцца в зад"/>&nbsp;&nbsp;;</p>
         <br/>

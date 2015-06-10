@@ -35,7 +35,7 @@ class Model_Produce extends Model
                  
                 $data['depot'] = self::querySelect($query);
 
-                $data['category'] = self::querySelect("SELECT `id`, `categories` FROM `categories` WHERE `activity` = 1");
+                $data['category'] = self::querySelect("SELECT `id`, `categories` AS 'category' FROM `categories` WHERE `activity` = 1");
 
                 $data['unit'] = self::querySelect("SELECT `id`, `unit` FROM `unit`");
 
@@ -85,7 +85,7 @@ class Model_Produce extends Model
             
             $data['nom']  = self::querySelect($query);
             
-            $data['categories'] = self::querySelect("SELECT `id`, `categories` FROM `categories` WHERE `activity` = 1");
+            $data['categories'] = self::querySelect("SELECT `id`, `categories` AS 'category' FROM `categories` WHERE `activity` = 1");
             
             $data['selector'] = self::querySelect("SELECT p.`categories` AS 'id', c.`categories` AS 'category'
                                                         FROM `nomenclature` AS p

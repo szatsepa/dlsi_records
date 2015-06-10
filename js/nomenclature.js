@@ -39,12 +39,18 @@ $(document).ready(function(){
 
     $("#d_save").live('click',function(){
 //        alert($("#units").find("option:selected").text());
-        _save("/produce/add","INSERT INTO `nomenclature`(`categories`, `nomenclature`, `price`, `unit`) VALUES ('"+$("#categories").attr('alt')+"','"+$("#name").val()+"','"+$("#price_pos").val()+"','"+$("#units").find("option:selected").text()+"')" );
+        _save("/produce/add","INSERT INTO `nomenclature`(`categories`, `nomenclature`, `price`, `unit`) VALUES ('"+$("#categories").attr('alt')+"','"+$("#name").val()+"','"+$("#price_pos").val()+"','"+$("#units").find("option:selected").val()+"')" );
 
     });
 
     $("#edit").live('click',function(){
-        _save("action/edit_product.php", {'name':$("#name").val(),'comment':$("#price_pos").val(), 'unit':$("#unit option:selected").text(),'id':$("#uid").val()});
+        _save("/produce/edit", "UPDATE `nomenclature` SET `categories`=(SELECT `id` FROM `categories` WHERE `categories` = '"+$("#categories").attr('alt')+"'),`nomenclature`='"+$("#name").val()+"',`price`='"+$("#price_pos").val()+"',`unit`='"+$("#units").find("option:selected").val()+"' WHERE `id`= "+$("#uid").val());
+    });
+    
+    $("#price_pos").live('keypress',function(e){
+        if(e.which === 13){
+           _save("/produce/edit", "UPDATE `nomenclature` SET `categories`=(SELECT `id` FROM `categories` WHERE `categories` = '"+$("#categories").attr('alt')+"'),`nomenclature`='"+$("#name").val()+"',`price`='"+$("#price_pos").val()+"',`unit`='"+$("#units").find("option:selected").val()+"' WHERE `id`= "+$("#uid").val()); 
+        }
     });
 
 
@@ -115,7 +121,7 @@ $(document).ready(function(){
         id = id.substr(2);
         if(confirm("Дійсно видалити позицию зі списку?")){
 //              // console.log(id);  
-          _save("action/del_product.php", {'uid':id});
+          _save("/produce/edit", "DELETE FROM `nomenclature` WHERE `id`="+id);
         }
     });
 
@@ -156,7 +162,7 @@ $(document).ready(function(){
     function _save(url, out){
         var url = url;
         var out = out;
-//        alert(url);
+//        alert(out);
         $.ajax({
             asinc:false,
             url:url,

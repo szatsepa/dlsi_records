@@ -15,7 +15,7 @@
                 if(count($data['selector'])>0){
                     echo "<select id='sort'>";
                     echo "<option value='0' selected>Все</option>";
-                    foreach ($data['selector'] as $value){
+                    foreach ($data['category'] as $value){
                             echo "<option value='{$value['id']}'>{$value['category']}</option>";
                     }
                     echo "</select>";
