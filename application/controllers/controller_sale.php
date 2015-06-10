@@ -16,16 +16,7 @@ class Controller_Sale extends Controller
                 $this->view->generate('sale_view.php', 'template_view.php', $data);
                 
 	}
-                
-        function action_add() {
-            $data = $this->model->addNew($_POST['query']);
-        }
-        
-        function action_del() {
-            $data = $this->model->delProvider($_POST['query']);
-        }
-        
-        function action_edit() {
-            $data = $this->model->updateProvider($_POST['query']);
+        function action_invoice() {
+            
         }
 }
