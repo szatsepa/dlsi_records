@@ -1,5 +1,4 @@
-<script type="text/javascript" src="/js/jquery.datepick.js"></script>
-<script type="text/javascript" src="/js/jquery.printElement.js"></script> 
+<script type="text/javascript" src="/js/jquery.datepick.js"></script> 
 <script type="text/javascript" src="/js/jquery.json.min.js"></script>
 <div id="content">
     <?php

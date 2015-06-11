@@ -42,8 +42,8 @@ class Controller_Sale extends Controller
         
         function action_order($list, $param) {
             
-            $data = $this->model->get_data();
+            $data = $this->model->get_order($list);
                 
-            $this->view->generate('sale_view.php', 'template_view.php', $data);
+            $this->view->generate('print_order_view.php', 'template_view.php', $data);
         }
 }

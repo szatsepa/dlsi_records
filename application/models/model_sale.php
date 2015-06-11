@@ -88,4 +88,15 @@ class Model_Sale extends Model
             
         }
         
+        public function get_order($list) {
+            
+            $data = array();
+            
+            $data['order'] = self::querySelect("SELECT * FROM `orders` WHERE `id` = {$list}");
+            
+//            SELECT c.`categories`, o.`nomenclature`, o.`amount`, o.`price` FROM `order_list` AS o, `categories` AS c WHERE o.`order`=14
+            
+            return $data;
+        }
+        
 }
