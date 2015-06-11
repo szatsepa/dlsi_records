@@ -5,10 +5,10 @@
 echo '<input type="hidden" id="paket" value="'.$data['paket'].'"/>';
 //print_r($data['credit']);
 ?>
-    <h1>Розрахунок за період</h1>
-    <p><input id="open" type="text" value="" size="24" placeholder="Дата початку"/>&nbsp;&nbsp;<input id="close" placeholder="Дата кінця" type="text" value="" size="24"/></p>
+    <h1>Торгівля виробами та матеріалом</h1>
+    <!--<p><input id="open" type="text" value="" size="24" placeholder="Дата початку"/>&nbsp;&nbsp;<input id="close" placeholder="Дата кінця" type="text" value="" size="24"/></p>-->
     
-            <div id="staff_tab">
+<!--            <div id="staff_tab">
                 <table class="info_tables">
                     <thead>
                         <tr>
@@ -73,10 +73,10 @@ $SSUM += $sum;
                 
                 <p style="text-align: center; font-size: 1.2em; font-weight: bolder; text-decoration: underline;">ИТОГО: <?php echo $SSUM; ?> грн.</p>
                 
-            </div>
-        <div>
+            </div>-->
+<!--        <div>
             <p style="text-align: center;"><input id="calculate" class="btn-save" type="button" value="Заархивировать расчет"/>&nbsp;&nbsp;&nbsp;<input class="btn-save" type="button" id="printTab" value="Друкувати"/></p>
         </div>
-    </div>
+    </div>-->
 
-<script type="text/javascript" src="/js/payment.js"></script>
+<script type="text/javascript" src="/js/sale.js"></script>
