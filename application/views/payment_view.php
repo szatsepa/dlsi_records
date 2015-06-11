@@ -1,13 +1,32 @@
 <script type="text/javascript" src="/js/jquery.datepick.js"></script>
 <script type="text/javascript" src="/js/jquery.printElement.js"></script> 
 <div id="content">
-    <?php
+<?php
+$routes = explode('/', $_SERVER['REQUEST_URI']);
+
+$details = NULL;
+
+if(!empty($routes[3])){
+    
+    $details = 1;
+
+}
+    
 echo '<input type="hidden" id="paket" value="'.$data['paket'].'"/>';
 //print_r($data['credit']);
 ?>
     <h1>Розрахунок за період</h1>
-    <p><input id="open" type="text" value="" size="24" placeholder="Дата початку"/>&nbsp;&nbsp;<input id="close" placeholder="Дата кінця" type="text" value="" size="24"/></p>
-    
+<?php
+    if(!$details){
+?>    
+    <p>
+        <input id="open" type="text" value="" size="24" placeholder="Дата початку"/>
+        &nbsp;&nbsp;
+        <input id="close" placeholder="Дата кінця" type="text" value="" size="24"/>
+    </p>
+<?php
+    }
+    ?>
             <div id="staff_tab">
                 <table class="info_tables">
                     <thead>
@@ -60,12 +79,7 @@ echo '<input type="hidden" id="paket" value="'.$data['paket'].'"/>';
  
 
 $SSUM += $sum;
-                         }                        
-//        echo "</td></tr>";
-//                         
-//
-//echo "</td></tr>";
-
+                         } 
                      }
                  ?>
                   </tbody>
@@ -75,7 +89,21 @@ $SSUM += $sum;
                 
             </div>
         <div>
-            <p style="text-align: center;"><input id="calculate" class="btn-save" type="button" value="Заархивировать расчет"/>&nbsp;&nbsp;&nbsp;<input class="btn-save" type="button" id="printTab" value="Друкувати"/></p>
+            <?php
+            if(!$details){
+            ?>
+            <p style="text-align: center;">
+                <input id="calculate" class="btn-save" type="button" value="Заархивировать расчет"/>
+            </p>
+            <?php
+            }else{
+            ?>
+            <p style="text-align: center;">
+                <input id="back" class="btn-save" type="button" value="<- В зад"/>
+            </p>
+            <?php
+            }
+            ?>
         </div>
     </div>
 

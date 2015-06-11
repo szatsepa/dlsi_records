@@ -41,7 +41,11 @@ class Model_Pay extends Model
             
             $data['tariff'] = self::querySelect("SELECT t.`id`, t.`action`, f.`function`, t.`short`, t.`tariff`, t.`cost` FROM `tariff` AS t, `function` AS f WHERE t.`activity` = 1 AND t.`action` = f.`id`");
             
-            $tmpc = self::querySelect("SELECT  s.`id`,s.`surname` FROM `staff` AS s,`timesheet` AS t WHERE  s.`activity` = 1 AND s.`id` = t.`staff` AND  t.`marked` = 0 GROUP BY s.`id`");
+            $tmpc = self::querySelect("SELECT s.`id` , s.`surname` FROM `staff` AS s, `timesheet` AS t
+                                        WHERE s.`activity` =1
+                                        AND s.`id` = t.`staff`
+                                        AND t.`marked` =0
+                                        GROUP BY s.`id`");
             
             foreach ($tmpc as $value) {
                 $data['credit'][$value['id']] = array('surname'=>$value['surname'],'cost'=>array());
@@ -104,7 +108,7 @@ class Model_Pay extends Model
         
         public function get_history() {
             
-            $data =  self::querySelect("SELECT `recorded` AS 'create',`paket` AS 'list' FROM `timesheet` GROUP BY `paket`");
+            $data =  self::querySelect("SELECT `recorded` AS 'create',`paket` AS 'list' FROM `timesheet` WHERE `marked` > 0 GROUP BY `paket`");
             
             return $data;
         }
@@ -167,6 +171,41 @@ class Model_Pay extends Model
                        
             return $data;
 	}
+        
+        public function get_details($param) {
+            
+            $data = array();
+            
+            $tmp = self::querySelect("SELECT `surname` FROM `staff` WHERE `activity` = 1 AND `id` = {$param}");
+            
+            $data['credit'][$param] = array('surname'=>$tmp[0]['surname'],'cost'=>array());
+                
+            $tmp = self::querySelect("SELECT  tf.`short`, tf.`tariff`, t.`produced`,  tf.`cost`,t.`id` AS 'row'
+                                          FROM `timesheet` AS t 
+                                          LEFT JOIN function AS f ON t.`function` = f.`id` 
+                                          LEFT JOIN `tariff` AS tf ON t.`tariff` = tf.`id` 
+                                          WHERE t.`staff` = {$param} AND
+                                                t.`marked` = 0");
+            foreach ($tmp as $val) {
+                array_push($data['credit'][$param]['cost'], $val);
+            }
+
+            $tmpi = self::querySelect("SELECT 'Аванс' AS 'short',
+                        (i.`cost` * ( -1 )) AS 'cost',
+                        '1' AS 'produced', `id` AS 'row'
+                    FROM `imprest` AS i
+                    WHERE i.`staff` ={$param}
+                    AND (i.`details` <> 3)
+                    AND i.`repay` = 1");
+
+            if(count($tmpi) !== 0){
+                foreach ($tmpi as $vali) {
+                    array_push($data['credit'][$param]['cost'], $vali);
+                }
+            }    
+            
+            return $data;                                  
+        } 
         
         public function add($param) {
             

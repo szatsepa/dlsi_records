@@ -37,6 +37,7 @@ class Controller_Pay extends Controller
         }
         
         function action_payment() {
+            
             $data = $this->model->get_credits();
             
             $this->view->generate('payment_view.php', 'template_view.php',$data);
@@ -47,6 +48,13 @@ class Controller_Pay extends Controller
             $data = $this->model->get_tariff();
             
             $this->view->generate('tariff_view.php', 'template_view.php',$data);
+        }
+        
+        function action_details($list,$param) {
+            
+            $data = $this->model->get_details($list);
+            
+            $this->view->generate('payment_view.php', 'template_view.php',$data);
         }
         
         function action_add() {

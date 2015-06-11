@@ -1,5 +1,4 @@
 $(document).ready(function(){
-//    $('div#report').printElement();
       var advance = 0;
       var obj = {};
       $("#open").datepick({minDate: new Date(2014, 1, 0)});
@@ -8,12 +7,12 @@ $(document).ready(function(){
       $(".info_tables").css({'width':'800px'});
       $(".info_tables tbody").css({'font-size':'0.7em'});
       $("tr.sum td").css('text-align','center');
+      
 // показать детали по работнику     
   $(".ico-info").live('click', function(){
       var uid = this.id;
       uid = uid.substr(2);
-      document.location = "payment/details/"+uid;
-//      getUserDetails(uid);
+      document.location = "/pay/details/"+uid;
   });
 
   $("#printTab").mousedown(function(){
@@ -26,12 +25,13 @@ $(document).ready(function(){
 
         $('#staff_tab').printElement();
     });
+    
 // вернутся к исходному виду      
-  $("#back_s").mousedown(function(){
-      $("#staff_tab").show();
-      $("#tab_details").hide();
-      $("#table_details tbody").empty();
+  $("#back").mousedown(function(){
+      
+      document.location = "/pay/payment";
   });
+  
 // произведем расчет зарплаты      
   $("#calculate").mousedown(function(){
           if($("#open").val() === '' || $("#close").val() === ''){
@@ -41,9 +41,9 @@ $(document).ready(function(){
           if(confirm("\t\t\t\tРасчитать?\nПосле этого изменения данных не возможно!!!\n\t\t\tТіко повний відкат!")){
 
           var query = "UPDATE `timesheet` SET `marked`= 1, `open` = '"+$("#open").val()+"', `close` = '"+$("#close").val()+"' WHERE `paket` = "+$("#paket").val() ;
-//alert(query);
+
             $.ajax({
-               url:'payment/apdate',
+               url:'/pay/update',
                asinc:false,
                type:'post',
                response:'text',
@@ -54,12 +54,14 @@ $(document).ready(function(){
             });
       }
   });
+  
 //  ячейку аванса\долга пометим активностью    
   $(".advance").mouseover(function(){
       if($(this).text()!==''){
           $(this).css('cursor','pointer').attr('title','Изменить?');
       }
-  });      
+  });  
+  
 //  заменим текст на поле ввода            
   $(".advance").live('click',function(){
       if($(this).text() !== ''){
@@ -77,6 +79,7 @@ $(document).ready(function(){
         $(obj).find("td:eq(2)").empty().text(str);
         $(obj).find("td:eq(4)").empty();
   });
+   
 //  действия над полем ввода по нажатию энтер    
   $("#adv").live('keypress',function(e){
         if(e.which === 13){
@@ -88,6 +91,7 @@ $(document).ready(function(){
             changeImprest(out);
         }
   });
+  
 // действия по клику на "галочку"     
   $("a.ico-done").live('click',function(){
 
@@ -109,7 +113,6 @@ $(document).ready(function(){
          dataType:'json',
          data:out,
          success:function(data){
-//                 document.write(data['query']);
              if(data['ok'] > 0){
                  document.location = "index.php?part=pay&chapter=payment&uid="+uid;
              }

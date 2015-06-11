@@ -17,14 +17,6 @@ $(document).ready(function(){
     $("#a_v_zad").mousedown(function(){
         history.go(-1);
     });
-
-    if($("input").is("#paket")){
-//        $("a.ico-info").remove();
-    }
-    
-    $("a.ico-user-03").live('click',function(){
-        alert("NU SHO?");
-    });
     
     $("a.ico-plus").live('click',function(){
         var count = $("#count").val();
@@ -60,7 +52,6 @@ $(document).ready(function(){
             $("#table_sheet tbody tr.c"+staff+numrows+" td:eq(5)").append($("a.ico-plus"));
             $(obj).find("td:eq(5) a.ico-plus").remove();
             numrows++;
-        }else{
         }
                 
     });
@@ -130,16 +121,21 @@ $(document).ready(function(){
         var id = this.id;
         var trobj = $(this).parent().parent();
         var url = '';
-        var count = $("input#edit").val();
-        if(count === '' || count === undefined){
+        var count = 0;
+        
+        if($("table#table_sheet tbody tr td").is($("input#edit"))){
+            var count = $("input#edit").val();
+        }else{
             count = $("input#count").val();
         }
+        
         if(count === '' || count === undefined){
             alert("Не заполнено поле КОЛИЧЕСТВО!");
             return;
         }else{
             count = count.replace(',','.');
         }
+        
         if(id !== 'edit-ivo'){
             
             query = "INSERT INTO `timesheet`(`staff`, `function`, `tariff`, `produced`,`paket`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#function_list option:selected").val()+"','"+$("#tariff_list option:selected").val()+"','"+count+"','"+$("#paket").val()+"')";
@@ -151,17 +147,18 @@ $(document).ready(function(){
             query="UPDATE `timesheet` SET `function`= '"+$("#function_list option:selected").val()+"',`tariff`='"+$("#tariff_list option:selected").val()+"',`produced`='"+count+"',`recorded`=Now() WHERE `id` = "+rowid;
             url = "pay/update";
 
-          }
-          var func = $("#function_list option:selected").val();
+        }
+          
+         var func = $("#function_list option:selected").val();
          
-             addRecord(url,query,(func === '14'));
+         addRecord(url,query,(func === '14'));
     
             
             
             
-              if(func === '14'){
-                  document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
-            }
+          if(func === '14'){
+              document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
+         }
     });
 
     $("#tariff_list").change(function(){
@@ -176,7 +173,6 @@ $(document).ready(function(){
         var nid = $(next).attr('name');
         var pid = $(prev).attr('name');
         var func = $(obj).find("td:eq(2)").text();
-//        query = '';
         var query = '';
             
         if(func === 'ДРВ')
@@ -211,33 +207,41 @@ $(document).ready(function(){
 
     $("#count").keypress(function(e){
         
-        var url = 'pay/add';
-        var query = '';
         if(e.which === 13){
             
-        var count = $("input#edit").val();
-        
-        if(count === '' || count === undefined){
-            count = $("input#count").val();
-        }
+            var url = 'pay/add';
+            var query = '';
+            var count = 0;
+
+            if($("table#table_sheet tbody tr td").is($("input#edit"))){
+                var count = $("input#edit").val();
+            }else{
+                count = $("input#count").val();
+            }
+
+            if(count === '' || count === undefined){
+                alert("Не заполнено поле КОЛИЧЕСТВО!");
+                return;
+            }else{
+                count = count.replace(',','.');
+            }
             
+                    
             if(count === '' || count === undefined){
                 alert("Не заполнено поле КОЛИЧЕСТВО!");
                 return false;
+            }else{
+                count = count.replace(',','.');
             }
             
-            query = "INSERT INTO `timesheet`(`staff`, `function`, `tariff`, `produced`,`paket`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#function_list option:selected").val()+"','"+$("#tariff_list option:selected").val()+"','"+$("#count").val()+"','"+$("#paket").val()+"')";
+            query = "INSERT INTO `timesheet`(`staff`, `function`, `tariff`, `produced`,`paket`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#function_list option:selected").val()+"','"+$("#tariff_list option:selected").val()+"','"+count+"','"+$("#paket").val()+"')";
             
             var func = $("#function_list option:selected").val();
-             
-//            var flag = false;
              
             if(func === '14'){
                 
                 document.location = "/pay/imprest/"+$("#user_list option:selected").val()+"/"+count;
-                  
-//                  addRecord(url,"INSERT INTO `imprest` (`staff`, `cost`, `recorded`) VALUES ('"+$("#user_list option:selected").val()+"','"+$("#count").val()+"','"+YY+"-"+mm+"-"+dd+"')",true);              
-            
+                
             }
             
             addRecord(url,query,false);
@@ -275,14 +279,13 @@ $(document).ready(function(){
     }
     function addRecord(url,out,flag){
         var flag = flag;
-        if(flag){
-            alert(out);
-        }
+      
         var count = $("input#edit").val();
         
         if(count === '' || count === undefined){
             count = $("input#count").val();
         }
+        
         $.ajax({
             asinc:false,
             url:url,
@@ -290,7 +293,7 @@ $(document).ready(function(){
             responce:'text',
             data:{'query':out},
             success:function(data){
-                alert(data);
+                
                 if(!flag){
                     document.location.reload();
                 }else{

@@ -21,7 +21,7 @@ var tariff_list = {};
 </div>
 
 <!--<div id="content">-->
-    <h1>Табель за період</h1>
+    <h1>Табель</h1>
     <div id="tablesheet">
             <table class="info_tables" id="table_sheet">
                 <thead>
@@ -56,7 +56,7 @@ var tariff_list = {};
                                 $trow++;
                         }
                     }
-                    if(!isset($attributes['num'])){
+//                    if(!isset($attributes['num'])){}
                         
                         echo "<tr id='f{$trow}'>";
                     ?>"
@@ -126,7 +126,7 @@ var tariff_list = {};
                         </td>
                     </tr>
                     <?php
-                    }
+                    
                     ?>
                     
                 </tbody>
