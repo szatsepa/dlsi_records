@@ -16,7 +16,7 @@ class Model_Sale extends Model
                 
                 $data['doc'] = "{$num}/".date("d-m-y");  
                 
-                $data['cat'] = self::querySelect("SELECT `id`, `categories` AS 'cat' FROM `categories` WHERE `activity`=1"); 
+                $data['cat'] = self::querySelect("SELECT n.`categories` AS 'id', c.`categories` AS 'cat' FROM `nomenclature` AS n, `categories` AS c WHERE n.`categories` = c.`id` GROUP BY n.`categories` ORDER BY  c.`categories`"); 
                 
                 return $data;
 	}
@@ -48,19 +48,43 @@ class Model_Sale extends Model
             return $data;
         }
         
-        public function set_invoice($param) {
+        public function set_invoice($param,$query) {
+            
+            $num_order = self::setInsert($query);
             
             $str = stripcslashes($param);
             
             $obj = json_decode($str,TRUE);
             
-            $stro  = "";
+            $cash = 0;
+            
+            $stru = '';
+            
+            $stro  = "INSERT INTO `order_list`(`order`, `category`, `nomenclature`, `amount`, `price`) VALUES ";
             
             foreach ($obj as $key => $value) {
-                $stro .= "{$key} =>> {$value['cat']} - {$value['nom']} - {$value['amount']} - {$value['price']}\r\n";
+                
+                $stro .= "($num_order,{$value['cat']},{$value['nom']},{$value['amount']},{$value['price']}),";
+                
+                $cash += round(($value['amount'])*($value['price']),3);
+                
+                $stru .= "UPDATE `production` SET `count`=(`count` - {$value['amount']}) WHERE `name`={$value['nom']}";
+                
             }
             
-            return $stro;
+            $stro = substr($stro,0, -1);
+            
+            $stro .= ";";
+            
+            $strc = "INSERT INTO `cashbox`(`add`) VALUES ({$cash})";
+            
+            self::setInsert($stro);
+            
+            self::setInsert($stru);
+                        
+            self::setInsert($strc);
+            
+            return $num_order;
             
         }
         

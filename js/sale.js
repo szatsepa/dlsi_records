@@ -1,26 +1,11 @@
 $(document).ready(function(){
-    var month_arr = new Array('січень','лютий','березень','квітень','травень','червень','липень','серпень','вересень','жовтень','листопад','грудень');
+    
     $("#head_order").css('padding','16px');
     $("#num_order").focus();
-//    $("#table_order").css({'margin-left':'12px'});
-//    $("#tab_order").css({'width':'1012px'});
     $("#date_order").datepick({minDate: new Date(2014, 1, 0)});
     $("select#cat").find("option:eq(0)").attr('selected',true);
 
     var order = '';
-
-//    $.ajax({
-//       url:'query/num_order.php',
-//       type:'post',
-//       dataType:'json',
-//       data:{},
-//       success:function(data){
-//
-//           $("#num_order").val(data['order']+"/"+data['date']);
-//
-//       }
-//
-//    });
 
     $("#save").mousedown(function(){
         if(confirm("Дійсно?")){
@@ -41,8 +26,7 @@ $(document).ready(function(){
             });
 
             createOrder(order_query,out);
-
-//            $("#print").attr('disabled',false);
+            
             $(this).remove();
         }
         
@@ -52,28 +36,23 @@ $(document).ready(function(){
         
         var str = $.toJSON(out);
         
-        alert(str);
-        
         $.ajax({
            url:'/sale/invoice',
            type:'post',
            dataType:'text',
            data:{'table':str,'query':query},
            success:function(data){
-               alert(data);
+               
+               document.location.href = "/sale/order/"+data;
            }
         });
+        
+        return;
     }
 
     $("#print").mousedown(function(){
         document.location = "index.php?part=sale&chapter=prnt&order="+order;
     });
-
-
-    var query = "SELECT `id`, `categories` FROM `categories` WHERE `activity`=1";
-
-//    getSelect(query,$("#tab_order tbody tr:eq(0) td:eq(1)"),'cat');
-
 
     $("#cat").live('change',function(){
 
@@ -82,8 +61,6 @@ $(document).ready(function(){
         var select = $("#cat option:selected").val();
 
         var category = $("#cat option:selected").text();
-
-//        var query = "SELECT n.`id`, n.`nomenclature` AS 'nom' FROM `nomenclature` AS n WHERE n.`categories`="+select;
         
         getNom(select,$(tro).find("td:eq(2)"));
         

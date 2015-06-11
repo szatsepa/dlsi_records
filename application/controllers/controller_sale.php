@@ -35,10 +35,15 @@ class Controller_Sale extends Controller
         
         function action_invoice() {
             
-            $obj = $this->model->set_invoice($_POST['table']);
-            
-//            $str = ;
+            $obj = $this->model->set_invoice($_POST['table'],$_POST['query']);
             
             echo $obj;
+        }
+        
+        function action_order($list, $param) {
+            
+            $data = $this->model->get_data();
+                
+            $this->view->generate('sale_view.php', 'template_view.php', $data);
         }
 }
