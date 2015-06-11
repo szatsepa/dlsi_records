@@ -45,18 +45,16 @@
     </div>
     
     <div   id="aside">
- <?php
- require_once 'sub_menu.php';
- new SubMenu($controller_name);
- ?>
+         <?php
+             require_once 'sub_menu.php';
+             new SubMenu($controller_name);
+         ?>
     </div>
 </div>
 
-<div id="d_wr">
-    
+<div id="d_wr">    
     <div id="content">
-<?php include 'application/views/'.$content_view; ?>
-         
+        <?php include 'application/views/'.$content_view; ?>         
     </div> 
 </div>
 		<div id="footer">

@@ -40,13 +40,13 @@ class Model
             
             $result = mysql_query($str);
             
-//            if(!$result){
-//                return NULL;
-//                
-//            }  else { }
+            if(!$result){
+                return NULL;
+                
+            }  else { 
                 
                 return mysql_insert_id();
-           
+           }
             
         }
         public function actUpdate($query) {
