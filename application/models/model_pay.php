@@ -35,7 +35,7 @@ class Model_Pay extends Model
             
             $data['staff'] = self::querySelect("SELECT `id`, `surname`, `phone`,  `address` FROM `staff` WHERE `activity` = 1");
             
-            $result = self::querySelect("SELECT Max(`paket`) AS paket FROM `timesheet`");
+            $result = self::querySelect("SELECT Min(`paket`) AS paket FROM `timesheet` WHERE `marked` = 0");
             
             $data['paket'] = $result[0]['paket'];
             
