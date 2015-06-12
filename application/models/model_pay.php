@@ -126,6 +126,7 @@ class Model_Pay extends Model
                                         
             $data['open'] = $tmpc[0]['open'];
             $data['close'] = $tmpc[0]['close'];
+            $data['part'] = $param;
             
             foreach ($tmpc as $value) {
                 $data['credit'][$value['id']] = array('surname'=>$value['surname'],'cost'=>array());

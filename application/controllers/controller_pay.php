@@ -66,6 +66,9 @@ class Controller_Pay extends Controller
         }
         
         function action_update() {
+            
             $data = $this->model->update($_POST['query']);
+            
+            echo $data;
         }
 }

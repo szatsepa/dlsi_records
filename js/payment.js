@@ -41,15 +41,19 @@ $(document).ready(function(){
           if(confirm("\t\t\t\tРасчитать?\nПосле этого изменения данных не возможно!!!\n\t\t\tТіко повний відкат!")){
 
           var query = "UPDATE `timesheet` SET `marked`= 1, `open` = '"+$("#open").val()+"', `close` = '"+$("#close").val()+"' WHERE `paket` = "+$("#paket").val() ;
-
+//alert(query);
             $.ajax({
                url:'/pay/update',
                asinc:false,
                type:'post',
                response:'text',
                data:{'query':query},
-               success:function(){
-                   document.location = "/pay";
+               success:function(data){
+//                   alert(data);
+                    if(data){
+                        document.location = "/pay";
+                    }
+                   
                }
             });
       }

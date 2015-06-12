@@ -19,8 +19,6 @@ var tariff_list = {};
 <div style="display: none;">
   <a class="ico-user-03" title="Вибрати нового працівника"></a>  
 </div>
-
-<!--<div id="content">-->
     <h1>Табель</h1>
     <div id="tablesheet">
             <table class="info_tables" id="table_sheet">

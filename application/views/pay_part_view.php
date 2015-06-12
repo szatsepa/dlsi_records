@@ -6,6 +6,7 @@
 ?>
 <div id="content">
     <h1>Нараховано за  період&nbsp;&nbsp;<?php echo "{$data['open']}&nbsp;-&nbsp{$data['close']}";  ?></h1>
+    <input type="hidden" id="part" value="<?php           echo "{$data['part']}";?>"/>
     <div id="back_v_zad">
     <p style="text-align: center;">
         <a id="a_v_zad">Повернутися в зад</a>
@@ -80,7 +81,11 @@ $SSUM += $sum;
             </table>
        
         </div>
-    <p style="text-align: center;"><input type="button" class='btn-save' id="printTab" value="Распечатать"/></p>
+    <p style="text-align: center;">
+        <input type="button" class='btn-save' id="printTab" value="Дуркувати"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" class='btn-save' id="recoil" value="Відкатити"/>
+    </p>
 </div>
 <script type="text/javascript" src="/js/jquery.printElement.js"></script>
 <script type="text/javascript" src="/js/pay_part.js"></script>

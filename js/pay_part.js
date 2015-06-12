@@ -13,6 +13,25 @@ $(document).ready(function(){
     $("#a_v_zad").mousedown(function(){
         history.go(-1);
     });
+    
+    $("input#recoil").mousedown(function(){
+        var query = "UPDATE `timesheet` SET `marked`=0 WHERE `paket`="+$("input#part").val();
+//        
+         if(confirm("Відкатити розрахунок?")){
+                $.ajax({
+                    asinc:false,
+                    url:'/pay/update',
+                    type:'post',
+                    dataType:'text',
+                    data:{'query':query},
+                    success:function(data){
+//                        alert(data);
+                        document.location = "/pay";
+
+                    }
+                });
+           }
+    });
 
     $("table tbody tr.sum").css({'text-align':'left','font-weight':'bold','background-color':'RGB(249, 201, 16)'});
     $("table tbody tr.surname").css({'text-align':'left','font-weight':'bold','background-color':'RGB(19, 255, 116)'});
