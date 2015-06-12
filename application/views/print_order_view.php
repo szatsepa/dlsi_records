@@ -2,7 +2,7 @@
 <div id="content">
     <?php
     
-var_dump($data['order']);
+//var_dump($data['list']);
 ?>
     <h1>Видаткова накладна</h1>
 <!--    <p><input id="open" type="text" value="" size="24" placeholder="Дата початку"/>&nbsp;&nbsp;<input id="close" placeholder="Дата кінця" type="text" value="" size="24"/></p>-->
@@ -37,23 +37,35 @@ var_dump($data['order']);
                         </tr>
                     </thead>
                     <tbody>
+                        
+                        <?php
+                        $row = 1;
+                        $SUM = 0;
+                        foreach ($data['list'] as $value) {
+                            $sum = round($value['amount']*$value['price'],2);
+                            echo "<td>{$row}</td><td>{$value['nom']}</td><td>{$value['unit']}</td><td>{$value['amount']}</td><td>{$value['price']}</td><td>{$sum}</td>";
+                            $row++;
+                            $SUM += $sum;
+                        }
+                        ?>
                         <tr>
-                            <td>1</td>
-                            
-                            <td>
-                                
-                            </td><td></td><td></td><td></td><td></td>
+                            <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td colspan="3">Итого:&nbsp;</td><td colspan="2"><?php echo "{$SUM}";?>&nbsp;грн.</td>
                         </tr>
                     </tbody>
                 </table>
-                <p>
-                    Прийняв________________________&nbsp;&nbsp;&nbsp;&nbsp;Здав __<?php echo "{$data['order'][0]['shipped']}";?>_____________________<br/>
+                <br/>
+                <br/>
+                <div id="stamp">
+                    Прийняв________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Здав _______________________<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     (підпис, П.І.Б.)
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     (підпис, П.І.Б.)
-                </p>
+                </div>
             </div>
             <div>
                 <p style="text-align: center;">
@@ -65,4 +77,7 @@ var_dump($data['order']);
                 
             </div>
         </div>
+            <?php
+//            echo "{$data['order'][0]['shipped']}";
+            ?>
     <script type="text/javascript" src="/js/sale.js"></script>

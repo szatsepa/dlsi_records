@@ -94,7 +94,13 @@ class Model_Sale extends Model
             
             $data['order'] = self::querySelect("SELECT * FROM `orders` WHERE `id` = {$list}");
             
-//            SELECT c.`categories`, o.`nomenclature`, o.`amount`, o.`price` FROM `order_list` AS o, `categories` AS c WHERE o.`order`=14
+            $data['list'] = self::querySelect("SELECT n.`nomenclature` AS 'nom', o.`amount` , o.`price`, u.`unit`
+                                                    FROM `order_list` AS o, `nomenclature` AS n, `orders` AS r, `unit` AS u
+                                                    WHERE o.`nomenclature` = n.`id`
+                                                    AND r.`id` = o.`order` AND u.`id` = n.`unit`
+                                                    AND r.`id` ={$list}");
+    
+//            SELECT * FROM `order_list` AS o, `categories` AS c, `nomenclature` AS n,`orders` AS r WHERE o.`nomenclature`=n.`id` AND r.`id` = o.`order` AND r.`id` = 14
             
             return $data;
         }
