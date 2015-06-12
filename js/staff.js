@@ -5,6 +5,8 @@ $(document).ready(function(){
     }else{
         _show(true);
     }
+    
+    $("table#table_staff tbody tr td").css('text-align','left');
 
     $("#new_staff").mousedown(function(){
         _show(true);

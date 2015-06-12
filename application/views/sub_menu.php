@@ -17,17 +17,7 @@ class SubMenu {
         if($controller_name === '404'){
             return;
         }
-//        $sub_menu = array();
-//            $sub_menu['staff'] = array('staff'=>"Персонал",'func'=>'Должности','action'=>'Функции');
-//            $sub_menu['pay'] = array('tsh'=>'Табель','imprest'=>"Аванс/Выплаты/Штрафы",'payment'=>"Зарплата - расчет",'tariff'=>'Тарифы','his'=>'История');
-//            $sub_menu['pro'] = array('skl'=>'Склад','nom'=>'Номенклатура','cat'=>'Типы продукции');
-//            $sub_menu['order'] = array('order'=>'Расчет','his'=>'История','ps'=>'Поставщики','part'=>'Подразделения','price'=>'Цены','reports'=>'Отчеты');
-//            $sub_menu['his'] = array('order'=>'Расчет','his'=>'История','ps'=>'Поставщики','part'=>'Подразделения','price'=>'Цены','reports'=>'Отчеты');
-//            $sub_menu['reports'] = array('order'=>'Расчет','his'=>'История','ps'=>'Поставщики','part'=>'Подразделения','price'=>'Цены','reports'=>'Отчеты');
-//            $sub_menu['sale'] = array('sl'=>'Продажи','slo'=>'Расходная накладная');
-//            $sub_menu['math'] =array('brad'=>'Тригонометрия');
-//            $sub_menu['dump'] = array('dump'=>'Bacup');
-//        echo "$controller_name";     
+        
             switch ($controller_name) {
                 case 'order':                   
                     $sub_menu = array('order'=>'Расчет','order/his'=>'История','order/providers'=>'Поставщики','order/departs'=>'Подразделения','order/prices'=>'Цены');
@@ -45,9 +35,9 @@ class SubMenu {
                     $sub_menu = array('produce'=>'Склад','produce/nomenclature'=>'Номенклатура','produce/category'=>'Типы продукции');
                     break;
                 case 'sale':
-                    $sub_menu = array('sale'=>'Продажи','sale/invoice'=>'Расходная накладная');
+                    $sub_menu = array('sale'=>'Продажи');
                     break;
-                
+//                ,'sale/invoice'=>'Расходная накладная'
                 default:
                     break;
             } 
