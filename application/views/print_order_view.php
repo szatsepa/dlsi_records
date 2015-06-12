@@ -29,7 +29,6 @@ var_dump($data['order']);
                     <thead>
                         <tr>
                             <th>Ном.п\п</th> 
-                            <th>Категория</th>
                             <th>Наименование</th>
                             <th>Ед.изм.</th>
                             <th>Колич.</th>
@@ -40,8 +39,7 @@ var_dump($data['order']);
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>
-                            </td>
+                            
                             <td>
                                 
                             </td><td></td><td></td><td></td><td></td>
