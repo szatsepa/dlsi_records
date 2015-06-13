@@ -1,4 +1,5 @@
 <script type="text/javascript" src="/js/jquery.printElement.js"></script>
+<script type="text/javascript" src="/js/jquery.datepick.js"></script>
 <div id="content">
     <?php
     
@@ -43,7 +44,7 @@
                         $SUM = 0;
                         foreach ($data['list'] as $value) {
                             $sum = round($value['amount']*$value['price'],2);
-                            echo "<td>{$row}</td><td>{$value['nom']}</td><td>{$value['unit']}</td><td>{$value['amount']}</td><td>{$value['price']}</td><td>{$sum}</td>";
+                            echo "<tr><td>{$row}</td><td>{$value['nom']}</td><td>{$value['unit']}</td><td>{$value['amount']}</td><td>{$value['price']}</td><td>{$sum}</td></tr>";
                             $row++;
                             $SUM += $sum;
                         }
@@ -51,7 +52,7 @@
                         <tr>
                             <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td>
                         </tr>
-                        <tr>
+                        <tr id="sum">
                             <td>&nbsp;</td><td colspan="3">Итого:&nbsp;</td><td colspan="2"><?php echo "{$SUM}";?>&nbsp;грн.</td>
                         </tr>
                     </tbody>
@@ -67,17 +68,14 @@
                     (підпис, П.І.Б.)
                 </div>
             </div>
-            <div>
+            
+        </div>
+    <div>
                 <p style="text-align: center;">
-                    <!--<input type="button" id="save" class="btn-save" value="Сохранить" disabled/>-->
                     <input type="button" class="btn-save" id="print" value="Дуркувати"/>
                 </p>
             </div>
             <div id="ctg" style="display: none">
                 
             </div>
-        </div>
-            <?php
-//            echo "{$data['order'][0]['shipped']}";
-            ?>
     <script type="text/javascript" src="/js/sale.js"></script>

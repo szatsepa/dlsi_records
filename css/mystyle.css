@@ -54,11 +54,23 @@ a:hover{
     
     background-color: #ececec;
     width: 95%;
+    
 }
-#m_menu td{
+#m_menu tbody tr td a.menu_btn{
+    color: black;
+}
+#m_menu tbody tr td a:hover{
+    color:#df0000;
+}
+#m_menu tbody tr td{
     width: 10%;
     text-align: center;
     border: 1px solid black;
+}
+#m_menu td {
+    background:url("../design/menu.gif") 100% 0 repeat-x;
+    font-weight: bolder;
+    color: black;
 }
 #submenu{
     display: none;
@@ -102,5 +114,10 @@ div#footer{
     height: 12px;
     background-color: red;
     visibility: hidden;
+}
+#stamp {height: 200px;
+    padding: 15px;
+    background:url("../design/stamp.png") 100% 0 no-repeat;
+    background-position: 60% 0;
 }
 

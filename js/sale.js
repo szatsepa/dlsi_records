@@ -4,6 +4,15 @@ $(document).ready(function(){
     $("#num_order").focus();
     $("#date_order").datepick({minDate: new Date(2014, 1, 0)});
     $("select#cat").find("option:eq(0)").attr('selected',true);
+    
+    $("#tab_order").css('width','90%');
+    $("#tab_order tbody").find("#sum td").css({'text-align':'center','font-weight':'bolder','text-size':'1.0em'});
+    
+    
+    $("#print").mousedown(function(){
+        alert("PYZDETS");
+        $('div#sale_order').printElement();
+    });
 
     var order = '';
 
@@ -50,9 +59,9 @@ $(document).ready(function(){
         return;
     }
 
-    $("#print").mousedown(function(){
-        document.location = "index.php?part=sale&chapter=prnt&order="+order;
-    });
+//    $("#print").mousedown(function(){
+//        document.location = "index.php?part=sale&chapter=prnt&order="+order;
+//    });
 
     $("#cat").live('change',function(){
 

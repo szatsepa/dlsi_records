@@ -24,12 +24,7 @@ a:hover, a:active, a:focus {color:#df0000;}
 #content legend {background:#FFF; color:#0085cc;}
 #content label.verror {color:#D00;}
 #content acronym, #content abbr, #content .help {border-bottom:1px dotted #cfcfcf;}
-#m_menu td {background:url("../design/menu.gif") 100% 0 repeat-x;font-weight: bolder;color: black;}
-div#stamp {height: 200px; /* Высота блока */
-    padding-left: 15px; /* Отступ от текста слева */
-    background:url("../design/stamp.png") 100% 0 no-repeat;
-    background-position: 70% 0};
-.menu_btn {color: black;}
+
 /* =============================================================================
 HTML - without styles
 ============================================================================= */
