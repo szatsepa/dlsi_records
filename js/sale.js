@@ -10,7 +10,9 @@ $(document).ready(function(){
     
     
     $("#print").mousedown(function(){
-        alert("PYZDETS");
+        
+//        $("div#tfoot").append("<div id='stamp'><img src='/design/stamp.png'/></div>");
+        
         $('div#sale_order').printElement();
     });
 

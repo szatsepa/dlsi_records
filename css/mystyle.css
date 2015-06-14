@@ -115,9 +115,10 @@ div#footer{
     background-color: red;
     visibility: hidden;
 }
-#stamp {height: 200px;
-    padding: 15px;
-    background:url("../design/stamp.png") 100% 0 no-repeat;
-    background-position: 60% 0;
+#tfoot {height: 200px;
+    padding-left:  165px;
 }
-
+div#stamp {
+    left: 270px;
+    bottom: 70px;
+}
