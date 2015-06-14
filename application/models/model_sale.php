@@ -99,8 +99,15 @@ class Model_Sale extends Model
                                                     WHERE o.`nomenclature` = n.`id`
                                                     AND r.`id` = o.`order` AND u.`id` = n.`unit`
                                                     AND r.`id` ={$list}");
-    
-//            SELECT * FROM `order_list` AS o, `categories` AS c, `nomenclature` AS n,`orders` AS r WHERE o.`nomenclature`=n.`id` AND r.`id` = o.`order` AND r.`id` = 14
+            
+            return $data;
+        }
+        
+        public function get_view($list,$papam) {
+            
+            $data = array();
+            
+            $data['orders'] = self::querySelect("SELECT * FROM `orders` WHERE `created` BETWEEN '{$list}' AND '{$papam}'");
             
             return $data;
         }

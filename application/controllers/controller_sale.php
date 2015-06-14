@@ -46,4 +46,11 @@ class Controller_Sale extends Controller
                 
             $this->view->generate('print_order_view.php', 'template_view.php', $data);
         }
+        
+        function action_view($list,$param) {
+            
+            $data = $this->model->get_view($list,$param);
+            
+            $this->view->generate('orders_view.php','template_view.php', $data);
+        }
 }

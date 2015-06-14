@@ -35,7 +35,7 @@ class SubMenu {
                     $sub_menu = array('produce'=>'Склад','produce/nomenclature'=>'Номенклатура','produce/category'=>'Типы продукции');
                     break;
                 case 'sale':
-                    $sub_menu = array('sale'=>'Продажи');
+                    $sub_menu = array('sale'=>'Продажи','sale/view'=>'Дивитися');
                     break;
 //                ,'sale/invoice'=>'Расходная накладная'
                 default:

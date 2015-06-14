@@ -83,7 +83,7 @@ class Route
 		if(method_exists($controller, $action))
 		{
                     
-			// вызываем действие контроллера
+//			if(isset())
                                             
                             $controller->$action($list,$param);
                        
