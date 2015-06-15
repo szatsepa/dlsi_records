@@ -1,6 +1,6 @@
 $(document).ready(function(){
     
-     $("#r1").css({'text-align':'left','font-weight':'bold','background-color':'RGB(19, 255, 116)'});
+     
      var summ = 0;
      $.each($("table tbody tr.info"),function(){
          var pay = parseFloat($(this).find("td:eq(2)").text())*parseFloat($(this).find("td:eq(3)").text());
@@ -9,7 +9,7 @@ $(document).ready(function(){
          summ += pay;
      });
      $("table tbody tr.info").css({'text-align':'center','font-weight':'normal','background-color':'RGB(222, 222, 222)'});
-     
+     $("#r1").css({'text-align':'left','font-weight':'bold','background-color':'RGB(19, 255, 116)'});
      $("#table_details tbody").append("<tr class='foot'><td colspan='6'>Итого начислено: "+summ+" грн.</td></tr>");
      $("#table_details tbody tr.foot").css({'text-align':'right','font-weight':'bold','background-color':'RGB(249, 201, 16)'});
      $("table tbody tr.imprest").css({'text-align':'center','font-weight':'normal','background-color':'#ff6633'});
@@ -20,7 +20,11 @@ $(document).ready(function(){
      });
      
      $(".btn-save").mousedown(function(){
-         $("#tab_details").printElement();
+         $("#tab_details").printElement({
+             overrideElementCSS:[
+		'/css/print_element.css',
+		{ href:'/css/print_element.css',media:'print'}]
+         });
      });
 });
 

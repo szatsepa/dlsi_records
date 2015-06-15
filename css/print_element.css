@@ -1,0 +1,23 @@
+table tbody tr.info{
+    text-align: center;
+    font-weight: normal;
+    background-color: RGB(222, 222, 222);
+}
+#r1{
+    text-align: left;
+    font-weight: bold;
+    background-color: RGB(19, 255, 116);
+}
+#table_details tbody tr.foot{
+    text-align: right;
+    font-weight: bold;
+    background-color: RGB(249, 201, 16);
+}
+table tbody tr.imprest{
+    text-align: center;
+    font-weight: normal;
+    background-color: #ff6633;
+}
+table tbody tr td:eq(0){
+    font-weight: bold;
+}

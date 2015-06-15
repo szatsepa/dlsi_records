@@ -10,12 +10,16 @@
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
                 <link rel="stylesheet" type="text/css" href="/css/mystyle.css" />
                 <link rel="stylesheet" type="text/css" href="/css/main.css" />
+                <link rel="stylesheet" type="text/css" media="print" href="/css/print_element.css" />
                 <style type="text/css">
                     @import "/css/jquery.datepick.css";
                     /* Or use these for a ThemeRoller theme instead
                     @import "themes16/southstreet/ui.all.css";
                     @import "css/ui-southstreet.datepick.css";
                     */
+                    
+                    @media print { -webkit-print-color-adjust: exact; }
+                
                 </style>
 		<script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
                 <script type="text/javascript" src="/js/main_menu.js"></script>   

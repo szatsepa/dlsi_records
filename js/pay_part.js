@@ -7,7 +7,12 @@ $(document).ready(function(){
         
         $("table tbody tr").css({'font-weight':'normal','font': '0.6em/1.5 "arial",sans-serif'});
         $("table tbody tr.cost").css({'background-color':'RGB(255, 255, 255)'});
-        $('div#tablesheet').printElement();
+        $('div#tablesheet').printElement({
+            printMode:'popup',
+             overrideElementCSS:[
+		'print_element.css',
+		{ href:'/css/print_element.css',media:'print'}]
+         });
     });
 
     $("#a_v_zad").mousedown(function(){
