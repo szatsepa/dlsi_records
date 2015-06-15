@@ -5,7 +5,7 @@
 //print_r($data);
 ?>
 <div id="content">
-    <h1>Нараховано за  період&nbsp;&nbsp;<?php echo "{$data['open']}&nbsp;-&nbsp{$data['close']}";  ?></h1>
+    <h1>Нараховано за  період з&nbsp;&nbsp;<?php echo "{$data['open']}&nbsp;по&nbsp{$data['close']}";  ?></h1>
     <input type="hidden" id="part" value="<?php           echo "{$data['part']}";?>"/>
     <div id="back_v_zad">
     <p style="text-align: center;">

@@ -39,6 +39,10 @@ class Model_Pay extends Model
             
             $data['paket'] = $result[0]['paket'];
             
+            $result = self::querySelect("SELECT Max(`paket`) AS paket FROM `timesheet`"); 
+            
+            $data['paketM'] = $result[0]['paket'];
+            
             $data['tariff'] = self::querySelect("SELECT t.`id`, t.`action`, f.`function`, t.`short`, t.`tariff`, t.`cost` FROM `tariff` AS t, `function` AS f WHERE t.`activity` = 1 AND t.`action` = f.`id`");
             
             $tmpc = self::querySelect("SELECT s.`id` , s.`surname` FROM `staff` AS s, `timesheet` AS t

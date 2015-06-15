@@ -1,9 +1,9 @@
 <script type="text/javascript" src="js/jquery.datepick.js"></script>
 <?php 
  if(count($data['credit'])!=0){
-     echo '<input id="paket" type="hidden" value="'.$data['paket'].'"/>'; 
+     echo '<input id="paket" type="hidden" value="'.$data['paketM'].'"/>'; 
  }else{
-     echo '<input id="paket" type="hidden" value="'.$pac = ($data['paket']+1).'"/>';
+     echo '<input id="paket" type="hidden" value="'.$pac = ($data['paketM']+1).'"/>';
  }
 // print_r($data['credit']);
 ?>
@@ -57,7 +57,7 @@ var tariff_list = {};
 //                    if(!isset($attributes['num'])){}
                         
                         echo "<tr id='f{$trow}'>";
-                    ?>"
+                    ?>
                     
                     
                         <td><?php echo $trow; ?></td>
