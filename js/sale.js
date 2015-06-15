@@ -13,7 +13,12 @@ $(document).ready(function(){
         
         $("div#tfoot").append("<div id='stamp'><img src='/design/stamp.png'/></div>");
         
-        $('div#sale_order').printElement();
+        $('div#sale_order').printElement({
+            leaveOpen:true,
+            printMode:'popup',
+            overrideElementCSS:[
+		'print_element.css',
+		{ href:'/css/print_element.css',media:'print'}]});
     });
 
     var order = '';
@@ -61,9 +66,6 @@ $(document).ready(function(){
         return;
     }
 
-//    $("#print").mousedown(function(){
-//        document.location = "index.php?part=sale&chapter=prnt&order="+order;
-//    });
 
     $("#cat").live('change',function(){
 
