@@ -112,4 +112,21 @@ class Model_Sale extends Model
             return $data;
         }
         
+        public function get_customer($list,$param) {
+            
+            $data = array();
+            
+            $data['customers']  = self::querySelect("SELECT `id`, `customer` FROM `orders` GROUP BY `customer`");            
+            
+            $str = stripcslashes($list);
+
+            $data['orders']   = self::querySelect("SELECT * FROM `orders` WHERE `customer` = (SELECT `customer` FROM `orders` WHERE `id` = '{$list}')");
+            
+//            $data['query'] = "SELECT * FROM `orders` WHERE `customer` = '{$str}'";
+
+//            if($list){}
+            
+            return $data;
+            
+        }
 }

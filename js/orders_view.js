@@ -22,6 +22,10 @@ $(document).ready(function(){
         
        document.location = "/sale/order/"+id; 
     });
+    
+    $("select#customer").change(function(){
+        document.location = "/sale/customer/"+$(this).find("option:selected").val(); 
+    });
 });
 
 
