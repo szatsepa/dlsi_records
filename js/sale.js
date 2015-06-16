@@ -17,7 +17,7 @@ $(document).ready(function(){
                 overrideElementCSS:[
 		'/css/print_element.css',
 		{ href:'/css/print_element.css',media:'print'}],
-                leaveOpen:true,
+                leaveOpen:false,
                 printMode:'popup'
             });
     });

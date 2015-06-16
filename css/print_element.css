@@ -44,15 +44,15 @@ table tbody tr td:eq(0){
 div#stamp {
     position: absolute;
     z-index: 9999;
-    width: 100px;
-    left: 325px;
+    width: 165px;
+    left: 415px;
     bottom: 0px;
 }
 div#undefined{
     width: 800px;
 }
 div#tfoot{
-    height: 120px;
+    height: 160px;
     position: relative;
-    padding-left: 60px;
+    padding-left: 30px;
 }
