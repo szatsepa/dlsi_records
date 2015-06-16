@@ -9,6 +9,7 @@
     </h1>
     <p>
         <select id="customer">
+            <option value='0' selected>Виберіть кого треба</option>
             <?php
             foreach ($data['customers'] as $value) {
                 echo "<option value='{$value['id']}'>{$value['customer']}</option>";
