@@ -79,7 +79,7 @@ $SSUM += $sum;
                     
                 </tbody>
             </table>
-        <p style="text-align: center;font-weight: bolder">Всього нараховано <?php echo "{$SSUM}";  ?>&nbsp;&nbsp;грн.</p>   
+        <p>Всього нараховано <?php echo "{$SSUM}";  ?>&nbsp;&nbsp;грн.</p>   
         </div>
     <p style="text-align: center;">
         <input type="button" class='btn-save' id="printTab" value="Дуркувати"/>

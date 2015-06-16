@@ -11,14 +11,15 @@ $(document).ready(function(){
     
     $("#print").mousedown(function(){
         
-        $("div#tfoot").append("<div id='stamp'><img src='/design/stamp.png'/></div>");
+//        $("div#tfoot").append("<div id='stamp'><img src='/design/stamp.png'/></div>");
         
         $('div#sale_order').printElement({
-            leaveOpen:true,
-            printMode:'popup',
-            overrideElementCSS:[
-		'print_element.css',
-		{ href:'/css/print_element.css',media:'print'}]});
+                overrideElementCSS:[
+		'/css/print_element.css',
+		{ href:'/css/print_element.css',media:'print'}],
+                leaveOpen:false,
+                printMode:'popup'
+            });
     });
 
     var order = '';
