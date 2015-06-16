@@ -8,11 +8,11 @@ div{
     /*outline: solid 1px red;*/
 }
 table{
-    /*border: black solid 1px;*/
+    border: black solid 1px;
     width: 60%;
     
 }
-table thead tr th{
+table tr{
     border: #000 solid 1px;
 }
 table tbody tr td{
@@ -55,4 +55,8 @@ div#tfoot{
     height: 160px;
     position: relative;
     padding-left: 30px;
+}
+div#tablesheet p{
+    text-align: left;
+    font-weight: bolder;
 }

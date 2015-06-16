@@ -8,10 +8,11 @@ $(document).ready(function(){
         $("table tbody tr").css({'font-weight':'normal','font': '0.6em/1.5 "arial",sans-serif'});
         $("table tbody tr.cost").css({'background-color':'RGB(255, 255, 255)'});
         $('div#tablesheet').printElement({
-            printMode:'popup',
-             overrideElementCSS:[
-		'print_element.css',
-		{ href:'/css/print_element.css',media:'print'}]
+            overrideElementCSS:[
+            '/css/print_element.css',
+            { href:'/css/print_element.css',media:'print'}],
+            leaveOpen:false,
+            printMode:'popup'
          });
     });
 

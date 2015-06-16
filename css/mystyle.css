@@ -125,3 +125,7 @@ div#stamp {
     left: 430px;
     bottom: 70px;
 }
+div#tablesheet p{
+    text-align: center;
+    font-weight: bolder;
+}
