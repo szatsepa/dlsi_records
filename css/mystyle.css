@@ -129,3 +129,8 @@ div#tablesheet p{
     text-align: center;
     font-weight: bolder;
 }
+div p.phead{
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+}

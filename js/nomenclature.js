@@ -64,21 +64,23 @@ $(document).ready(function(){
 
         var price = $(obj).find("td:eq(4)").text();
 
-        $(obj).find("td:eq(4)").empty().html("<input id='price_pos' type='text' value='"+price+"' size='12' required placeholder='"+price+"'/>");
+        $(obj).find("td:eq(4)").empty().html("<input id='price_edit' type='text' value='"+price+"' size='12' required placeholder='"+price+"'/>");
+        
+        $("input#price_edit").focus().select();
 
         getSelect($(obj).find("td:eq(3)"));
+        
         $("#uid").val(id);
 
         $(obj).find("td:eq(5)").empty().html("<a class='ico-done' title='Изменить'></a><a class='ico-arrow-left' title='Вернуцца'></a>");
 
     });
     
-    $("input#price_pos").live('keypress',function(e){
+    $("input#price_edit").live('keypress',function(e){
         if(e.which === 13){
             var obj = $(this).parent().parent();
             var id = $(obj).attr('id');
             id=id.substr(2);
-    //        var out = {'id':id,'categories':,'nomenclature':,'unit':,'price':};
             var query = "UPDATE `nomenclature` SET `categories`=(SELECT `id` FROM `categories` WHERE `categories` = '"+$(obj).find('td:eq(1)').text()+"'),`nomenclature`='"+$(obj).find("td:eq(2) input").val()+"',`price`='"+$(obj).find("td:eq(4) input").val()+"',`unit`='"+$(obj).find("td:eq(3) select option:selected").val()+"' WHERE `id`= "+id;
             _editNom(query);
         }
@@ -88,14 +90,13 @@ $(document).ready(function(){
         var obj = $(this).parent().parent();
         var id = $(obj).attr('id');
         id=id.substr(2);
-//        var out = {'id':id,'categories':,'nomenclature':,'unit':,'price':};
         var query = "UPDATE `nomenclature` SET `categories`=(SELECT `id` FROM `categories` WHERE `categories` = '"+$(obj).find('td:eq(1)').text()+"'),`nomenclature`='"+$(obj).find("td:eq(2) input").val()+"',`price`='"+$(obj).find("td:eq(4) input").val()+"',`unit`='"+$(obj).find("td:eq(3) select option:selected").val()+"' WHERE `id`= "+id;
         _editNom(query);
     });
 
     function _editNom(out){
-        var query = out;
-//        alert(query)
+        
+       var query = out;
         $.ajax({
             asinc:false,
             url:'/produce/edit',
@@ -103,7 +104,6 @@ $(document).ready(function(){
             dataType:'text',
             data:{'query':query},
             success:function(data){
-//                    alert(data);
 
                 document.location.reload();
             }      
@@ -120,20 +120,19 @@ $(document).ready(function(){
         var id = this.id;
         id = id.substr(2);
         if(confirm("Дійсно видалити позицию зі списку?")){
-//              // console.log(id);  
+            
           _save("/produce/edit", "DELETE FROM `nomenclature` WHERE `id`="+id);
         }
     });
 
     function getSelect(obj){
-
-//            var select = '';
+        
         $.ajax({
            url:'/produce/unit',
            type:'post',
            dataType:'text',
            success:function(data){
-//               alert(data);
+               
                $(obj).html(data);
            }
         });
@@ -162,7 +161,7 @@ $(document).ready(function(){
     function _save(url, out){
         var url = url;
         var out = out;
-//        alert(out);
+        
         $.ajax({
             asinc:false,
             url:url,
@@ -170,7 +169,7 @@ $(document).ready(function(){
             responce:'text',
             data:{'query':out},
             success:function(data){
-//                alert(data);
+                
                 document.location.reload();
             } 
         });

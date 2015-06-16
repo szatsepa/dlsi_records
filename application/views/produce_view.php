@@ -36,14 +36,15 @@
                     $SSUM =0;
                     foreach ($data['depot'] as $value) 
                         {
-                        
+                        $sum = round(($value['count']*$value['price']),2);
+                        $sum = sprintf("%01.2f",$sum); 
                             echo "<tr id='r_{$value['id']}'>
                             <td>".$value['id']."</td>
                                 <td>".$value['category']."</td>
                                 <td>".$value['name']."</td>    
                                 <td>".$value['unit']."</td>
                                     <td>{$value['count']}</td>
-                                <td>".round(($value['count']*$value['price']),2)."</td>
+                                <td>".$sum."</td>
                                 <td>
                                     <a id='e_{$value['id']}' class='ico-plus' title='Добавить в позицию'></a>&nbsp;&nbsp;
                                     <a id='d_{$value['id']}' class='ico-minus' title='Удалить из позиции'></a>
@@ -51,6 +52,7 @@
                              </tr>";
                                     $SSUM += round(($value['count']*$value['price']),2);
                         }
+                        $SSUM = sprintf("%01.2f", $SSUM);
                 ?>    
                     </tbody>
                 </table>

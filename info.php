@@ -9,8 +9,9 @@ mysql_query ("SET NAMES utf8");
 
 if (mysql_errno() <> 0){ exit("Ошибка");}
 
-//phpinfo();
+
 
 $status = explode('  ', mysql_stat($link));
 print_r($status);
  printf ("MySQL server version: %s\n", mysql_get_server_info());
+phpinfo();

@@ -47,7 +47,7 @@
                              
                                  $sum += $pay;
                                  $ADV += $adv;
-                                 
+                                 $pay = sprintf("%01.2f", $pay);
                                    if($cost['short']==='Аванс') {
                                        echo "<tr class='imprest'>";
                                        echo "<td>Аванс</td><td align='left'>{$cost['short']}</td><td>грн.</td>";
@@ -63,17 +63,14 @@
                                  
                              
                           }
-                         
+                        $sum = sprintf("%01.2f",$sum); 
                         if($sum != 0) echo "<tr class='sum'><td></td><td colspan='5'>Начислено: {$sum} грн.</td></tr>";                         
  
 
 $SSUM += $sum;
                          }                        
-//        echo "</td></tr>";
-//                         
-//
-//echo "</td></tr>";
 
+$SSUM = sprintf("%01.2f", $SSUM);
                      }
                     ?>
                     

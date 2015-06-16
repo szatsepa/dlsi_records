@@ -60,7 +60,7 @@ echo '<input type="hidden" id="paket" value="'.$data['paket'].'"/>';
                              
                                  $sum += $pay;
                                  $ADV += $adv;
-                                 
+                                 $pay = sprintf("%01.2f", $pay);
                                    if($cost['short']==='Аванс') {
                                        echo "<tr class='imprest'>";
                                        echo "<td>Аванс</td><td align='left'>{$cost['short']}</td>";
@@ -74,13 +74,14 @@ echo '<input type="hidden" id="paket" value="'.$data['paket'].'"/>';
                                  echo    "<td>$pay</td><td>{$cost['short']}&nbsp;{$cost['produced']}&nbsp;X&nbsp;{$cost['cost']}</td></tr>";
                              
                           }
-                         
+                        $sum = sprintf("%01.2f",$sum); 
                         if($sum != 0) echo "<tr class='sum'><td></td><td colspan='3'>Начислено: {$sum} грн.</td><td><a id='e_{$key}' class='ico-info' title='Подробно'></a></td></tr>";                         
  
 
 $SSUM += $sum;
                          } 
                      }
+                     $SSUM = sprintf("%01.2f", $SSUM);
                  ?>
                   </tbody>
                 </table> 
