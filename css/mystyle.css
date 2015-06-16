@@ -115,10 +115,13 @@ div#footer{
     background-color: red;
     visibility: hidden;
 }
-#tfoot {height: 200px;
+#tfoot {
+    height: 200px;
     padding-left:  65px;
 }
 div#stamp {
-    left: 330px;
+    position: absolute;
+    z-index: 9999;
+    left: 430px;
     bottom: 70px;
 }
