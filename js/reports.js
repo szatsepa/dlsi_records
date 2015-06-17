@@ -5,7 +5,13 @@ $(document).ready(function(){
 
     $("#printTab").mousedown(function(){
         $("#content").css({'font-size':'0.8em'});
-        $('div#report').printElement();
+        $('div#report').printElement({
+                overrideElementCSS:[
+		'/css/print_element.css',
+		{ href:'/css/print_element.css',media:'print'}],
+                leaveOpen:false,
+                printMode:'popup'
+            });
     });
 
 

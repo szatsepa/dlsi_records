@@ -44,6 +44,10 @@ table tbody tr.imprest{
 table tbody tr td:eq(0){
     font-weight: bold;
 }
+
+table.info_tables thead tr th{
+    border: black solid 1px;
+}
 div#stamp {
     position: absolute;
     z-index: 9999;
