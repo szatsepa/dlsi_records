@@ -23,8 +23,8 @@ $(document).ready(function(){
 //       document.location = "/sale/order/"+id; 
     });
     
-    $("select#customer").change(function(){
-//        document.location = "/sale/customer/"+$(this).find("option:selected").val(); 
+    $("select#provider").change(function(){
+        document.location = "/order/received/sel/"+$(this).find("option:selected").val(); 
     });
 });
 

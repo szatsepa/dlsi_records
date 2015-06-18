@@ -80,9 +80,19 @@ class Controller_Order extends Controller
         }
         function action_received($list,$param) {
             
-            $query = "SELECT `id`, `num_doc`, `providers` FROM `woods_doc` WHERE `date_doc` BETWEEN '{$list}' AND '{$param}'";
+            $pid = NULL;
+            if(stripslashes($list) === 'sel'){
+                $query = "SELECT wd.`id` , wd.`num_doc` AS 'order', p.`name` AS 'customer',wd.`date_doc` AS 'date_order' FROM `woods_doc` AS wd, `providers` AS p WHERE wd.`providers` = p.`id` AND wd.`providers` = '{$param}'";
+               $pid = $param;
+            }else{
+                $query = "SELECT wd.`id` , wd.`num_doc` AS 'order', p.`name` AS 'customer',wd.`date_doc` AS 'date_order' FROM `woods_doc` AS wd, `providers` AS p WHERE wd.`providers` = p.`id` AND wd.`date_doc` BETWEEN '{$list}' AND '{$param}'";
+            }
             
-            $data = $this->model->getReceived($query);
+            $data = $this->model->getReceived($query, $pid);
+            
+            $data['list'] = stripslashes($list);
+            
+            $data['param'] = stripslashes($param);
             
             $this->view->generate('received_view.php', 'template_view.php', $data);
         }

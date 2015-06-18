@@ -6,14 +6,34 @@
 var_dump($data);
 ?>
     <h1>
-        Пийшло лісу
+        Пийшло лісу&nbsp;&nbsp;
+        <?php
+        if($data['list'] === 'sel'){
+            echo "від {$data['orders'][0]['customer']}";
+        }  else {
+            echo "з {$data['list']} по {$data['param']}";
+        }
+        
+        
+        ?>
     </h1>
     <p>
-        <input id="open" type="text" value="" size="24" placeholder="Дата початку"/>
+        <input id="open" type="text" value="" size="18" placeholder="Дата початку"/>
         &nbsp;&nbsp;
-        <input id="close" placeholder="Дата кінця" type="text" value="" size="24"/>
+        <input id="close" placeholder="Дата кінця" type="text" value="" size="18"/>
         &nbsp;&nbsp;
-        <input type="button" id="view" class="btn-save" value="Показати"/>
+        <input type="button" id="view" class="btn-save" value="Вибрати"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>або</strong>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select id="provider">
+            <option value="0" selected>Виберіть когось</option>
+            <?php
+            foreach ($data['providers'] as $value) {
+                echo "<option value='{$value['id']}'>{$value['name']}</option>";
+            }
+            ?>
+        </select>
     </p>
     
         <div id="sale_order">
