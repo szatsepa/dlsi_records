@@ -74,7 +74,7 @@
                             
                             </span>
                     <div id='stamp'>
-                        <img src='/design/stamp.png' width="180"/>
+                        <img src='/design/stamp.png' width="237"/>
                     </div>
                 </div>
             </div>

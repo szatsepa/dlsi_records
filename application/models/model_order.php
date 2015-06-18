@@ -181,4 +181,15 @@ class Model_Order extends Model
             
             echo $result;
         }
+        
+        public function getReceived($param) {
+            
+             $data = array();         
+
+             $data['receive'] = self::querySelect($param);
+             
+             $data['providers']  = self::querySelect("SELECT p.`id`, p.`name` FROM `woods_doc` AS wd, `providers` AS p WHERE p.`id` = wd.`providers` GROUP BY `providers`");
+            
+            return $data;
+        }
 }

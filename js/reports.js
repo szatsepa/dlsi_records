@@ -4,7 +4,7 @@ $(document).ready(function(){
     var volume = 0;
 
     $("#printTab").mousedown(function(){
-        $("#content").css({'font-size':'0.8em'});
+//        $("#content").css({'font-size':'0.8em'});
         $('div#report').printElement({
                 overrideElementCSS:[
 		'/css/print_element.css',

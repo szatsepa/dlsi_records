@@ -10,26 +10,26 @@
     </p>
         
         </div>
-    <div id="report">
+    <div id="report" class="dprint">
         
         <div id="staff_tab">
             
             <span id="sprice">
-                <p>Поставщик&nbsp;&nbsp;<?php echo "{$data[0]['provider']}"; ?>&lsquor;&nbsp;&nbsp;&nbsp;<?php if($data[0]['dep'])echo "Подразделение&nbsp;&nbsp;{$data[0]['dep']}&period;"; ?></p>
+             <p><strong>Поставщик&nbsp;&nbsp;</strong><?php echo "{$data[0]['provider']}"; ?>&lsquor;&nbsp;&nbsp;&nbsp;<?php if($data[0]['dep'])echo "Подразделение&nbsp;&nbsp;{$data[0]['dep']}&period;"; ?></p>
                 <p><?php echo "Від {$data[0]['date_doc']}"; ?>&nbsp;&nbsp;&nbsp;Док.№&nbsp;<?php echo "{$data[0]['num_doc']}"; ?></p> 
 <!--                <p></p>-->
-                <p>Перевозчик&nbsp;-&nbsp;<?php echo "{$data[0]['freighter']}";?>&nbsp;&nbsp;
+                <p><strong>Перевозчик&nbsp;-&nbsp;</strong><?php echo "{$data[0]['freighter']}";?>&nbsp;&nbsp;
                     
                 </p>
                 <p>
-                    Водитель&nbsp;-&nbsp;<?php echo "{$data[0]['V_man']}"; ?>&nbsp;&nbsp;
-                    Модель&nbsp;-&nbsp;<?php echo "{$data[0]['V_type']}"; ?>&nbsp;&nbsp;
-                    Госномер&nbsp;-&nbsp;<?php echo "{$data[0]['V_num']}"; ?>&nbsp;&nbsp;
+                    <strong>Водитель&nbsp;-&nbsp;</strong><?php echo "{$data[0]['V_man']}"; ?>&nbsp;&nbsp;
+                    <strong>Модель&nbsp;-&nbsp;</strong><?php echo "{$data[0]['V_type']}"; ?>&nbsp;&nbsp;
+                    <strong>Госномер&nbsp;-&nbsp;</strong><?php echo "{$data[0]['V_num']}"; ?>&nbsp;&nbsp;
                 </p>
                 <p>
-                   Отпустил&nbsp;-&nbsp;<?php echo "{$data[0]['shipped']}"; ?>&nbsp;&nbsp;
-                   Принял&nbsp;-&nbsp;<?php echo "{$data[0]['accepted']}"; ?>&nbsp;&nbsp; 
-                   Стоимость г/п&nbsp;-&nbsp;<span id="st"><?php echo "{$data[0]['freighte']}&nbsp;грн."; ?></span>&nbsp;&nbsp;
+                   <strong>Отпустил&nbsp;-&nbsp;</strong><?php echo "{$data[0]['shipped']}"; ?>&nbsp;&nbsp;
+                   <strong>Принял&nbsp;-&nbsp;</strong><?php echo "{$data[0]['accepted']}"; ?>&nbsp;&nbsp; 
+                   <strong>Стоимость г/п&nbsp;-&nbsp;</strong><span id="st"><?php echo "{$data[0]['freighte']}&nbsp;грн."; ?></span>&nbsp;&nbsp;
                 </p>
             </span>
         <!--<p id="date"><?php  echo $date_doc; ?></p>-->
@@ -54,6 +54,7 @@
                         foreach ($data as $key => $value){
                             echo "<tr id='r_{$key}'>";
                             foreach ($value as $k => $val) {
+//                                $val['price'] = sprintf("%01.2f", $val['price']);
                                 if($k === 'provider')                                    break;
                                if($k !== 'create') echo "<td>{$val}</td>";
                                 

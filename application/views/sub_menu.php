@@ -20,7 +20,7 @@ class SubMenu {
         
             switch ($controller_name) {
                 case 'order':                   
-                    $sub_menu = array('order'=>'Расчет','order/his'=>'История','order/providers'=>'Поставщики','order/departs'=>'Подразделения','order/prices'=>'Цены');
+                    $sub_menu = array('order'=>'Расчет','order/his'=>'История','order/received'=>'Прийшло','order/providers'=>'Поставщики','order/departs'=>'Подраздел_','order/prices'=>'Цены');
                     break;
                 case 'math':
                     $sub_menu = array('math'=>'Тригонометрия');

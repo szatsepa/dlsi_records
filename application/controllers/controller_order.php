@@ -78,4 +78,12 @@ class Controller_Order extends Controller
             $data = $this->model->setUpdate($_POST['query']);
             return $data;
         }
+        function action_received($list,$param) {
+            
+            $query = "SELECT `id`, `num_doc`, `providers` FROM `woods_doc` WHERE `date_doc` BETWEEN '{$list}' AND '{$param}'";
+            
+            $data = $this->model->getReceived($query);
+            
+            $this->view->generate('received_view.php', 'template_view.php', $data);
+        }
 }
