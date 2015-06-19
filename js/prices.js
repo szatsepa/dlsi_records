@@ -55,7 +55,7 @@ $(document).ready(function(){
                 var sort = $(this).parent().parent().find("td:eq(1)").find("option:selected").val();
                 var p1 = $(this).val();
                 var query = "INSERT INTO `providers_prices`(`created`, `shipper`, `d_min`, `d_max`,`sort`, `p1`) VALUES (Now(),'"+shipp+"','"+dm+"','"+dM+"','"+sort+"','"+p1+"')";
-                _save("prices/add",query);
+                _save("order/add",query);
                 }
 
         });
@@ -75,7 +75,7 @@ $(document).ready(function(){
             var p1 = $(this).parent().parent().find("td:eq(2)").find("input").val();
             var query = "INSERT INTO `providers_prices`(`created`, `shipper`, `d_min`, `d_max`,`sort`, `p1`) VALUES (Now(),'"+shipp+"','"+dm+"','"+dM+"','"+sort+"','"+p1+"')";
 
-            _save("prices/add",query);
+            _save("/order/add",query);
 
         });
 
@@ -85,7 +85,7 @@ $(document).ready(function(){
             var id = $(this).parent().parent().find("td:eq(0)").text();
             price = price.replace(',','.');
             var query = "UPDATE `providers_prices` SET `p1`='"+price+"' WHERE `id` = "+id;
-            _save("prices/edit",query);
+            _save("/order/edit",query);
             //TO DO
             $(this).parent().parent().find("td:eq(5)").empty().text(price);
         });
@@ -97,7 +97,7 @@ $(document).ready(function(){
                var price = $(this).val();
                price = price.replace(',','.');
                var query = "UPDATE `providers_prices` SET `p1`='"+price+"' WHERE `id` = "+id;
-               _save("prices/edit",query);
+               _save("/order/edit",query);
                //TO DO
                $("#r_"+id).parent().parent().find("td:eq(5)").empty().text(price);
             }
@@ -128,7 +128,7 @@ $(document).ready(function(){
             id = id.substr(2);
             if(confirm("Дійсно видалити позиційу зі списку?")){
 
-              _save("prices/del", "UPDATE `providers_prices` SET `activ`= 0 WHERE `id` = "+id);
+              _save("/order/del", "UPDATE `providers_prices` SET `activ`= 0 WHERE `id` = "+id);
             }
         });
 
