@@ -24,9 +24,9 @@ class Controller_Order extends Controller
 		$this->view->generate('his_view.php', 'template_view.php',$data);
         }
         
-        function action_providers() {
+        function action_providers($list) {
             
-            $data = $this->model->get_providers();
+            $data = $this->model->get_providers($list);
             
             $this->view->generate('providers_view.php', 'template_view.php',$data);
             

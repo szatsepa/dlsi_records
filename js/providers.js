@@ -5,19 +5,37 @@ $(document).ready(function(){
         }else{
             _show(true);
         }
+        
         $("#ps").hide();
+        
         $("#new_donor").mousedown(function(){
             _show(true);
-        });
-        
-        $("#dtype").live('change',function(){
             $("#ps").show();
             $("#dname").focus();
+            var dtype = $("select#dtype option:selected").text();
+            var tid =  $("select#dtype option:selected").val();
+            $("p#type").empty().text(dtype).append('<input type="hidden" id="tid" value="'+tid+'"/>');
         });
+        
+        if($("input#uid").val() !== ''){
+        $.each($("select#dtype option"),function(){
+            $(this).attr('selected',false);
+            if($("input#uid").val() === $(this).val()){
+               $(this).attr('selected',true); 
+            }
+        });
+//        alert();
+        $("h1#title").append(" "+$("select#prov option:selected").text());
+    }
+        
+        $("#dtype").live('change',function(){
+            
+            document.location = '/order/providers/'+$(this).find("option:selected").val(); 
+         });
         
         $("#d_save").live('click',function(){
 //            console.log("PI");
-            _save("/order/add", "INSERT INTO `providers`(`name`, `created`, `d_type`, `comment`) VALUES ('"+$("#dname").val()+"',Now(),'"+$("#dtype").find("option:selected").val()+"','"+$("#dcomment").val()+"')");
+            _save("/order/add", "INSERT INTO `providers`(`name`, `created`, `d_type`, `comment`) VALUES ('"+$("#dname").val()+"',Now(),'"+$("input#tid").val()+"','"+$("#dcomment").val()+"')");
           
         }).css({"cursor":"pointer"});
         
@@ -85,7 +103,7 @@ $(document).ready(function(){
 //            console.log(out);
             var url = urlo;
             var out = query;
-//            alert(url+" | "+query);
+            alert(url+" | "+query);
             $.ajax({
                 asinc:false,
                 url:url,
@@ -93,7 +111,7 @@ $(document).ready(function(){
                 response:'text',
                 data:{'query':out},
                 success:function(data){
-//                    alert(data);
+                    alert(data);
                     document.location.reload();
 //                    _changeButton(false);
                 },

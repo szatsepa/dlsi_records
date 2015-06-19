@@ -70,13 +70,21 @@ class Model_Order extends Model
             
         }
         
-        public function get_providers()
+        public function get_providers($list)
 	{
             $data = array();
             
-            $data['providers'] =  self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
+            $and = '';
+            
+            if($list){
+                $and = "AND d.`d_type` = {$list}";
+            }
+            
+            $data['providers'] =  self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1 ".$and);
             
             $data['type'] = self::querySelect("SELECT * FROM `providers_type`");
+            
+            $data['uid'] = $list;
             
             return $data;
 	}

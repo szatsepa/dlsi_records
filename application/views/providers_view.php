@@ -1,7 +1,7 @@
 <div id="d_wr">
     <h1>Поставщікі</h1>
     <input type="hidden" id="user_count" value="<?php echo count($data['providers']);?>"/>
-    <input type="hidden" id="uid" value=""/>
+    <input type="hidden" id="uid" value="<?php echo $data['uid']; ?>"/>
     <div id="back_v_zad">
         <a id="a_v_zad"></a>
     </div>
@@ -9,6 +9,18 @@
         <p>&nbsp;</p>
     </div>
     <div id="content">
+        <div>
+            <p id="type">
+                <select id="dtype">
+                <option selected value="0">Тип поставщика</option>
+                <?php
+                                foreach ($data['type'] as $value) {
+                                    echo "<option value='{$value['id']}'>{$value['providers_type']}</option>";
+                                }
+                ?>
+            </select>
+            </p>
+        </div>
             <div id="div_providers">
                 <table class="info_tables" id="table_providers" width="80%">
                     <thead>
@@ -39,14 +51,14 @@
         <div class="right_block">
             <br/>
             <br/>
-            <select id="dtype">
+<!--            <select id="dtype">
                 <option selected value="0">Тип поставщика</option>
                 <?php
                                 foreach ($data['type'] as $value) {
                                     echo "<option value='{$value['id']}'>{$value['providers_type']}</option>";
                                 }
                 ?>
-            </select>
+            </select>-->
             <br/>
             <br/>
             <span id='ps'>
