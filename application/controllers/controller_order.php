@@ -32,15 +32,16 @@ class Controller_Order extends Controller
             
         }
         
-        function action_departs()
+        function action_departs($list)
 	{
-		$data = $this->model->get_departs();		
+		$data = $this->model->get_departs($list);
+                
 		$this->view->generate('departs_view.php', 'template_view.php', $data);
 	}
         
-        function action_prices()
+        function action_prices($list)
 	{
-            $data = $this->model->get_prices();
+            $data = $this->model->get_prices($list);
             
             $this->view->generate('prices_view.php', 'template_view.php',$data);
 	}
@@ -53,6 +54,7 @@ class Controller_Order extends Controller
         function action_price() {
             
             $data = $this->model->getPrice($_POST);
+            
             return $data;
         }
         function action_kub() {

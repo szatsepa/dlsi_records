@@ -5,6 +5,23 @@ $(document).ready(function(){
         }else{
             _show(true);
         }
+        
+        if($("input#uid").val() !== ''){
+            $.each($("select#prov option"),function(){
+                $(this).attr('selected',false);
+                if($("input#uid").val() === $(this).val()){
+                   $(this).attr('selected',true); 
+                }
+            });
+            
+            $("h1#title").append(" "+$("select#prov option:selected").text());
+        }else{
+            $("h1#title").append(" (всі)");
+        }
+        
+        $("select#prov").change(function(){
+             document.location = '/order/prices/'+$(this).find("option:selected").val(); 
+         });
 
         $("#foot").hide();
 

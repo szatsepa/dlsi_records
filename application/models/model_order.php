@@ -6,15 +6,15 @@ class Model_Order extends Model
 	public function get_data()
 	{	
 		
-		$data_array = array();	
+		$data = array();	
                 
                 $length = self::querySelect("SELECT `d` FROM `kub` GROUP BY `d`");
                 
-                $data_array['length'] = $length;
+                $data['length'] = $length;
 		
                 $list = self::querySelect("SELECT MAX( `list` ) AS 'list' FROM `woods`");
                 
-                $data_array['list'] = $list;
+                $data['list'] = $list;
 
                 $query = "SELECT pr.`id`, pr.`d_min`,pr.`d_max`, pr.`sort`, pr.`p1`,  p.`name`, t.`providers_type` AS 'pt'
                          FROM `providers` AS p LEFT JOIN `providers_prices` AS pr ON p.`id`=pr.`shipper`  LEFT JOIN `providers_type` AS t ON t.`id` = p.`d_type`
@@ -23,45 +23,45 @@ class Model_Order extends Model
 
                 $result = self::querySelect($query);
                 
-                $data_array['price'] = array();
+                $data['price'] = array();
 
                     if($result){
                         foreach ($result as $row) {
                          
-                            if($row['id'])array_push ($data_array['price'], $row);
+                            if($row['id'])array_push ($data['price'], $row);
                         }
                     }
 
                 $result = self::querySelect("SELECT * FROM `providers_type`");
 
-                $data_array['dtype'] = array();
+                $data['dtype'] = array();
 
                 foreach ($result as $row){
-                    array_push($data_array['dtype'], $row);
+                    array_push($data['dtype'], $row);
                 }
                                 
                 $result = self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
 
-                $data_array['providers'] = array();
+                $data['providers'] = array();
 
                 if($result){
                     foreach ($result as $row){
-                        array_push($data_array['providers'], $row);
+                        array_push($data['providers'], $row);
                     }
                 }
                 
-                $data_array['depart'] = array();
+                $data['depart'] = array();
                 
                 
                 $result = self::querySelect("SELECT  d.`id`, d.`name`,p.`name` AS 'prov'  FROM `providers` AS p LEFT JOIN `providers_department` AS d ON p.`id` = d.`providers`");
 //  WHERE d.`id` IS NOT NULL               
                 if($result){
                     foreach ($result as $row){
-                        if($row['id'])$data_array['depart'][$row['id']] = $row;
+                        if($row['id'])$data['depart'][$row['id']] = $row;
                     }
                 }
                 
-                return $data_array;
+                return $data;
 	}
         
         function get_his() {
@@ -81,29 +81,38 @@ class Model_Order extends Model
             return $data;
 	}
         
-        public function get_departs()
+        public function get_departs($list)
 	{	
+            
+            $data = array();
+            
+            $and = '';
+            
+            if($list){
+                $and = "AND p.`providers` = {$list}";
+            }	
 
+            $data['providers'] = self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
+
+            $data['departs'] = self::querySelect("SELECT d.`id`, d.`name`, t.`providers_type` AS 'type', d.`comment`,p.`id` AS 'pid', p.`name` AS 'patr', p.`comment` AS 'pcomm' FROM `providers` AS d LEFT JOIN `providers_type` AS t ON d.`d_type` = t.`id` LEFT JOIN `providers_department` AS p ON d.`id`=p.`providers` WHERE d.`activ`=1 AND p.`id` IS NOT NULL AND p.`activ` = 1 ".$and);
+
+            $data['dtype'] = self::querySelect("SELECT * FROM `providers_type`");
             
-                $data_array = array();	
-            
-		$result = self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
-                
-                $data_array['providers'] = $result;
-                
-                $result = self::querySelect("SELECT d.`id`, d.`name`, t.`providers_type` AS 'type', d.`comment`,p.`id` AS 'pid', p.`name` AS 'patr', p.`comment` AS 'pcomm' FROM `providers` AS d LEFT JOIN `providers_type` AS t ON d.`d_type` = t.`id` LEFT JOIN `providers_department` AS p ON d.`id`=p.`providers` WHERE d.`activ`=1 AND p.`id` IS NOT NULL AND p.`activ` = 1");
-                
-                $data_array['departs'] = $result;
-                
-                $data_array['dtype'] = self::querySelect("SELECT * FROM `providers_type`");
-                
-                return $data_array;
+            $data['pid'] = $list;
+
+            return $data;
 
         }
         
-        public function get_prices()
+        public function get_prices($list)
 	{
             $data = array();
+            
+            $and = '';
+            
+            if($list){
+                $and = " AND p.`id` = {$list}";
+            }
             
             $data['providers'] =  self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
             
@@ -111,7 +120,9 @@ class Model_Order extends Model
             
             $data['prices'] = self::querySelect("SELECT pr.`id`, pr.`d_min`,pr.`d_max`, pr.`sort`, pr.`p1`,  p.`name`, t.`providers_type` AS 'pt'
                                                 FROM `providers` AS p LEFT JOIN `providers_prices` AS pr ON p.`id`=pr.`shipper`  LEFT JOIN `providers_type` AS t ON t.`id` = p.`d_type`
-                                                WHERE p.`activ` = 1 AND pr.`activ`=1");
+                                                WHERE p.`activ` = 1 AND pr.`activ`=1".$and);
+            
+            $data['pid'] = $list;
             
             return $data;
 	}

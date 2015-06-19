@@ -5,20 +5,33 @@ foreach ($data['providers'] as $value) {
     echo "providers['{$value['id']}']  = {'name':'{$value['name']}','type':'{$value['providers_type']}'};";
 }
 ?>
-//    console.log(providers);
 </script>
-    <h1>Поставщікі - подраздєлєнія</h1>
+<h1 id="title">Поставщікі - подраздєлєнія</h1>
     <?php
+//    var_dump($data['providers']);
 //    print_r($data['departs']);
 //    echo "<br><br>";
 //    print_r($data['dtype']);
 //    echo "<br><br>";
 //    print_r($data['providers']);
     ?>
-    <input type="hidden" id="uid" value=""/>
+    <input type="hidden" id="uid" value="<?php           echo "{$data['pid']}";?>"/>
 
     <div id="content">
             <div id="div_providers">
+                <p>
+                    <select id='prov'>
+                        <option value="0" selected>Вибирайте</option>
+                        <?php
+                            foreach ($data['providers'] as $value) {
+                                echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                            }
+                        ?>
+                    </select>
+                </p>
+                <?php
+                if(count($data['departs'])){
+                ?>
                 <table class="info_tables" id="table_providers" width="80%">
                     <thead>
                         <tr>
@@ -44,6 +57,9 @@ foreach ($data['providers'] as $value) {
                 ?>    
                     </tbody>
                 </table>
+                <?php
+                }
+                ?>
                 <p style="text-align: center;"><input id="department" class="btn-save" type="button" value="Додати нового"/></p>
             </div>
         <div class="right_block">

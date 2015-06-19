@@ -12,10 +12,25 @@ foreach ($data['providers'] as $value) {
 //    console.log(providers[1]);
 </script>
     <input type="hidden" id="user_count" value="<?php echo count($data['providers']);?>"/>
-    <input type="hidden" id="uid" value=""/>
-
+    <input type="hidden" id="uid" value="<?php           echo "{$data['pid']}";?>"/>
+<?php
+//    var_dump($data);
+?>
     <div id="content">
             <div id="div_providers">
+                <p>
+                    <select id='prov'>
+                        <option value="0" selected>Вибирайте</option>
+                        <?php
+                            foreach ($data['providers'] as $value) {
+                                echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                            }
+                        ?>
+                    </select>
+                </p>
+                <?php
+               if(count($data['prices'])){
+                ?>
                 <table class="info_tables" id="table_providers" width="80%">
                     <thead>
                         <tr>
@@ -44,6 +59,9 @@ foreach ($data['providers'] as $value) {
                 ?>    
                     </tbody>
                 </table>
+                <?php
+               }
+                ?>
                 <p style="text-align: center;"><input id="new_price" class="btn-save" type="button" value="Додати нового"/></p>
             </div>
         <div class="right_block">

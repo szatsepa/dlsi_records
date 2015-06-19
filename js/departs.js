@@ -9,6 +9,19 @@ $(document).ready(function(){
     }else{
         _show(false);
     }
+    
+    if($("input#uid").val() !== ''){
+        $.each($("select#prov option"),function(){
+            $(this).attr('selected',false);
+            if($("input#uid").val() === $(this).val()){
+               $(this).attr('selected',true); 
+            }
+        });
+//        alert();
+        $("h1#title").append(" "+$("select#prov option:selected").text());
+    }else{
+        $("h1#title").append(" (всі)");
+    }
 
     $("#providers").hide();
 
@@ -57,8 +70,10 @@ $(document).ready(function(){
         });
         
     }
-
-//    $("#providers").find("option:eq(0)").attr('selected',true);
+    
+    $("select#prov").change(function(){
+         document.location = '/order/departs/'+$(this).find("option:selected").val(); 
+     });
 
 
 
