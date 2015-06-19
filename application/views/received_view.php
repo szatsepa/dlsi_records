@@ -3,7 +3,10 @@
 <div id="content">
     <?php
     
-var_dump($data);
+//var_dump($data['orders'][0]);
+
+$all = sprintf("%01.2f", $data['sum'][0]['all']);
+$sum = sprintf("%01.2f", $data['sum'][0]['sum']);
 ?>
     <h1>
         Пийшло лісу&nbsp;&nbsp;
@@ -63,7 +66,33 @@ var_dump($data);
                         ?>
                         
                     </tbody>
-                </table>
+                </table><br/>
+                <?php
+                }
+                if(count($data['woods'])){
+                    ?>
+                 <table class="info_tables" id="tab_woods">
+                    <thead>
+                        <tr>
+                            <th>Індекс</th> 
+                            <th>Дата</th> 
+                            <th>Діаметер</th>
+                            <th>Довжина</th>
+                            <th>Об'єм</th>
+                            <th>Ціна</th>
+                            <th>Коштує</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                                            foreach ($data['woods'] as $value) {
+                                                echo "<tr><td>{$value['id']}</td><td>{$value['create']}</td><td>{$value['d']}</td>"
+                                                . "<td>{$value['l']}</td><td>{$value['v']}</td><td>{$value['price']}</td><td>{$value['itog']}</td></tr>";
+                                            }
+                                            echo "<tr><td colspan='4'>Усього:</td><td>{$all}</td><td></td><td>{$sum}</td></tr>";
+                        ?>
+                        </tbody>
+                </table><br/>
                 <?php
                 }
                 ?>

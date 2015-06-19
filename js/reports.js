@@ -37,6 +37,7 @@ $(document).ready(function(){
     var car = $("span#st").text();
     car = car.replace('грн.','');
     var count_car = parseFloat(car);
+    summ = Math.ceil(100*summ)/100;
 
     $("table.info_tables tfoot tr td:eq(3)").prepend(count); 
     $("table.info_tables tfoot tr td:eq(4)").prepend(volume);

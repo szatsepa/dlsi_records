@@ -182,14 +182,38 @@ class Model_Order extends Model
             echo $result;
         }
         
-        public function getReceived($query, $pid) {
+        public function getReceived($query, $pid, $ds) {
             
-             $data = array();         
+             $data = array(); 
+             
+             $provider = stripcslashes($pid);
+             
+             $dstart = stripcslashes($ds);
+             
+             $dstop = stripcslashes($pid);
+             
+             if(!$ds){
+                 $data['woods'] = self::querySelect("SELECT `id`, `create`, `d`, `l`, `v`, `price`, `itog` FROM `woods` WHERE `provider`={$provider}");
+                 
+                 $data['sum'] = self::querySelect("SELECT  Sum(`v`) AS 'all',  Sum(`itog`) AS 'sum' FROM `woods` WHERE `provider`={$provider}");
+             }else{
+                 $data['woods'] = self::querySelect("SELECT `id`, `create`, `d`, `l`, `v`, `price`, `itog` FROM `woods` WHERE `create` BETWEEN '{$dstart}' AND '{$dstop}'");
+                 
+                 $data['sum'] = self::querySelect("SELECT  Sum(`v`) AS 'all',  Sum(`itog`) AS 'sum' FROM `woods` WHERE `create` BETWEEN '{$dstart}' AND '{$dstop}'");
+             }
 
              $data['orders'] = self::querySelect($query);
              
              $data['providers']  = self::querySelect("SELECT p.`id`, p.`name` FROM `woods_doc` AS wd, `providers` AS p WHERE p.`id` = wd.`providers` GROUP BY `providers`");
             
             return $data;
+        }
+        
+        public function getList($param) {
+            
+            $list = self::querySelect("SELECT `list` FROM `woods` WHERE `doc`={$param} GROUP BY `list`");
+            
+            return $list[0]['list'];
+            
         }
 }

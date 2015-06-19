@@ -17,10 +17,21 @@ $(document).ready(function(){
     
     $("a.ico-view").mousedown(function(){
         var id = $(this).attr('id');
-        
         id = id.substr(1);
         
-//       document.location = "/sale/order/"+id; 
+        $.ajax({
+            url:"/order/getlist/"+id,
+            asinc:false,
+            dataType:'text',
+            success:function(data){
+//                        alert(data);
+                document.location = "/order/report/"+data; 
+
+            }
+        });
+        
+        
+       
     });
     
     $("select#provider").change(function(){
