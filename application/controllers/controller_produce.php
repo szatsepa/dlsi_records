@@ -89,4 +89,11 @@ class Controller_Produce extends Controller
             
             $this->view->generate('equipment_view.php', 'template_view.php', $data);
         }
+        
+        function action_expendables($param) {
+                       
+            $data = $this->model->get_equipment($param);
+            
+            $this->view->generate('equipment_view.php', 'template_view.php', $data);
+        }
 }

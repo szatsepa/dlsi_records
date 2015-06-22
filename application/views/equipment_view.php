@@ -45,8 +45,8 @@
                             $sum = round(($value['amount']*$value['cost']),2);
                            echo "<td>".sprintf("%01.2f", $sum)."</td>";    
                            echo " <td>
-                                <a id='e_{$value['id']}' class='ico-info' title='Смотреть'></a>
-                                <a id='d_{$value['id']}' class='ico-delete' title='Удалить'></a>
+                                <a id='e_{$value['id']}' class='ico-plus' title='Додати'></a>
+                                <a id='d_{$value['id']}' class='ico-minus' title='Зменшити'></a>
                             </td>
                          </tr>";
                 }

@@ -33,7 +33,7 @@ class SubMenu {
                     $sub_menu = array('pay'=>'Табель','pay/payment'=>"Порахувати",'pay/tariff'=>'Тарифы','pay/his'=>'История','pay/imprest'=>"Аванс");
                     break;
                 case 'produce':
-                    $sub_menu = array('produce'=>'Склад','produce/nomenclature'=>'Номенклатура','produce/category'=>'Типы продукции','produce/equipment'=>'Оборудование');
+                    $sub_menu = array('produce'=>'Склад','produce/equipment'=>'Оборудование','expendables'=>'Розхідні матеріали','produce/nomenclature'=>'Номенклатура','produce/category'=>'Типы продукции');
                     break;
                 case 'sale':
                     $sub_menu = array('sale'=>'Продажи','sale/view'=>'Дивитися','sale/customer'=>'Покупці');
