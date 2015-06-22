@@ -94,26 +94,6 @@ $(document).ready(function(){
             $("#staff_tab").show();
         }
     }
-
-    function _save(url, out){
-        var url = url;
-        var out = out;
-//alert(out);
-
-        $.ajax({
-            asinc:false,
-            url:url,
-            type:'post',
-            dataType:'text',
-            data:{'query':out},
-            success:function(){
-                
-                document.location.reload();
-
-                _changeButton(false);
-            } 
-        });
-    }
 });
 
 

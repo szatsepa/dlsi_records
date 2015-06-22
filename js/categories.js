@@ -77,21 +77,4 @@ $(document).ready(function(){
             $("#staff_tab").show();
         }
     }
-
-    function _save(url, out){
-        var url = url;
-        var query = out;
-        $.ajax({
-            asinc:false,
-            url:url,
-            type:'post',
-            dataType:'text',
-            data:{'query':query},
-            success:function(data){
-                alert(data);
-                document.location.reload();
-            }
-        });
-    }
-
 });

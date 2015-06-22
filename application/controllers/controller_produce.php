@@ -82,4 +82,11 @@ class Controller_Produce extends Controller
             echo $select;
             
         }
+        
+        function action_equipment($param) {
+                       
+            $data = $this->model->get_equipment($param);
+            
+            $this->view->generate('equipment_view.php', 'template_view.php', $data);
+        }
 }

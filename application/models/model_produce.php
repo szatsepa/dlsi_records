@@ -49,7 +49,7 @@ class Model_Produce extends Model
 
                 $data['selector'] = self::querySelect($query1);
                 
-                $result = mysql_query($query);
+//                $result = mysql_query($query);
                 
                 return $data;
         }
@@ -141,4 +141,28 @@ class Model_Produce extends Model
             
             return $data;
         }
+        
+        public function get_equipment($param) {
+            
+            $data = array();            
+                        
+            $where = urldecode($param);
+            
+            $query = "SELECT * FROM `equipment`";
+            
+            if($param){
+                $query = "SELECT * FROM `equipment` WHERE `etype` = '{$where}'";
+            }
+            
+            $data['selector'] = self::querySelect("SELECT `etype` AS 'type' FROM `equipment` GROUP BY `etype`");
+            
+            $data['eq'] = self::querySelect($query);
+            
+            $data['type'] = $where;
+            
+            return $data;
+            
+            
+        }
+        
 }

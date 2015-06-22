@@ -159,23 +159,5 @@ $(document).ready(function(){
         }
     }
 
-    function _save(url, query){
-        
-        var url = url;
-        var out = {'query':query};
-        alert(query);
-        
-        $.ajax({
-            asinc:false,
-            url:url,
-            type:'post',
-            responce:'text',
-            data:out,
-            success:function(data){
-                document.location.reload();
-            }
-        });
-    }
-
 });
 

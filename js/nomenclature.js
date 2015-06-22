@@ -158,20 +158,20 @@ $(document).ready(function(){
         }
     }
 
-    function _save(url, out){
-        var url = url;
-        var out = out;
-        
-        $.ajax({
-            asinc:false,
-            url:url,
-            type:'post',
-            responce:'text',
-            data:{'query':out},
-            success:function(data){
-                
-                document.location.reload();
-            } 
-        });
-    }
+//    function _save(url, out){
+//        var url = url;
+//        var out = out;
+//        
+//        $.ajax({
+//            asinc:false,
+//            url:url,
+//            type:'post',
+//            responce:'text',
+//            data:{'query':out},
+//            success:function(data){
+//                
+//                document.location.reload();
+//            } 
+//        });
+//    }
 });
