@@ -97,27 +97,5 @@ $(document).ready(function(){
                 $("div.right_block").hide();
                 $("#div_providers").show();
             }
-        }
-        
-        function _save(urlo, query){
-//            console.log(out);
-            var url = urlo;
-            var out = query;
-            alert(url+" | "+query);
-            $.ajax({
-                asinc:false,
-                url:url,
-                type:'post',
-                response:'text',
-                data:{'query':out},
-                success:function(data){
-                    alert(data);
-                    document.location.reload();
-//                    _changeButton(false);
-                },
-                error:function(data){
-                } 
-            });
-        }
-        
+        }        
     });
