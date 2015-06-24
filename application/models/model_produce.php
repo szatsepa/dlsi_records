@@ -160,9 +160,32 @@ class Model_Produce extends Model
             
             $data['type'] = $where;
             
+            $data['page'] = "equipment";
+            
             return $data;
+        }
+        
+        public function get_expendables($param) {
             
+            $data = array();            
+                        
+            $where = urldecode($param);
             
+            $query = "SELECT * FROM `expendables`";
+            
+            if($param){
+                $query = "SELECT * FROM `expendables` WHERE `etype` = '{$where}'";
+            }
+            
+            $data['selector'] = self::querySelect("SELECT `etype` AS 'type' FROM `expendables` GROUP BY `etype`");
+            
+            $data['eq'] = self::querySelect($query);
+            
+            $data['type'] = $where;
+            
+            $data['page'] = "expendables";
+            
+            return $data;
         }
         
 }

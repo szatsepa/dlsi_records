@@ -1,5 +1,6 @@
 <?php
-//var_dump($data['type']);
+//var_dump($data['page']);
+echo "<input type='hidden' id='page' value='{$data['page']}'/>";
 ?>
 
 <div id="content">

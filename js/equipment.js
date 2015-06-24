@@ -46,7 +46,7 @@ $(document).ready(function(){
     });
     
     $("select#type").change(function(){
-        document.location = "/produce/equipment/"+$(this).find("option:selected").val();
+        document.location = "/produce/"+$("input#page").val()+"/"+$(this).find("option:selected").val();
     });
     
     $("a.ico-plus").mousedown(function(){
@@ -94,7 +94,7 @@ $(document).ready(function(){
                 count = bulo - count;
             }
 
-            var query = "UPDATE `equipment` SET `amount`="+count+" WHERE `id`="+$(obj).find("td:eq(0)").text(); 
+            var query = "UPDATE `"+$("input#page").val()+"` SET `amount`="+count+" WHERE `id`="+$(obj).find("td:eq(0)").text(); 
 
             alert(query);
 
@@ -118,7 +118,7 @@ $(document).ready(function(){
             count = bulo - count;
         }
         
-        var query = "UPDATE `equipment` SET `amount`="+count+" WHERE `id`="+$(obj).find("td:eq(0)").text(); 
+        var query = "UPDATE `"+$("input#page").val()+"` SET `amount`="+count+" WHERE `id`="+$(obj).find("td:eq(0)").text(); 
         
         _save('/produce/edit',query);
     });
@@ -128,7 +128,7 @@ $(document).ready(function(){
             
             var url = "/produce/add";
         
-            var query = "INSERT INTO `equipment`(`recorded`, `etype`, `name`, `short_name`, `cost`, `amount`, `comment`) VALUES (Now(),'"+$("input#type").val()+"','"+$("input#name").val()+"','"+$("input#sname").val()+"','"+$("input#price").val()+"','"+$("input#count").val()+"','"+$("textarea#comment").val()+"')";
+            var query = "INSERT INTO `"+$("input#page").val()+"`(`recorded`, `etype`, `name`, `short_name`, `cost`, `amount`, `comment`) VALUES (Now(),'"+$("input#type").val()+"','"+$("input#name").val()+"','"+$("input#sname").val()+"','"+$("input#price").val()+"','"+$("input#count").val()+"','"+$("textarea#comment").val()+"')";
 
             _save(url,query);
         }
@@ -138,7 +138,7 @@ $(document).ready(function(){
         
         var url = "/produce/add";
         
-        var query = "INSERT INTO `equipment`(`recorded`, `etype`, `name`, `short_name`, `cost`, `amount`, `comment`) VALUES (Now(),'"+$("input#type").val()+"','"+$("input#name").val()+"','"+$("input#sname").val()+"','"+$("input#price").val()+"','"+$("input#count").val()+"','"+$("textarea#comment").val()+"')";
+        var query = "INSERT INTO `"+$("input#page").val()+"`(`recorded`, `etype`, `name`, `short_name`, `cost`, `amount`, `comment`) VALUES (Now(),'"+$("input#type").val()+"','"+$("input#name").val()+"','"+$("input#sname").val()+"','"+$("input#price").val()+"','"+$("input#count").val()+"','"+$("textarea#comment").val()+"')";
         
         _save(url,query);
     });
