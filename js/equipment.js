@@ -8,7 +8,10 @@ $(document).ready(function(){
     
     $("#new_products").mousedown(function(){
         
-        _show(true);     
+        _show(true);
+        
+        $("input#type").val($("input#ptype").val());
+             
     });
     
     $("#back").mousedown(function(){
@@ -145,7 +148,7 @@ $(document).ready(function(){
     
     function _show(flag){
         if(flag){
-            $("div.right_block").show(300, function(){$("input#type").focus()});
+            $("div.right_block").show(300, function(){$("input#type").focus();});
             $("#staff_tab").hide();
 //            $("input#type").focus();
         }else{
