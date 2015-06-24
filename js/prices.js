@@ -1,4 +1,5 @@
 $(document).ready(function(){
+//    TO DO доопрацувати в сенсі додати ціни з урахуванням вибраного типу та інше
                 
         if($("#user_count").val()!=0){
             _show(false);

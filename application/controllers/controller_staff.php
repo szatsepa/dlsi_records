@@ -10,7 +10,14 @@ class Controller_Staff extends Controller
         
 	function action_index()
 	{
-            $data = $this->model->get_data();
+            $data = $this->model->get_data(1);
+            
+            $this->view->generate('staff_view.php', 'template_view.php',$data);
+	}
+        
+        function action_old()
+	{
+            $data = $this->model->get_data(0);
             
             $this->view->generate('staff_view.php', 'template_view.php',$data);
 	}
@@ -36,4 +43,5 @@ class Controller_Staff extends Controller
             
             $data = $this->model->update($_POST['query']);
         }
+        
 }

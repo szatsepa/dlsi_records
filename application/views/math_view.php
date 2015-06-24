@@ -1,3 +1,4 @@
+<h1>Найчастіше вживані тригонометрічні функції</h1>
 <div id="sn">
     <table class="info_tables">
         <thead>

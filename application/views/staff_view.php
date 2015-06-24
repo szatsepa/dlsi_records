@@ -1,6 +1,10 @@
 <!--<div id="d_wr">-->
     <h1>Персонал</h1>
+<?php
+    
+echo "<input type='hidden' id='page' value='{$data['page']}'/>";
 
+?>
     <input type="hidden" id="uid" value=""/>
     <div id="back_v_zad">
         <a id="a_v_zad"></a>
@@ -33,7 +37,14 @@
                 ?>    
                     </tbody>
                 </table>
+                <?php if($data['page'] !== 0){
+                    ?>
+               
                 <p style="text-align: center;"><input id="new_staff" class="btn-save" type="button" value="Додати нового"/></p>
+                
+                <?php
+                 }
+                 ?>
             </div>
         <div class="right_block">
             <br/>

@@ -6,6 +6,10 @@ $(document).ready(function(){
         _show(true);
     }
     
+    if($("input#page").val() === '0'){
+        $("div#content h1").append("&nbsp;&RightArrow;&nbsp;бувші");
+    }
+    
     $("table#table_staff tbody tr td").css('text-align','left');
 
     $("#new_staff").mousedown(function(){

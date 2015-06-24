@@ -3,11 +3,13 @@
 class Model_Staff extends Model
 {
 	
-	public function get_data()
+	public function get_data($param)
 	{
             $data = array();
             
-            $data['staff'] =  self::querySelect("SELECT id, surname, phone,  address FROM staff WHERE activity = 1");
+            $data['staff'] =  self::querySelect("SELECT id, surname, phone,  address FROM staff WHERE activity = {$param}");
+            
+            $data['page'] = $param;
             
             return $data;
 	}

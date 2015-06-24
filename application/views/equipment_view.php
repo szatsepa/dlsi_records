@@ -1,7 +1,9 @@
 <?php
-//var_dump($data['type']);
+//var_dump($data['page']);
+echo "<input type='hidden' id='page' value='{$data['page']}'/>";
+echo "<input type='hidden' id='ptype' value='{$data['type']}'/>";
 ?>
-
+<h1>Устаткування</h1>
 <div id="content">
         <div id="staff_tab">
             <div id="sortN">

@@ -2,7 +2,7 @@
 $routes = explode('/', $_SERVER['REQUEST_URI']);
 $type = $routes[3];
 ?>
-
+<h1>Номенклатура</h1>
 <div id="content">
         <div id="staff_tab">
             <div id="sortN">
