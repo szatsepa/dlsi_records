@@ -2,6 +2,7 @@
 //var_dump($data);
 
 ?>
+<h1>Різновиди продукції</h1>
 <div id="d_wr">
     <input type="hidden" id="_count" value="<?php echo count($data);?>"/>
     <input type="hidden" id="uid" value=""/>

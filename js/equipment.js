@@ -6,6 +6,10 @@ $(document).ready(function(){
         _show(true);
     }
     
+    if($("input#page").val() === 'expendables'){
+        $("div#content h1").text("Розхідні матеріали");
+    }
+    
     $("#new_products").mousedown(function(){
         
         _show(true);
@@ -98,8 +102,6 @@ $(document).ready(function(){
             }
 
             var query = "UPDATE `"+$("input#page").val()+"` SET `amount`="+count+" WHERE `id`="+$(obj).find("td:eq(0)").text(); 
-
-            alert(query);
 
             _save('/produce/edit',query); 
         }

@@ -27,7 +27,7 @@ class SubMenu {
                     $sub_menu = array('math'=>'Тригонометрия');
                     break;
                 case 'staff':
-                    $sub_menu = array('staff'=>"Персонал",'staff/work'=>'Должности');
+                    $sub_menu = array('staff'=>"Персонал",'staff/old'=>'Бувші працівники','staff/work'=>'Должности');
                     break;
                 case 'pay':                   
                     $sub_menu = array('pay'=>'Табель','pay/payment'=>"Порахувати",'pay/tariff'=>'Тарифы','pay/his'=>'История','pay/imprest'=>"Аванс");
