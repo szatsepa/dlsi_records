@@ -17,7 +17,7 @@
 function _save(url, out){
     var url = url;
     var out = out;
-//alert(url+" "+out);
+alert(url+" "+out);
 
     $.ajax({
         asinc:false,
@@ -26,7 +26,7 @@ function _save(url, out){
         responce:'text',
         data:{'query':out},
         success:function(data){
-//alert(data);
+alert(data);
             document.location.reload();
         } 
     });

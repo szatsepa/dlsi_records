@@ -14,16 +14,29 @@ foreach ($data['providers'] as $value) {
     <input type="hidden" id="user_count" value="<?php echo count($data['providers']);?>"/>
     <input type="hidden" id="uid" value="<?php           echo "{$data['pid']}";?>"/>
 <?php
-//    var_dump($data);
+//    var_dump($data['providers']);
 ?>
     <div id="content">
             <div id="div_providers">
                 <p>
                     <select id='prov'>
-                        <option value="0" selected>Вибирайте</option>
+                        
                         <?php
+                        
+                        if($data['pid']){
+                            echo '<option value="0" name="0">Вибирайте</option>';
+                        }else{
+                            echo '<option value="0" selected name="0">Вибирайте</option>';
+                        }
+                        
                             foreach ($data['providers'] as $value) {
-                                echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                                
+                                if($data['pid'] === $value['id']){
+                                    echo "<option value='{$value['id']}' name='{$value['typeid']}' class='{$value['typename']}' selected>{$value['name']}</option>";
+                                }else{
+                                    echo "<option value='{$value['id']}' name='{$value['typeid']}' class='{$value['typename']}'>{$value['name']}</option>";
+                                }
+                                
                             }
                         ?>
                     </select>
@@ -65,29 +78,16 @@ foreach ($data['providers'] as $value) {
                 <p style="text-align: center;"><input id="new_price" class="btn-save" type="button" value="Додати нового"/></p>
             </div>
         <div class="right_block">
-            <br/>
-            <br/>
-            <select id="dtype">
-                <option selected value="0">Тип поставщика</option>
-                <?php
-                                foreach ($data['type'] as $value) {
-                                    echo "<option value='{$value['id']}'>{$value['providers_type']}</option>";
-                                }
-                ?>
-            </select>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <a id="v_zad">Повернутися в зад</a>
-            <br/>
-            <br/>
-            <div id="foot">
-                <select id="providers">
+            <p id="pprov">
                 
-                </select>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                    <table id="tprice" class="info_tables" width="90%">
+            </p>
+            
+            <p>
+                <a id="v_zad">Повернутися в зад</a>
+            </p> 
+
+            <div id="foot">
+                <table id="tprice" class="info_tables" width="90%">
                         <thead>
                             <tr>
                                 <th>Diameter</th><th>Sort</th><th>Price</th>><th>Action</th>

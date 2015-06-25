@@ -122,7 +122,7 @@ class Model_Order extends Model
                 $and = " AND p.`id` = {$list}";
             }
             
-            $data['providers'] =  self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type`, d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
+            $data['providers'] =  self::querySelect("SELECT  d.`id`, d.`name`, d.`created`, dt.`providers_type` AS 'typename', dt.`id`  AS 'typeid', d.`comment` FROM `providers` as d, `providers_type` as dt WHERE d.`d_type` = dt.`id` AND d.`activ`=1");
             
             $data['type'] = self::querySelect("SELECT * FROM `providers_type`");
             
