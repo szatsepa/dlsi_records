@@ -87,9 +87,9 @@ var_dump($data);
                         <option value='2'>B</option>
                         <option value='3'>C</option>
                     </select><br/><br/> <br/>   
-                    <input id="pa" placeholder="A" value="" size="12"/>&nbsp;<input id="kpa" placeholder="&alpha;&deg;" value="" size="12" disabled/><br/><br/> 
-                    <input id="pb" placeholder="B" value="" size="12"/>&nbsp;<input id="kpb" placeholder="&beta;&deg;" value="" size="12" disabled/><br/><br/> 
-                    <input id="pc" placeholder="C" value="" size="12"/>&nbsp;<input id="kpb" placeholder="&gamma;&deg;" value="90" size="12" disabled/><br/><br/> 
+                    A&nbsp;<input id="pa" class="side" placeholder="A" value="" size="12" disabled/>&nbsp;<input id="kpa" class="degree" placeholder="&alpha;&deg;" value="" size="12" disabled/><br/><br/> 
+                    B&nbsp;<input id="pb" class="side" placeholder="B" value="" size="12" disabled/>&nbsp;<input id="kpb" class="degree" placeholder="&beta;&deg;" value="" size="12" disabled/><br/><br/> 
+                    C&nbsp;<input id="pc" class="side" placeholder="C" value="" size="12" disabled/>&nbsp;<input id="kpc" class="degree" placeholder="&gamma;&deg;" value="90" size="12" disabled/><br/><br/> 
                     <input type="button" id="pmath" value="Порахувати"/><br/> <br/> 
                     <?php
                     break;
