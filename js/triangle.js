@@ -23,14 +23,20 @@ $(document).ready(function(){
     });
     
     $("select#pside").change(function(){
-        $("input#pa").focus();
+        if($("select#pside option:selected").text() === 'A'){
+                $("input#pb").focus();
+            }else if($("select#pside option:selected").text() === 'B'){
+                $("input#pa").focus();
+            }else if($("select#pside option:selected").text() === 'C'){
+                $("input#pa").focus();    
+            }
     });
     
     $("select#ssho").change(function(){
         
             $("span#tsinS").show();
             $("input#sa").focus();
-
+            
         if($("select#ssho option:selected").val() === '0'){
             
             $("span#tsinS").hide();
@@ -55,6 +61,8 @@ $(document).ready(function(){
             
             a = Math.sqrt(Math.pow(c,2)-Math.pow(b,2));
             
+            a = Math.ceil(a*1000)/1000;
+            
             $("input#pa").val(a).css({'font-weight':'bolder','color':'red'});
             
         }else if($("select#pside option:selected").val() === '2'){
@@ -63,12 +71,15 @@ $(document).ready(function(){
             
             b = Math.sqrt(Math.pow(c,2)-Math.pow(a,2));
             
+            b = Math.ceil(b*1000)/1000;
+            
             $("input#pb").val(b).css({'font-weight':'bolder','color':'red'});
             
         }else if($("select#pside option:selected").val() === '3'){
             
             c = 0;            
             c = Math.sqrt(Math.pow(a,2)+ Math.pow(b,2));
+            c = Math.ceil(c*1000)/1000;
             
             $("input#pc").val(c).css({'font-weight':'bolder','color':'red'});
         }else{
