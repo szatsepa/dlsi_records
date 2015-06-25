@@ -3,17 +3,14 @@
     <table class="info_tables">
         <thead>
             <tr>
-                <!--<th></th>-->
+                <th></th>
                 <th>
                     Встромили
                 </th>
                 <th>
                    Маємо 
                 </th>
-                <th>
-                    
-                </th><th></th>
-            </tr>
+                
         </thead>
         <tbody>
             
@@ -23,7 +20,7 @@
             </td>
             <td>
                 <p>
-                    <input id="is" size="6" placeholder="&alpha;&deg; = 0" value="">&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="is" size="6" placeholder="&alpha;&deg; = 0" value="">&nbsp;&nbsp;&nbsp;&nbsp;
                     <input id="rs" size="16" value="0">&nbsp;&nbsp;&nbsp;&nbsp;
                     <input id="ms" type="button" value="Sin">
                 </p>
