@@ -41,7 +41,7 @@
                     <td><a class="menu_btn" id="produce">Производство</a></td>
                     <td><a class="menu_btn" id="sale">Реализация</a></td>
                     <td><a class="menu_btn" id="order">Кубатурник</a></td>
-                    <td><a class="menu_btn" id="math">Тригон&nbsp;ф-ции</a></td>
+                    <td><a class="menu_btn" id="math">Мат&nbsp;розрах.</a></td>
                     <td><a class="menu_btn" id="dump">Bacup DB?</a></td>
                 </tr>
             </tbody>

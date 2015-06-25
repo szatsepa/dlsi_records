@@ -49,26 +49,37 @@ $(document).ready(function(){
 
         $("#p1").live('keypress',function(e){
             if(e.which === 13){
-                var shipp = $("#providers").find("option:selected").val();
+                var shipp = $("input#nameprov").attr('name');
                 var d = $(this).parent().parent().find("td:eq(0)").find("option:selected").val();
                 var dm = d.substr(0,2);
                 var dM = d.substr(5,2);
                 var sort = $(this).parent().parent().find("td:eq(1)").find("option:selected").val();
                 var p1 = $(this).val();
                 var query = "INSERT INTO `providers_prices`(`created`, `shipper`, `d_min`, `d_max`,`sort`, `p1`) VALUES (Now(),'"+shipp+"','"+dm+"','"+dM+"','"+sort+"','"+p1+"')";
-                _save("order/add",query);
+                _save("/order/add",query);
                 }
 
         });
 
         $("#new_price").mousedown(function(){
+            
+            var tid = $("select#prov option:selected").attr('name');
+            var tname = $("select#prov option:selected").attr('class');
+            var id = $("select#prov option:selected").val();
+            var name = $("select#prov option:selected").text();
+            
+            $("p#pprov").empty();
+            $("p#pprov").append("<input id='typeprov' name='"+tid+"' value='"+tname+"' size='32'/>");
+            $("p#pprov").append("<br/><br/><input id='nameprov' name='"+id+"' value='"+name+"' size='32'/>");
+//            alert(id+" "+name);
             _show(true);
             _changeButton(true);
+            $("#foot").show();
         });
 
         $(".ico-done").live('mousedown',function(){
 
-            var shipp = $("#providers").find("option:selected").val();
+            var shipp = $("input#nameprov").attr('name');
             var d = $(this).parent().parent().find("td:eq(0)").find("option:selected").val();
             var dm = d.substr(0,2);
             var dM = d.substr(5,2);
@@ -153,24 +164,6 @@ $(document).ready(function(){
             }
 
             $("#tprice tbody tr").find('td').attr('align','center');
-        }
-
-        function _save(url, str){
-
-            var url = url;
-            var out = str;
-
-            $.ajax({
-                asinc:false,
-                url:url,
-                type:'post',
-                responce:'text',
-                data:{'query':out},
-                success:function(data){
-                    document.location.reload();
-                }
-            });
-
         }
 
          function setProviders(){

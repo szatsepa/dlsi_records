@@ -7,6 +7,12 @@ class Model_Portfolio extends Model
 	{	
 		
 	}
+        
+        public function triangle($param) {
+            $data = array('theoreme'=>$param);
+            
+            return $data;
+        }
 
 }
 
