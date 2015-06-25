@@ -26,6 +26,17 @@ $(document).ready(function(){
         $("input#pa").focus();
     });
     
+    $("select#ssho").change(function(){
+        
+            $("span#tsinS").show();
+            $("input#sa").focus();
+
+        if($("select#ssho option:selected").val() === '0'){
+            
+            $("span#tsinS").hide();
+        }
+    });
+    
     function count(){
         
         var tmp = $("input#pb").val();

@@ -8,25 +8,33 @@ var_dump($data);
         <table width="90%">
             <tr>
                 <td colspan="2">
-                    <p align="center">
+                    
             <?php
             
             switch ($data['theoreme']){
                 case 'Синусів':
-                    echo '<img src="/images/cos.png" alt="Sho popalo" width="360"/>';
+                    echo '<p align="center"><img src="/images/cos.png" alt="Sho popalo" width="360"/> </p>';
                     break;
                 case 'Піфагора':
-                    echo '<img src="/images/pif.png" alt="Sho popalo" width="360"/>';
+                    echo '<p align="center"><img src="/images/pif.png" alt="Sho popalo" width="360"/> </p>';
                     break;
                 
                 case 'Косинусів':
-                    echo '<img src="/images/cos.png" alt="Sho popalo" width="360"/>';
+                    echo '<p align="center"><img src="/images/cos.png" alt="Sho popalo" width="360"/> </p>';
                     break;
             }
-            
+            if($data['theoreme'] !== 'Піфагора'){
+                echo '<p align="center">
+                        <select id="ssho">
+                            <option value="0" selected>Шо шукаємо?</option>
+                            <option value="1">Сторону</option>
+                            <option value="2">Кут</option>
+                        </select>
+                    </p>';
+            }
             
             ?>
-        </p>
+       
                 </td>
                 
             </tr>
@@ -59,7 +67,17 @@ var_dump($data);
             
             switch ($data['theoreme']){
                 case 'Синусів':
-                   
+                   ?>
+                    
+                    <span id='tsinS' style="display: none">
+                        <small>Заповніть, будь ласка, те що відомо!</small><br/><br/> 
+                        <input id="sa" placeholder="A" value="" size="12"/>&nbsp;<input id="ka" placeholder="&alpha;&deg;" value="" size="12"/><br/><br/> 
+                        <input id="sb" placeholder="B" value="" size="12"/>&nbsp;<input id="kb" placeholder="&beta;&deg;" value="" size="12"/><br/><br/> 
+                        <input id="sc" placeholder="C" value="" size="12"/>&nbsp;<input id="kb" placeholder="&gamma;&deg;" value="" size="12"/><br/><br/> 
+                        <input type="button" id="pmath" value="Порахувати"/><br/> <br/>  
+                    </span>
+
+                    <?php
                     break;
                 case 'Піфагора':
                    ?>
