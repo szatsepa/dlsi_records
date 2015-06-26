@@ -223,6 +223,12 @@ $(document).ready(function(){
             
         }else if(sho === '3'){
             
+            if((a+b)<= c || (b + c) <= a || (a+c) <= b){
+                
+                alert ("Помилка в довжинах сторін");
+                return false;
+            }
+            
             alpha = Math.ceil((Math.acos((Math.pow(b,2)+Math.pow(c,2)-Math.pow(a,2))/(2*b*c))*180/Math.PI)*100)/100;
             
             betta = Math.ceil((Math.acos((Math.pow(a,2)+Math.pow(c,2)-Math.pow(b,2))/(2*a*c))*180/Math.PI)*100)/100;
