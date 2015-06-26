@@ -176,6 +176,7 @@ OTHERS
 #aside ul ul {margin:0; position:static;}
 #aside ul ul li a, li.m-activ  #aside ul li#submenu-activeul li a {width:170px; padding:5px 15px 5px 30px; background:url("../design/submenu-sub.gif") 15px 7px no-repeat; font:100%/1.6 "tahoma",sans-serif; font-weight:bold;}
 #content h1 {margin:0; padding:10px 15px; background:url("../design/content-h1.gif") 0 0 repeat-x; letter-spacing:-1px;}
+#content h2 {margin:0; padding:10px 15px; background:url("../design/content-h1.gif") 60% 0 repeat-x; letter-spacing:-1px;color: whitesmoke;}
 #content .box-01 {padding:15px;}
 #content .box-02 {padding:10px 15px;}
 #content .box-02.bottom {margin-top:15px;}

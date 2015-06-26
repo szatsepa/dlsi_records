@@ -35,7 +35,7 @@ echo "<input type='hidden' id='ptype' value='{$data['type']}'/>";
                 </thead>
                 <tbody>
                 <?php
-                
+                $summ = 0;
                 foreach ($data['eq'] as $value){
                     echo "<tr id='r_{$value['id']}'>
                         <td>".$value['id']."</td>
@@ -45,6 +45,7 @@ echo "<input type='hidden' id='ptype' value='{$data['type']}'/>";
                             <td>".$value['amount']."</td>    
                             <td>".$value['cost']."</td>";
                             $sum = round(($value['amount']*$value['cost']),2);
+                            $summ += $sum;
                            echo "<td>".sprintf("%01.2f", $sum)."</td>";    
                            echo " <td>
                                 <a id='e_{$value['id']}' class='ico-plus' title='Додати'></a>
@@ -52,9 +53,16 @@ echo "<input type='hidden' id='ptype' value='{$data['type']}'/>";
                             </td>
                          </tr>";
                 }
+                
             ?>    
                 </tbody>
             </table>
+            <div style="width: 63%">
+                <br/><br/>
+                <h2 style="text-align: center;">ВСЕГО НА СУММУ <?php echo sprintf("%01.2f", $summ); ?> грн.</h2>
+                    <br/>
+                    <br/>
+                </div>
             <p style="text-align: center;"><input id="new_products" class="btn-save" type="button" value="Добавить позицию"/></p>
         </div>
     <div class="right_block">

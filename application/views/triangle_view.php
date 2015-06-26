@@ -1,6 +1,6 @@
 <?php
 
-var_dump($data);
+//var_dump($data);
 ?>
 <h1>Трикутники теорема&nbsp;&nbsp;<?php echo "{$data['theoreme']}"; ?></h1>
 <div id="sn">    

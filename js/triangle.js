@@ -89,6 +89,101 @@ $(document).ready(function(){
         _sin();
     });
     
+    $("input#sa").keypress(function(e){
+        
+        var sho = $("select#ssho option:selected").val();
+       
+       if(e.which === 13){
+           
+           if(sho === '1'){
+              $("input#ksb").focus().select(); 
+           }else if(sho === '3'){
+              $("input#sb").focus().select(); 
+           }
+           
+                      
+       } 
+    });
+    
+    $("input#sb").keypress(function(e){
+        
+        var sho = $("select#ssho option:selected").val();
+       
+       if(e.which === 13){
+           
+           if(sho === '3'){
+              $("input#sc").focus().select(); 
+           }
+           
+                      
+       } 
+    });
+    
+    $("input#sc").keypress(function(e){
+        
+       var sho = $("select#ssho option:selected").val();
+       
+       if(e.which === 13){
+           
+           if(sho === '1'){
+              $("input#ksb").focus().select(); 
+           }else{
+              _sin(); 
+           }
+           
+       } 
+    });
+    
+    $("input#ksa").keypress(function(e){
+        
+        var sho = $("select#ssho option:selected").val();
+        
+       if(e.which === 13){
+           if(sho === '2'){
+              $("input#ksb").focus().select(); 
+           }else{
+//              _sin(); 
+           }
+       } 
+    });
+    
+    $("input#ksb").keypress(function(e){
+        
+        var sho = $("select#ssho option:selected").val();
+        
+       if(e.which === 13){
+           if(sho === '1'){
+              $("input#ksc").focus().select(); 
+           }else{
+              _sin(); 
+           }
+       } 
+    });
+    
+    $("input#ksc").keypress(function(e){
+        
+        var sho = $("select#ssho option:selected").val();
+        
+       if(e.which === 13){
+           if (sho === '1'){
+              _sin(); 
+           }
+       } 
+    });
+    
+    $("input#sa").keypress(function(e){
+        
+        var sho = $("select#ssho option:selected").val();
+        
+       if(e.which === 13){
+           if (sho === '2'){
+              $("input#ksa").focus().select(); 
+           }else if(sho === '3'){
+              $("input#sb").focus().select();
+           }
+       } 
+    });
+    
     function _sin(){
         
         var tmp = $("input#sb").val();
