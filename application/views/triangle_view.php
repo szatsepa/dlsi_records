@@ -18,17 +18,14 @@ var_dump($data);
                 case 'Піфагора':
                     echo '<p align="center"><img src="/images/pif.png" alt="Sho popalo" width="360"/> </p>';
                     break;
-                
-                case 'Косинусів':
-                    echo '<p align="center"><img src="/images/cos.png" alt="Sho popalo" width="360"/> </p>';
-                    break;
             }
             if($data['theoreme'] !== 'Піфагора'){
                 echo '<p align="center">
                         <select id="ssho">
-                            <option value="0" selected>Шо шукаємо?</option>
-                            <option value="1">Сторону</option>
-                            <option value="2">Кут</option>
+                            <option value="0" selected>Шо відомо?</option>
+                            <option value="1">Сторона та два прилеглих кута</option>
+                            <option value="2">Сторона та прилеглий і протилежний кути</option>
+                            <option value="3">Всі три сторони</option>
                         </select>
                     </p>';
             }
@@ -50,12 +47,6 @@ var_dump($data);
                 case 'Піфагора':
                     echo '<img src="/images/fpif.png" alt="Sho popalo" width="360"/>';
                     break;
-                
-                case 'Косинусів':
-                    echo '<img src="/images/cos_af.png" alt="Sho popalo" width="360"/><br/>'
-                    . '<img src="/images/cos_bf.png" alt="Sho popalo" width="360"/><br/>'
-                        . '<img src="/images/cos_cf.png" alt="Sho popalo" width="360"/>';
-                    break;
             }
             
             
@@ -69,12 +60,18 @@ var_dump($data);
                 case 'Синусів':
                    ?>
                     
-                    <span id='tsinS' style="display: none">
+                    <span id='tsinS'>
                         <small>Заповніть, будь ласка, те що відомо!</small><br/><br/> 
-                        <input id="sa" placeholder="A" value="" size="12"/>&nbsp;<input id="ka" placeholder="&alpha;&deg;" value="" size="12"/><br/><br/> 
-                        <input id="sb" placeholder="B" value="" size="12"/>&nbsp;<input id="kb" placeholder="&beta;&deg;" value="" size="12"/><br/><br/> 
-                        <input id="sc" placeholder="C" value="" size="12"/>&nbsp;<input id="kb" placeholder="&gamma;&deg;" value="" size="12"/><br/><br/> 
-                        <input type="button" id="pmath" value="Порахувати"/><br/> <br/>  
+                        A&nbsp;<input id="sa" class="sside" placeholder="A" value="" size="12" disabled/>&nbsp;
+                        <input id="ksa" class="sdegree" placeholder="&alpha;&deg;" value="" size="12" disabled/>
+                        <br/><br/> 
+                        B&nbsp;<input id="sb" class="sside" placeholder="B" value="" size="12" disabled/>&nbsp;
+                        <input id="ksb" class="sdegree" placeholder="&beta;&deg;" value="" size="12" disabled/>
+                        <br/><br/> 
+                        C&nbsp;<input id="sc" class="sside" placeholder="C" value="" size="12" disabled/>&nbsp;
+                        <input id="ksc" class="sdegree" placeholder="&gamma;&deg;" value="" size="12" disabled/>
+                        <br/><br/> 
+                        <input type="button" id="smath" value="Порахувати"/><br/> <br/>  
                     </span>
 
                     <?php
@@ -87,15 +84,17 @@ var_dump($data);
                         <option value='2'>B</option>
                         <option value='3'>C</option>
                     </select><br/><br/> <br/>   
-                    A&nbsp;<input id="pa" class="side" placeholder="A" value="" size="12" disabled/>&nbsp;<input id="kpa" class="degree" placeholder="&alpha;&deg;" value="" size="12" disabled/><br/><br/> 
-                    B&nbsp;<input id="pb" class="side" placeholder="B" value="" size="12" disabled/>&nbsp;<input id="kpb" class="degree" placeholder="&beta;&deg;" value="" size="12" disabled/><br/><br/> 
-                    C&nbsp;<input id="pc" class="side" placeholder="C" value="" size="12" disabled/>&nbsp;<input id="kpc" class="degree" placeholder="&gamma;&deg;" value="90" size="12" disabled/><br/><br/> 
+                    A&nbsp;<input id="pa" class="side" placeholder="A" value="" size="12" disabled/>&nbsp;
+                    <input id="kpa" class="degree" placeholder="&alpha;&deg;" value="" size="12" disabled/>
+                    <br/><br/> 
+                    B&nbsp;<input id="pb" class="side" placeholder="B" value="" size="12" disabled/>
+                    &nbsp;<input id="kpb" class="degree" placeholder="&beta;&deg;" value="" size="12" disabled/>
+                    <br/><br/> 
+                    C&nbsp;<input id="pc" class="side" placeholder="C" value="" size="12" disabled/>
+                    &nbsp;<input id="kpc" class="degree" placeholder="&gamma;&deg;" value="90" size="12" disabled/>
+                    <br/><br/> 
                     <input type="button" id="pmath" value="Порахувати"/><br/> <br/> 
                     <?php
-                    break;
-                
-                case 'Косинусів':
-                    
                     break;
             }
             

@@ -39,7 +39,7 @@ $(document).ready(function(){
         $.each($("input.side"),function(){
             $(this).attr('disabled',true).val('').css({'font-weight':'bolder','color':'black'});
         });
-        var n = 0;
+        
         $.each($("input.degree"),function(){
             $(this).attr('disabled',true).val('').css({'font-weight':'bolder','color':'black'});
         });
@@ -60,14 +60,91 @@ $(document).ready(function(){
     
     $("select#ssho").change(function(){
         
-            $("span#tsinS").show();
-            $("input#sa").focus();
-            
-        if($("select#ssho option:selected").val() === '0'){
-            
-            $("span#tsinS").hide();
-        }
+        $.each($("input.sside"),function(){
+            $(this).attr('disabled',true).val('').css({'font-weight':'bolder','color':'black'});
+        });
+        
+        $.each($("input.sdegree"),function(){
+            $(this).attr('disabled',true).val('').css({'font-weight':'bolder','color':'black'});
+        });
+        
+        var sho = $("select#ssho option:selected").val();
+        
+        if(sho === '1'){
+                $("input#sa").attr('disabled',false).focus().select();
+                $("input#ksb").attr('disabled',false);
+                $("input#ksc").attr('disabled',false);
+            }else if(sho === '2'){
+                $("input#sa").attr('disabled',false).focus().select();
+                $("input#ksa").attr('disabled',false);
+                $("input#ksb").attr('disabled',false);
+            }else if(sho === '3'){
+                $("input#sa").attr('disabled',false).focus().select();
+                $("input#sb").attr('disabled',false);
+                $("input#sc").attr('disabled',false);
+            }
     });
+    
+    $("input#smath").mousedown(function(){
+        _sin();
+    });
+    
+    function _sin(){
+        
+        var tmp = $("input#sb").val();
+        tmp = tmp.replace(',','.');
+        var b = parseFloat(tmp);
+        tmp = $("input#sc").val();
+        tmp = tmp.replace(',','.');
+        var c = parseFloat(tmp);
+        tmp = $("input#sa").val();
+        tmp = tmp.replace(',','.');
+        var a = parseFloat(tmp);
+        tmp = $("input#ksa").val();
+        tmp = tmp.replace(',','.');
+        var alpha = parseFloat(tmp);
+        tmp = $("input#ksb").val();
+        tmp = tmp.replace(',','.');
+        var betta = parseFloat(tmp);
+        tmp = $("input#ksc").val();
+        tmp = tmp.replace(',','.');
+        var gamma = parseFloat(tmp);
+        var sho = $("select#ssho option:selected").val();
+        
+        if(sho === '1'){
+            alpha = Math.ceil((180 - (betta + gamma))*100)/100;
+            
+            b = Math.ceil((a*(Math.sin(betta*Math.PI/180)/Math.sin(alpha*Math.PI/180)))*100)/100;
+            
+            c = Math.ceil((a*(Math.sin(gamma*Math.PI/180)/Math.sin(alpha*Math.PI/180)))*100)/100;
+            
+        }else if(sho === '2'){
+            
+            gamma = Math.ceil((180 - (betta + alpha))*100)/100;
+            
+            b = Math.ceil((a*(Math.sin(betta*Math.PI/180)/Math.sin(alpha*Math.PI/180)))*100)/100;
+            
+            c = Math.ceil((a*(Math.sin(gamma*Math.PI/180)/Math.sin(alpha*Math.PI/180)))*100)/100;
+            
+        }else if(sho === '3'){
+            
+            alpha = Math.ceil((Math.acos((Math.pow(b,2)+Math.pow(c,2)-Math.pow(a,2))/(2*b*c))*180/Math.PI)*100)/100;
+            
+            betta = Math.ceil((Math.acos((Math.pow(a,2)+Math.pow(c,2)-Math.pow(b,2))/(2*a*c))*180/Math.PI)*100)/100;
+            
+            gamma = Math.ceil((Math.acos((Math.pow(a,2)+Math.pow(b,2)-Math.pow(c,2))/(2*b*a))*180/Math.PI)*100)/100;
+            
+        }
+        
+        $("input#sa").val(a);
+        $("input#sb").val(b);
+        $("input#sc").val(c);
+        $("input#ksa").val(alpha);
+        $("input#ksb").val(betta);
+        $("input#ksc").val(gamma);
+        $("input").css('color','red');
+        
+    }
     
     function _pifagor(){
         
