@@ -205,7 +205,7 @@ $(document).ready(function(){
         tmp = tmp.replace(',','.');
         var gamma = parseFloat(tmp);
         var sho = $("select#ssho option:selected").val();
-        
+       
         if(sho === '1'){
             alpha = Math.ceil((180 - (betta + gamma))*100)/100;
             
@@ -243,8 +243,22 @@ $(document).ready(function(){
         $("input#ksa").val(alpha);
         $("input#ksb").val(betta);
         $("input#ksc").val(gamma);
-        $("input").css('color','red');
         
+        _square(c,alpha,betta,gamma);
+    }
+    
+    function _square(c,alpha,betta,gamma){
+        
+        var rad = 0;
+        var sqrt = 0;
+        
+        rad = Math.ceil((c/(2*Math.sin(Math.PI*gamma/180)))*100)/100;
+        sqrt = Math.ceil((2*Math.pow(rad,2)*Math.sin(Math.PI*alpha/180)*Math.sin(Math.PI*betta/180)*Math.sin(Math.PI*gamma/180))*100)/100;
+        
+        $("input#ST").val(sqrt);
+        $("input#rc").val(rad);
+        $("input").css({'font-weight':'bolder','color':'red'});
+        $("input:button").css({'color':'black','font-weight':'normal'});
     }
     
     function _pifagor(){
@@ -269,8 +283,6 @@ $(document).ready(function(){
             a = Math.sqrt(Math.pow(c,2)-Math.pow(b,2));
             
             a = Math.ceil(a*1000)/1000;
-            
-            $("input#pa").val(a).css({'font-weight':'bolder','color':'red'});
                         
         }else if($("select#pside option:selected").val() === '2'){
             
@@ -280,24 +292,26 @@ $(document).ready(function(){
             
             b = Math.ceil(b*1000)/1000;
             
-            $("input#pb").val(b).css({'font-weight':'bolder','color':'red'});
-            
         }else if($("select#pside option:selected").val() === '3'){
             
             c = 0;            
             c = Math.sqrt(Math.pow(a,2)+ Math.pow(b,2));
             c = Math.ceil(c*1000)/1000;
             
-            $("input#pc").val(c).css({'font-weight':'bolder','color':'red'});
         }else{
             return false;
         }
         
         alpha = Math.ceil(((Math.asin(a/c)*180)/Math.PI)*1000)/1000;
         betta = Math.ceil((gamma - alpha)*1000)/1000;
+        
         $("input#kpa").val(alpha);
         $("input#kpb").val(betta);
-        $("input.degree").css({'font-weight':'bolder','color':'red'});
+        $("input#pa").val(a);
+        $("input#pb").val(b);
+        $("input#pc").val(c);
+        
+        _square(c,alpha,betta,gamma);
     }
 });
 

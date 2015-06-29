@@ -25,4 +25,9 @@ class Controller_Math extends Controller
             
             $this->view->generate('triangle_view.php', 'template_view.php',$data);
         }
+        
+        function action_power($param) {
+            
+            $this->view->generate('power_view.php', 'template_view.php',$data);
+        }
 }

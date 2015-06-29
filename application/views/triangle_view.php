@@ -1,7 +1,3 @@
-<?php
-
-//var_dump($data);
-?>
 <h1>Трикутники теорема&nbsp;&nbsp;<?php echo "{$data['theoreme']}"; ?></h1>
 <div id="sn">    
     <div>
@@ -11,24 +7,14 @@
                     
             <?php
             
-            switch ($data['theoreme']){
-                case 'Синусів':
-                    echo '<p align="center"><img src="/images/cos.png" alt="Sho popalo" width="360"/> </p>';
-                    break;
-                case 'Піфагора':
-                    echo '<p align="center"><img src="/images/pif.png" alt="Sho popalo" width="360"/> </p>';
-                    break;
-            }
-            if($data['theoreme'] !== 'Піфагора'){
-                echo '<p align="center">
-                        <select id="ssho">
-                            <option value="0" selected>Шо відомо?</option>
-                            <option value="1">Сторона та два прилеглих кута</option>
-                            <option value="2">Сторона та прилеглий і протилежний кути</option>
-                            <option value="3">Всі три сторони</option>
-                        </select>
-                    </p>';
-            }
+                switch ($data['theoreme']){
+                    case 'Синусів':
+                        echo '<p align="center"><img src="/images/cos.png" alt="Sho popalo" width="360"/> </p>';
+                        break;
+                    case 'Піфагора':
+                        echo '<p align="center"><img src="/images/pif.png" alt="Sho popalo" width="360"/> </p>';
+                        break;
+                }
             
             ?>
        
@@ -58,10 +44,19 @@
             
             switch ($data['theoreme']){
                 case 'Синусів':
+                    
+                    echo "<span id='tsinS'>";
+                    echo '<p align="center">
+                        <select id="ssho">
+                            <option value="0" selected>Шо відомо?</option>
+                            <option value="1">Сторона та два прилеглих кута</option>
+                            <option value="2">Сторона та прилеглий і протилежний кути</option>
+                            <option value="3">Всі три сторони</option>
+                        </select>
+                    </p>';
                    ?>
                     
-                    <span id='tsinS'>
-                        <small>Заповніть, будь ласка, те що відомо!</small><br/><br/> 
+                        <br/><br/> 
                         A&nbsp;<input id="sa" class="sside" placeholder="A" value="" size="12" disabled/>&nbsp;
                         <input id="ksa" class="sdegree" placeholder="&alpha;&deg;" value="" size="12" disabled/>
                         <br/><br/> 
@@ -70,14 +65,14 @@
                         <br/><br/> 
                         C&nbsp;<input id="sc" class="sside" placeholder="C" value="" size="12" disabled/>&nbsp;
                         <input id="ksc" class="sdegree" placeholder="&gamma;&deg;" value="" size="12" disabled/>
-                        <br/><br/> 
-                        <input type="button" id="smath" value="Порахувати"/><br/> <br/>  
-                    </span>
+                        <br/><br/>
 
                     <?php
                     break;
                 case 'Піфагора':
+                    echo '<span id="tpif">';
                    ?>
+
                     <select id="pside">
                         <option value='0' selected>Яку сторону шукаємо?</option>
                         <option value='1'>A</option>
@@ -92,15 +87,25 @@
                     <br/><br/> 
                     C&nbsp;<input id="pc" class="side" placeholder="C" value="" size="12" disabled/>
                     &nbsp;<input id="kpc" class="degree" placeholder="&gamma;&deg;" value="90" size="12" disabled/>
-                    <br/><br/> 
-                    <input type="button" id="pmath" value="Порахувати"/><br/> <br/> 
-                    <?php
+                   <br/><br/>
+                       <?php
                     break;
             }
-            
-            
-            ?>  
-                    
+         ?>  
+                        R(Радіус описаного кола)&nbsp;<br/><br/>
+                        <input id="rc" class="sside" placeholder="Radius" value="" size="12" disabled/><br/><br/>
+                        S(Площа трикутника)&nbsp;<br/><br/>
+                        <input id="ST" class="sdegree" placeholder="Square" value="" size="12" disabled/>
+                        <br/><br/>
+                        <?php
+                        if($data['theoreme'] === 'Синусів'){
+                              echo  '<input type="button" id="smath" value="Порахувати"/><br/> <br/>'; 
+                      
+                        } else {
+                            echo  '<input type="button" id="pmath" value="Порахувати"/><br/> <br/>';
+                        }
+                        echo '</span>';       
+                        ?>
                 </td>
             </tr>
         </table>
