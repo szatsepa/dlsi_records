@@ -39,6 +39,7 @@
                     <td><a class="menu_btn" id="staff">Персонал</a></td>
                     <td><a class="menu_btn" id="pay">Зарплатня</a></td>
                     <td><a class="menu_btn" id="produce">Производство</a></td>
+                    <td><a class="menu_btn" id="siona">Сушка</a></td>
                     <td><a class="menu_btn" id="sale">Реализация</a></td>
                     <td><a class="menu_btn" id="order">Кубатурник</a></td>
                     <td><a class="menu_btn" id="math">Мат&nbsp;розрах.</a></td>

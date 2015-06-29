@@ -24,7 +24,7 @@ class SubMenu {
                     $sub_menu = array('order'=>'Расчет','order/his'=>'История','order/received'=>'Прийшло','order/providers'=>'Поставщики','order/departs'=>'Подраздел_','order/prices'=>'Цены');
                     break;
                 case 'math':
-                    $sub_menu = array('math'=>'Тригонометрия','math/pif'=>'Теорема Піфагора','math/sin'=>'Теорема сінусів','math/power'=>'Мощность 3-ф');
+                    $sub_menu = array('math/pif'=>'Теорема Піфагора','math/sin'=>'Теорема сінусів','math/power'=>'Мощность 3-ф','math'=>'Тригонометрия',);
                     break;
                 case 'staff':
                     $sub_menu = array('staff'=>"Персонал",'staff/old'=>'Бувші працівники','staff/work'=>'Должности');
@@ -38,21 +38,27 @@ class SubMenu {
                 case 'sale':
                     $sub_menu = array('sale'=>'Продажи','sale/view'=>'Дивитися','sale/customer'=>'Покупці');
                     break;
+                case 'siona':
+                    
+                    break;
                 default:
                     break;
             } 
      
             
-            if($controller_name !== 'main'){
+            if($controller_name === 'main' or $controller_name === 'siona'){
+                
+                return NULL; 
+
+            }  else {
+                
                 $str = '<ul  class="box" id="s_m">';
                 foreach ($sub_menu as $key =>  $value) {
                     $str .= "<li><a href='/".$key."'>".$value."</a></li>";
                 }
                 $str .= "</ul>";
                 echo "$str";
-
-            }  else {
-                return NULL;    
+                
             }
     }  
 }
