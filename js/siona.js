@@ -14,15 +14,15 @@ $(document).ready(function(){
     $("a.arej").mousedown(function(){
         var tmp = $(this).text();
         var rej = tmp.split('-');
+        
         if(rej.length > 1){
-            if(confirm("Який режим - "+rej[0]+" або "+rej[1]+"\n 'OK - перший' 'Отменить - другий'")){
-                document.location = "/siona/rej/"+rej[0];
-            }else{
-                document.location = "/siona/rej/"+rej[1];
-            }
+            var out = prompt("Який режим - "+rej[0]+" або "+rej[1]+"\n",rej[0]);
+            
+            document.location = "/siona/rej/"+out;            
         }else{
             document.location = "/siona/rej/"+rej[0];
-        } 
+        }
+         
     });
     
     $("a#back").mousedown(function(){

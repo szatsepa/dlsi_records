@@ -24,6 +24,8 @@ $(document).ready(function(){
     }
 
     $("#providers").hide();
+    
+    $("p#provider").text($("select#prov option:selected").text()).attr('class',$("select#prov option:selected").val());
 
     $("#dtype").change(function(){
         if(!flagNew){
@@ -89,13 +91,13 @@ $(document).ready(function(){
 
     $("#d_save").live('click',function(){
 
-        _save("departs/add", "INSERT INTO `providers_department`(`providers`, `name`, `comment`, `recorded`) VALUES ('"+$("#providers").find("option:selected").val()+"','"+$("#dname").val()+"','"+$("#dcomment").val()+"',Now())" );
+        _save("/order/add", "INSERT INTO `providers_department`(`providers`, `name`, `comment`, `recorded`) VALUES ('"+$("p#provider").attr('class')+"','"+$("#dname").val()+"','"+$("#dcomment").val()+"',Now())" );
 
     }).css({"cursor":"pointer"});
 
     $("#edit").live('click',function(){
 
-        _save("departs/edit", "UPDATE `providers_department` SET `name`= '"+$("#dname").val()+"',`providers`='"+$("#providers").find("option:selected").val()+"',`comment`= '"+$("#dcomment").val()+"' WHERE `id` = '"+$("#uid").val()+"'");
+        _save("/order/edit", "UPDATE `providers_department` SET `name`= '"+$("#dname").val()+"',`providers`='"+$("p#provider").attr('class')+"',`comment`= '"+$("#dcomment").val()+"' WHERE `id` = '"+$("#uid").val()+"'");
     });
 
 
@@ -134,7 +136,7 @@ $(document).ready(function(){
         var id = this.id;
         id = id.substr(2);
         if(confirm("Дійсно видалити поставщика зі списку?")){
-          _save("departs/del", "UPDATE `providers_department` SET `activ`= 0 WHERE `id` = "+id);
+          _save("/order/del", "UPDATE `providers_department` SET `activ`= 0 WHERE `id` = "+id);
         }
     });
 

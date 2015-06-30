@@ -65,17 +65,18 @@ foreach ($data['providers'] as $value) {
         <div class="right_block">
             <br/>
             <br/>
-            <select id="dtype">
+<!--            <select id="dtype">
                 <option selected value="0">Тип поставщика</option>
                 <?php
                                 foreach ($data['dtype'] as $value) {
                                     echo "<option value='{$value['id']}'>{$value['providers_type']}</option>";
                                 }
                 ?>
-            </select>
+            </select>-->
             <br/>
             <br/>
-            <select id="providers">
+            <p id="provider" class=""></p>
+<!--            <select id="providers">
                 <option value="0" selected>Поставщик</option>
                 <?php
                                 foreach ($data['providers'] as $value) {
@@ -83,7 +84,7 @@ foreach ($data['providers'] as $value) {
                                 }
                 ?>
                 
-            </select>
+            </select>-->
             <br/>
             <br/>
             <input id="dname" type="text" value="" size="64" required placeholder="Наименование"/>
