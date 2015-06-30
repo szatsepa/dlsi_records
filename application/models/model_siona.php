@@ -20,9 +20,9 @@ class Model_Siona extends Model
 	{
             $data = array();
             
-            $data['data'] =  self::querySelect("SELECT * FROM `siona` WHERE `rej` = '{$list}'");
+            $data['data'] =  self::querySelect("SELECT * FROM `siona` WHERE `rej` = '{$list}' ");
             
-            $data['rej'] = self::querySelect("SELECT `rej` FROM `siona` GROUP BY `rej`");
+            $data['rej'] = self::querySelect("SELECT `rej` FROM `siona` GROUP BY `rej` ORDER BY `rej`");
             
             $data['page'] = $list;
             

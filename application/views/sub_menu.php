@@ -39,14 +39,14 @@ class SubMenu {
                     $sub_menu = array('sale'=>'Продажи','sale/view'=>'Дивитися','sale/customer'=>'Покупці');
                     break;
                 case 'siona':
-                    
+                    $sub_menu = array('siona/modes'=>'Підбір режимів','siona/rej/1'=>'Режими сушіння');
                     break;
                 default:
                     break;
             } 
      
-            
-            if($controller_name === 'main' or $controller_name === 'siona'){
+//             or $controller_name === 'siona'
+            if($controller_name === 'main'){
                 
                 return NULL; 
 

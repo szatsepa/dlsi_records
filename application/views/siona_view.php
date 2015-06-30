@@ -9,6 +9,7 @@
 <div id="sn"> 
     <input type="hidden" id="page" value="<?php           echo "{$data['page']}";?>"/>
     <div>
+        <p><a id="back">Повернутися до вибору</a></p>
         <table id ="sw" class="info_tables">
             <thead>
                 <tr>
@@ -19,7 +20,7 @@
                         Години
                     </th>
                     <th colspan="4">
-                        <?php                        echo "{$data['data'][0]['Hlong']}";?>
+                        <?php                        echo "{$data['data'][0]['Hlong']}";?>&nbsp;год.
                     </th>
                     
                 </tr>
@@ -29,7 +30,7 @@
                         Дні
                     </th>
                     <th colspan="4">
-                        <?php                        echo "{$data['data'][0]['Dlong']}";?>
+                        <?php                        echo "{$data['data'][0]['Dlong']}";?>&nbsp;дн.
                     </th>
                 </tr>
                 <tr>
@@ -58,7 +59,7 @@
                         Температура&nbsp;в&nbsp;&deg;С
                     </th>
                     <th colspan="2">
-                        Психрометрична&nbsp;різність&nbsp;&lpar;в&nbsp;&deg;С&rpar;
+                        Психрометрична&nbsp;різниця&nbsp;&lpar;в&nbsp;&deg;С&rpar;
                     </th>
                     <th>
                         Тривалість&nbsp;сушки
