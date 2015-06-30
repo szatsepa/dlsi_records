@@ -8,11 +8,11 @@ class Model_Siona extends Model
 	{
             $data = array();
             
-            $data['data'] =  self::querySelect("SELECT * FROM `siona`");
+            $data['data'] =  self::querySelect("SELECT * FROM `siona` WHERE `rej` = 1");
             
             $data['rej'] = self::querySelect("SELECT `rej` FROM `siona` GROUP BY `rej`");
             
-            $data['page'] = $param;
+            $data['page'] = NULL;
             
             return $data;
 	}
@@ -24,7 +24,7 @@ class Model_Siona extends Model
             
             $data['rej'] = self::querySelect("SELECT `rej` FROM `siona` GROUP BY `rej`");
             
-            $data['page'] = $param;
+            $data['page'] = $list;
             
             return $data;
 	}

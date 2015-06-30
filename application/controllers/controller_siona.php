@@ -15,7 +15,7 @@ class Controller_Siona extends Controller
             $this->view->generate('siona_view.php', 'template_view.php',$data);
 	}
         
-        function action_page($list) {
+        function action_rej($list) {
             
             $data = $this->model->get_page($list);
             
