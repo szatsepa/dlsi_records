@@ -9,10 +9,17 @@
 <div id="sn"> 
     <input type="hidden" id="page" value="<?php           echo "{$data['page']}";?>"/>
     <div>
-        <p><a id="back">Повернутися до вибору</a></p>
+        <p><a id="back">Повернутися до вибору</a><br/></p>
+        <span id="hrej">
+            Режим №&nbsp;&minus;&nbsp;<?php           echo "{$data['page']}";?><br/>
+        
+        Час порібний для завершення сушиння&nbsp;<?php                        echo "{$data['data'][0]['Hlong']}";?>&nbsp;год.- абож&nbsp;<?php                        echo "{$data['data'][0]['Dlong']}";?>&nbsp;дн. <br/>
+         <br/> 
+        </span>
+        
         <table id ="sw" class="info_tables">
             <thead>
-                <tr>
+<!--                <tr>
                     <th rowspan="2">
                         Час
                     </th>
@@ -20,11 +27,11 @@
                         Години
                     </th>
                     <th colspan="4">
-                        <?php                        echo "{$data['data'][0]['Hlong']}";?>&nbsp;год.
+                        
                     </th>
                     
-                </tr>
-                <tr>
+                </tr>-->
+<!--                <tr>
                     
                     <th>
                         Дні
@@ -32,8 +39,8 @@
                     <th colspan="4">
                         <?php                        echo "{$data['data'][0]['Dlong']}";?>&nbsp;дн.
                     </th>
-                </tr>
-                <tr>
+                </tr>-->
+<!--                <tr>
                     <th colspan="5" style="text-align: center;">
                         Режим&nbsp;&nbsp;&nbsp;
                         <select id="rej">
@@ -50,7 +57,7 @@
                         </select>
                         
                     </th>
-                </tr>
+                </tr>-->
                 <tr>
                     <th rowspan="2">
                         Вологість&nbsp;деревени&nbsp;&lpar;в&nbsp;&percnt;&rpar;W
