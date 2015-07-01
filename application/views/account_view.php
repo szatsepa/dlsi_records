@@ -10,7 +10,7 @@ echo "<input type='hidden' id='page' value='{$data['page']}'/>";
                 <?php
 //                print_r($data['selector']);
                 if(count($data['selector'])>0){
-                    echo "<select id='type'>";
+                    echo "<select id='staff'>";
                     echo "<option value='0'>Все</option>";
                     foreach ($data['selector'] as  $value){
                          if($data['page'] === $value['id']){
@@ -49,7 +49,7 @@ echo "<input type='hidden' id='page' value='{$data['page']}'/>";
                             <td>".sprintf("%01.2f", $value['returned'])."</td>";
                             $sum = round(($value['received']-$value['returned']),2);
                             $returned += $value['returned'];
-                            $summ += ($value['received']-$value['returned']);
+                            $summ += ($value['received']-$value['returned']-$value['outlay']);
 //                           echo "<td>".sprintf("%01.2f", $sum)."</td>";    
                            echo " <td>
                                 <a id='e_{$value['id']}' class='ico-plus' title='Додати'></a>
@@ -110,4 +110,4 @@ echo "<input type='hidden' id='page' value='{$data['page']}'/>";
         
     </div>
 </div>
-<script type="text/javascript" src="/js/equipment.js"></script>
+<script type="text/javascript" src="/js/account.js"></script>
