@@ -96,4 +96,11 @@ class Controller_Produce extends Controller
             
             $this->view->generate('equipment_view.php', 'template_view.php', $data);
         }
+        
+        function action_account($param) {
+            
+            $data = $this->model->get_account($param);
+            
+            $this->view->generate('account_view.php', 'template_view.php', $data);
+        }
 }

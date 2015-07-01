@@ -188,4 +188,25 @@ class Model_Produce extends Model
             return $data;
         }
         
+        public function get_account($param) {
+            
+            $data = array();            
+                        
+            $where = urldecode($param);
+            
+            $query = "SELECT a.`id`,s.`id` AS 'staff', s.`surname`, a.`received`, a.`where`,a.`outlay`, a.`returned`, a.`use`, a.`whereR` FROM `on_account` AS a LEFT JOIN `staff` AS s ON a.`staff` = s.`id`";
+            
+            if($param){
+                $query = "SELECT a.`id`,s.`id` AS 'staff', s.`surname`, a.`received`, a.`where`, a.`outlay`,  a.`returned`, a.`use`, a.`whereR` FROM `on_account` AS a LEFT JOIN `staff` AS s ON a.`staff` = s.`id` WHERE a.`staff` = '{$where}'";
+            }
+            
+            $data['selector'] = self::querySelect("SELECT a.`staff` AS 'id', s.`surname` AS 'staff' FROM `on_account` AS a, `staff` AS s WHERE a.`staff` = s.`id`  GROUP BY a.`staff`");
+            
+            $data['onaccount'] = self::querySelect($query);
+            
+            $data['page'] = $param;
+            
+            return $data;
+        }
+        
 }

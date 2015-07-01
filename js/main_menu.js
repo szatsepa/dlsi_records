@@ -33,7 +33,7 @@
                     document.location.reload();
                 } 
             });
-        }
+        };
     }
     
     function _save(url, out){
