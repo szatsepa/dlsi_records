@@ -204,6 +204,8 @@ class Model_Produce extends Model
             
             $data['onaccount'] = self::querySelect($query);
             
+            $data['staff'] = self::querySelect("SELECT `id`, `surname` FROM `staff` WHERE `activity`=1 ORDER BY `surname`");
+            
             $data['page'] = $param;
             
             return $data;

@@ -1,5 +1,5 @@
 <?php
-var_dump($data);
+var_dump($data['staff']);
 echo "<input type='hidden' id='page' value='{$data['page']}'/>";
 ?>
 <h1>Кошти видані під звіт</h1>
@@ -63,39 +63,46 @@ echo "<input type='hidden' id='page' value='{$data['page']}'/>";
             </table>
             <div style="width: 63%">
                 <br/><br/>
-                <h2 style="text-align: center;">
+<!--                <h2 style="text-align: center;">
                     Витрати склали&colon;&nbsp;&nbsp;<?php echo sprintf("%01.2f", $summ); ?> грн.
                     
                     
-                </h2>
+                </h2>-->
                 <h2 style="text-align: center;">
                     Різниця складає&colon;&nbsp;&nbsp;<?php echo sprintf("%01.2f", $summ); ?> грн.
                 </h2>
                     <br/>
                     <br/>
                 </div>
-            <p style="text-align: center;"><input id="new_products" class="btn-save" type="button" value="Добавить позицию"/></p>
+            <p style="text-align: center;"><input id="new_" class="btn-save" type="button" value="Добавить позицию"/></p>
         </div>
     <div class="right_block">
         <br/>
         <br/>
-        <input id="type" type="text" value="" size="48" required placeholder="До якого типу віднести?"/>
+        <select id="hto">
+            <option value="0">Виберіть когось</option>
+            <?php
+            
+                foreach ($data['staff'] as $value) {
+                    if($data['page'] === $value['id']){
+                        echo "<option value='{$value['id']}' selected>{$value['surname']}</option>";
+                    }else{
+                        echo "<option value='{$value['id']}'>{$value['surname']}</option>";
+                    }
+                    
+//                if($data['page']){}
+            }
+            ?>
+            
+        </select>
         <br/>
         <br/>
-        <input id="name" type="text" value="" size="48" required placeholder="Найменування"/>
-        <br/>
-        <br/>
-        <input id="sname" type="text" value="" size="48" placeholder="Найменування коротенько"/>
-        <br/>
-        <br/>
-        <input id="price" type="text" value="" size="48" required placeholder="Ціна/Коштує"/>
-        <br/>
-        <br/>
-        <input id="count" type="text" value="" size="48" required placeholder="Кількіість"/>
+        
+        <input id="price" type="text" value="" size="48" required placeholder="Кількість коштів"/>
         <br/>
         <br/>
         <textarea id="comment" cols="48" rows="3">
-            Коментар
+            Коментар(на що потрібно)
         </textarea>
         <br/>
         <br/>
