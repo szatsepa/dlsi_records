@@ -52,8 +52,7 @@ echo "<input type='hidden' id='page' value='{$data['page']}'/>";
                             $summ += ($value['received']-$value['returned']-$value['outlay']);
 //                           echo "<td>".sprintf("%01.2f", $sum)."</td>";    
                            echo " <td>
-                                <a id='e_{$value['id']}' class='ico-plus' title='Додати'></a>
-                                <a id='d_{$value['id']}' class='ico-minus' title='Зменшити'></a>
+                                <a id='a_{$value['id']}' title='Звітувати'>Звітувати</a>
                             </td>
                          </tr>";
                 }
