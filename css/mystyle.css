@@ -21,7 +21,11 @@ ul#s_m li{
     width: 230px;
     height: 220px;
 }
-
+canvas
+{
+	outline: 1px #0085CC solid;
+        
+}
 div#sort{
     padding-top: 18px;
 }

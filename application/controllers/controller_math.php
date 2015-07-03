@@ -33,6 +33,6 @@ class Controller_Math extends Controller
         
         function action_strop() {
             
-            $this->view->generate('strop_view.php', 'template_view.php');
+            $this->view->generate('strop_view.php', 'template_view.php','izba');
         }
 }

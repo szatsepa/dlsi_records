@@ -22,7 +22,13 @@
                 
                 </style>
 		<script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
-                <script type="text/javascript" src="/js/main_menu.js"></script>   
+                <script type="text/javascript" src="/js/main_menu.js"></script>
+                <?php
+                if($data === 'izba'){
+                   echo  '<script type="text/javascript" src="/js/strop.js"></script>';
+                }
+                
+                ?>
 	</head>
 	<body>
 		
