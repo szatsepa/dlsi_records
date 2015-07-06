@@ -48,16 +48,20 @@ $(document).ready(function(){
     this.gamma = 0;
     this.long = 0;
     context.font = "bold 12px sans-serif";
+    
     this.calculate = function (dd,ll,hh,mm){
+        
         var d = parseFloat(dd);
         var l = parseFloat(ll);
         var h = parseFloat(hh);
         var m = parseFloat(mm);
+        
         var alpha = Math.ceil((Math.atan(2*h/l))*100)/100;
         this.gamma = Math.ceil((180*alpha/Math.PI)*100)/100;
         var ab = Math.ceil(Math.pow((Math.pow(h,2)+Math.pow((.5*l),2)),.5)*1000)/1000;
         var ac = Math.ceil(((m+.5*d)/Math.cos(alpha))*1000)/1000;
         this.long = Math.ceil((ab+ac)*100)/100;
+        
         context.beginPath();
         context.moveTo(70, 270);
         context.lineTo(60, 250);
@@ -69,19 +73,23 @@ $(document).ready(function(){
         context.strokeStyle = "#000";
         context.stroke();
         
-        context.textAlign = "right";
+        context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText(this.long, 203, 205);
+        context.fillText("Ls "+this.long, 148, 205);
         
-        context.textAlign = "right";
+        context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText("Кут наклона даху -"+this.gamma, 180, 105);        
+        context.fillText("Кут наклона даху -"+this.gamma, 5, 105);        
     };
+    
     this.setD = function(d){
         
-        context.textAlign = "right";
+//        context.textAlign = "right";
+//        context.textBaseline = "bottom";
+//        context.fillText("Діаметер бревна - "+d, 150, 64);
+        context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText("Діаметер бревна - "+d, 140, 64);
+        context.fillText(d, 478, 308)
 
     };
     
@@ -111,6 +119,7 @@ $(document).ready(function(){
         
     };
     
+    
     context.beginPath();
     
     for (var x = 0.5; x < 680; x += 10) {
@@ -121,8 +130,23 @@ $(document).ready(function(){
         context.moveTo(0, y);
         context.lineTo(680, y);
         }
+        
     context.strokeStyle = "#eee";
     context.stroke();
+    
+    context.beginPath();
+    
+    context.strokeStyle = "#000";
+    
+    context.moveTo(400, 280);
+    context.lineTo(456, 310);
+    context.lineTo(506, 310);
+    context.stroke();
+    
+    context.textAlign = "left";
+    context.textBaseline = "bottom";
+    context.fillText("D", 458, 308);
+    
 
 };
 
