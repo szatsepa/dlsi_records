@@ -6,23 +6,26 @@ $(document).ready(function(){
     
     $("input#D").keypress(function(e){
         if(e.which === 13){
+            huynja.setD($("input#D").val());
             $("input#L").focus();
         }
     });
 
     $("input#L").keypress(function(e){
         if(e.which === 13){
+            huynja.setL($("input#L").val());
             $("input#H").focus();
         }
     });
     $("input#H").keypress(function(e){
         if(e.which === 13){
+            huynja.setH($("input#H").val());
             $("input#m").focus();
         }
     });
     $("input#m").keypress(function(e){
         if(e.which === 13){
-            
+            huynja.setM($("input#m").val());
             huynja.calculate($("#D").val(),$("#L").val(),$("#H").val(),$("#m").val());
         }
     });
@@ -44,6 +47,7 @@ $(document).ready(function(){
     var context = obj.getContext("2d");
     this.gamma = 0;
     this.long = 0;
+    context.font = "bold 12px sans-serif";
     this.calculate = function (dd,ll,hh,mm){
         var d = parseFloat(dd);
         var l = parseFloat(ll);
@@ -54,7 +58,46 @@ $(document).ready(function(){
         var ab = Math.ceil(Math.pow((Math.pow(h,2)+Math.pow((.5*l),2)),.5)*1000)/1000;
         var ac = Math.ceil(((m+.5*d)/Math.cos(alpha))*1000)/1000;
         this.long = ab+ac;
-        alert(this.long+" - "+this.gamma);
+        context.beginPath();
+        context.moveTo(70, 270);
+        context.lineTo(60, 250);
+        context.moveTo(275, 185);
+        context.lineTo(265, 165);
+        context.moveTo(63, 255);
+        context.lineTo(268, 169);
+        
+        context.strokeStyle = "#000";
+        context.stroke();
+        
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText(this.long, 203, 205);
+        
+    };
+    this.setD = function(d){
+        
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText("Діаметер бревна - "+d, 140, 64);
+
+    };
+    
+    this.setL = function(l){
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText(l, 315, 310);
+    };
+    
+    this.setH = function(h){
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText(h, 335, 245);
+    };
+    
+    this.setM = function(m){
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText(m, 105, 315);
     };
     
     var hous = new Image();
