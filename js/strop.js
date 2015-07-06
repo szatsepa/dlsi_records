@@ -57,7 +57,7 @@ $(document).ready(function(){
         this.gamma = Math.ceil((180*alpha/Math.PI)*100)/100;
         var ab = Math.ceil(Math.pow((Math.pow(h,2)+Math.pow((.5*l),2)),.5)*1000)/1000;
         var ac = Math.ceil(((m+.5*d)/Math.cos(alpha))*1000)/1000;
-        this.long = ab+ac;
+        this.long = Math.ceil((ab+ac)*100)/100;
         context.beginPath();
         context.moveTo(70, 270);
         context.lineTo(60, 250);
@@ -75,7 +75,7 @@ $(document).ready(function(){
         
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.fillText("Кут наклона даху -"+this.gamma, 120, 175);        
+        context.fillText("Кут наклона даху -"+this.gamma, 180, 105);        
     };
     this.setD = function(d){
         
