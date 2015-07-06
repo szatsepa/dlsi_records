@@ -64,7 +64,7 @@ PAGE: INDEX
 #content .btn-box .btn dt a:hover, .btn-box .btn dt a:active, .btn-box .btn dt a:focus {color:#df0000;}
 #content .btn-box .btn dd a {color:#000;}
 #content .btn-box .btn dd a:hover, #content .btn-box .btn dd a:active, #content .btn-box .btn dd a:focus {color:#df0000;}
-#content .btn-save {background:url("../design/menu.gif") 100% 0 repeat-x;font-weight: bolder;color: #ff3333;font-size: 120%;}
+#content .btn-save {background:url("../design/menu.gif") 100% 0 repeat-x;font-weight: bolder;color: #ff3333;font-size: 120%;cursor: pointer;}
 #content .btn-save:hover {color: yellow;}
 
 /* =============================================================================

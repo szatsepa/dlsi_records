@@ -23,7 +23,8 @@ ul#s_m li{
 }
 canvas
 {
-	outline: 1px #0085CC solid;
+	/*outline: 1px #0085CC solid;*/
+/*        color: #f6a828*/
         
 }
 div#sort{
