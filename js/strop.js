@@ -62,7 +62,7 @@ function tut(){
     
     context.strokeStyle = "#000";
     context.stroke();
-
+    
     context.textBaseline = "top";
     context.fillText("( 0 , 0 )", 8, 5);
     
