@@ -73,6 +73,9 @@ $(document).ready(function(){
         context.textBaseline = "bottom";
         context.fillText(this.long, 203, 205);
         
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText("Кут наклона даху -"+this.gamma, 120, 175);        
     };
     this.setD = function(d){
         
