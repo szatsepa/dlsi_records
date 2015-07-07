@@ -2,10 +2,16 @@ $(document).ready(function(){
     
     var huynja =  new Drows();
     
+    
     $("input#D").focus();
+    
+    $("select#type").change(function(){
+        huynja.setP($("select#type option:selected").val());
+    });
     
     $("input#D").keypress(function(e){
         if(e.which === 13){
+            obj['D'] = parseFloat($("input#D").val());
             huynja.setD($("input#D").val());
             $("input#L").focus();
         }
@@ -13,54 +19,100 @@ $(document).ready(function(){
 
     $("input#L").keypress(function(e){
         if(e.which === 13){
+            obj['L'] = parseFloat($("input#L").val());
             huynja.setL($("input#L").val());
+            $("input#L1").focus();
+        }
+    });
+    
+    $("input#L1").keypress(function(e){
+        if(e.which === 13){
+            obj['L1'] = parseFloat($("input#L1").val());
+//            huynja.setL1($("input#L1").val());
             $("input#H").focus();
         }
     });
+    
     $("input#H").keypress(function(e){
         if(e.which === 13){
+            obj['H'] = parseFloat($("input#H").val());
             huynja.setH($("input#H").val());
             $("input#m").focus();
         }
     });
     $("input#m").keypress(function(e){
         if(e.which === 13){
+            obj['m'] = parseFloat($("input#m").val());            
             huynja.setM($("input#m").val());
-            huynja.calculate($("#D").val(),$("#L").val(),$("#H").val(),$("#m").val());
+            $("input#step").focus();
+//            huynja.calculate(obj);
         }
     });
+    
+    $("input#step").keypress(function(e){
+        if(e.which === 13){
+            
+            obj['step'] = parseFloat($("input#step").val());
+            huynja.calculate(obj);
+        }
+    });
+    
     $("input.btn-save").mousedown(function(){
-//        alert(huynja.calculate($("#D").val(),$("#L").val(),$("#H").val(),$("#m").val()));
-        huynja.calculate($("#D").val(),$("#L").val(),$("#H").val(),$("#m").val());
+        obj['D'] = parseFloat($("input#D").val());
+        obj['L'] = parseFloat($("input#L").val());
+        obj['L1'] = parseFloat($("input#L1").val());
+        obj['H'] = parseFloat($("input#H").val());
+        obj['m'] = parseFloat($("input#m").val());
+        obj['step'] = parseFloat($("input#step").val());
+        huynja.calculate(obj);
     });
     
     
     
 });
 
-
+var obj = new Object();
 
  Drows = function (){
     
-    var obj = {};
+    var obj = new Object();
     obj = document.getElementById("a");
     var context = obj.getContext("2d");
     this.gamma = 0;
+    this.gamma1 = 0;
     this.long = 0;
+    this.long1 = 0;
+    this.snow = 1500;
+    this.wind = 450;
+    this.AB = 0;
+    this.BC = 0;
+    this.Hhous = 0;
+    this.pokr = 0;
+    this.widthS = 0;
+    this.haightS = 0;
+    this.step = 0;
     context.font = "bold 12px sans-serif";
     
-    this.calculate = function (dd,ll,hh,mm){
+    this.calculate = function (obj){
         
-        var d = parseFloat(dd);
-        var l = parseFloat(ll);
-        var h = parseFloat(hh);
-        var m = parseFloat(mm);
+        var d = obj['D'];
+        var l = obj['L'];
+        var l1 = obj['L1'];
+        var h = obj['H'];
+        var m = obj['m'];
+        this.step = obj['step'];
         
-        var alpha = Math.ceil((Math.atan(2*h/l))*100)/100;
+        var alpha = Math.ceil((Math.atan(h/l))*100)/100;
+        var alpha1 = Math.ceil((Math.atan(h/l))*100)/100;
+//    degree    
         this.gamma = Math.ceil((180*alpha/Math.PI)*100)/100;
-        var ab = Math.ceil(Math.pow((Math.pow(h,2)+Math.pow((.5*l),2)),.5)*1000)/1000;
-        var ac = Math.ceil(((m+.5*d)/Math.cos(alpha))*1000)/1000;
-        this.long = Math.ceil((ab+ac)*100)/100;
+        this.gamma1 = Math.ceil((180*alpha1/Math.PI)*100)/100;
+//       stropilo do opor 
+        this.AB = Math.pow((Math.pow(h,2)+Math.pow(l,2)),.5);
+        this.BC = Math.pow((Math.pow(h,2)+Math.pow(l1,2)),.5);
+//        stropilo s vyletom
+        this.long = Math.ceil((Math.pow((Math.pow(h,2)+Math.pow(l,2)),.5)+(m+.5*d)/Math.cos(alpha))*100)/100;
+        this.long1 = Math.ceil((Math.pow((Math.pow(h,2)+Math.pow(l1,2)),.5)+(m+.5*d)/Math.cos(alpha))*100)/100;
         
         context.beginPath();
         context.moveTo(70, 270);
@@ -79,24 +131,85 @@ $(document).ready(function(){
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText("Кут наклона даху -"+this.gamma, 5, 105);        
+        context.fillText("Кут наклона даху -"+this.gamma, 5, 105);
+    };
+    
+    this.hardness = function(){
+        
+        var mu = 0;
+        
+        if(this.gamma <= 30){
+            mu = 1;
+        }else if(this.gamma > 30 && this.gamma <= 60){
+            mu =  .033*(60-this.gamma);
+        }
+        
+        var S = mu*this.snow;
+        
+        var K = .75;
+        
+        if(this.Hhous > 500 && this.Hhous < 1000){
+            K = 1;
+        }else if(this.Hhous > 1000 && this.Hhous < 2000){
+            K = 1.25;
+        }
+        
+        var W = this.wind*K*.8;
+        
+        var SUM = S+W+this.pokr+50;
+        
+        var QR = SUM*this.AB;
+        
+        var Hp = 0;
+        
+        if(this.gamma < 30){
+            Hp = 8.6*this.AB*Math.pow(QR/(this.widthS*140),1/2);
+        }else{
+            Hp = 9.5*this.AB*Math.pow(QR/(this.widthS*140),1/2);
+        }
+        
+        var Contr = 3.125*QR*Math.pow(this.AB,3)/(this.widthS*Math.pow(this.haightS,3));
+        
+        if(Contr > 1){
+            alert("Хуйня війшла виберіть дебеліший брус!");
+            return false;
+        }
+ 
+
+
+        
+    };
+    
+    this.setWidth = function(W){
+        
+    };
+    
+    this.setHh = function(Hh){
+        
+    };
+    
+    this.setP = function(P){
+        this.pokr = parseFloat(P);
     };
     
     this.setD = function(d){
         
-//        context.textAlign = "right";
-//        context.textBaseline = "bottom";
-//        context.fillText("Діаметер бревна - "+d, 150, 64);
         context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText(d, 478, 308)
+        context.fillText(d, 478, 308);
 
     };
     
     this.setL = function(l){
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.fillText(l, 315, 310);
+        context.fillText(l, 200, 310);
+    };
+    
+    this.setL1 = function(l){
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.fillText(l, 400, 310);
     };
     
     this.setH = function(h){
@@ -141,11 +254,21 @@ $(document).ready(function(){
     context.moveTo(400, 280);
     context.lineTo(456, 310);
     context.lineTo(506, 310);
+    context.moveTo(280, 270);
+    context.lineTo(280, 330);
     context.stroke();
     
     context.textAlign = "left";
     context.textBaseline = "bottom";
     context.fillText("D", 458, 308);
+    
+    context.textAlign = "left";
+    context.textBaseline = "bottom";
+    context.fillText("L", 170, 310);
+    
+    context.textAlign = "left";
+    context.textBaseline = "bottom";
+    context.fillText("L1", 310, 310);
     
 
 };
