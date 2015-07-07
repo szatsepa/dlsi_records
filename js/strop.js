@@ -3,10 +3,21 @@ $(document).ready(function(){
     var huynja =  new Drows();
     
     
-    $("input#D").focus();
+    $("select#ws").change(function(){
+        huynja.setWidth($("select#ws option:selected").val());
+        $("input#Hh").focus();
+    });
+    
+    $("input#Hh").keypress(function(e){
+        if(e.which === 13){
+            huynja.setHh($("input#Hh").val());
+//            $("input#L").focus();
+        }
+    });    
     
     $("select#type").change(function(){
         huynja.setP($("select#type option:selected").val());
+        $("input#D").focus();
     });
     
     $("input#D").keypress(function(e){
@@ -89,7 +100,7 @@ var obj = new Object();
     this.Hhous = 0;
     this.pokr = 0;
     this.widthS = 0;
-    this.haightS = 0;
+    this.heightS = 0;
     this.step = 0;
     context.font = "bold 12px sans-serif";
     
@@ -132,6 +143,8 @@ var obj = new Object();
         context.textAlign = "left";
         context.textBaseline = "bottom";
         context.fillText("Кут наклона даху -"+this.gamma, 5, 105);
+        
+        this.hardness();
     };
     
     this.hardness = function(){
@@ -168,11 +181,13 @@ var obj = new Object();
             Hp = 9.5*this.AB*Math.pow(QR/(this.widthS*140),1/2);
         }
         
-        var Contr = 3.125*QR*Math.pow(this.AB,3)/(this.widthS*Math.pow(this.haightS,3));
+        var Contr = 3.125*QR*Math.pow(this.AB,3)/(this.widthS*Math.pow(this.heightS,3));
         
         if(Contr > 1){
             alert("Хуйня війшла виберіть дебеліший брус!");
             return false;
+        }else{
+            alert(this.widthS+" "+this.heightS);
         }
  
 
@@ -181,15 +196,15 @@ var obj = new Object();
     };
     
     this.setWidth = function(W){
-        
+        this.widthS = parseFloat(W);
     };
     
     this.setHh = function(Hh){
-        
+        this.heightS = parseFloat(Hh);
     };
     
     this.setP = function(P){
-        this.pokr = parseFloat(P);
+        this.pokr = parseFloat(P)/100;
     };
     
     this.setD = function(d){

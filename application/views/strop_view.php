@@ -5,9 +5,21 @@
      <table>
          <tbody>
              <tr>
-                 <td colspan="2">
-                     Додати вишину будівлі. Step strop.Вибір ширини стропильного бруса.
+                 <td>
+                     <select id="ws">
+                         <option value="0" selected>Виберіть ширшину бруса</option>
+                         <option value="5">50</option>
+                         <option value="6">60</option>
+                         <option value="7.5">75</option>
+                         <option value="10">100</option>                         
+                     </select>
                  </td>
+                 <td>
+                     Вишина будівлі в метрах - <strong>Hh</strong><br/><br/>
+                     <input type="text" id="Hh" placeholder="вишина" size="12"/>
+                     
+                 </td>
+                 
              </tr>
              <tr>
                  <td colspan="2">
@@ -32,11 +44,11 @@
                      *<small>все вимірюється в сантиметрах</small>*<br/><br/>
                      Діаметер стінового бревна - <strong>D</strong><br/><br/>
                      <input type="text" id="D" placeholder="діаметер" size="12"/><br/><br/>
-                     Відстань вісь стіни 1 до стріхи - <strong>L</strong><br/><br/>
+                     Відстань вісь стіни 1 до центру - <strong>L</strong><br/><br/>
                      <input type="text" id="L" placeholder="міжосьове" size="12"/><br/><br/>
-                     Відстань вісь стіни 2 до стріхи - <strong>L1</strong><br/><br/>
+                     Відстань вісь стіни 2 до центру - <strong>L1</strong><br/><br/>
                      <input type="text" id="L1" placeholder="міжосьове" size="12"/><br/><br/>
-                     Відстань від балок до верха - <strong>H</strong><br/><br/>
+                     Відстань від балок до стріхи - <strong>H</strong><br/><br/>
                      <input type="text" id="H" placeholder="вишина" size="12"/><br/><br/>
                      Відстань від стіни до краю - <strong>m</strong><br/><br/>
                      <input type="text" id="m" placeholder="відстань" size="12"/><br/><br/>
