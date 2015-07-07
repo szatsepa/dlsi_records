@@ -5,21 +5,25 @@ $(document).ready(function(){
     
     $("select#ws").change(function(){
         huynja.setWidth($("select#ws option:selected").val());
+//        $("input#Hh").focus();
+    });
+    
+    $("select#hs").change(function(){
+        huynja.setHeight($("select#hs option:selected").val());
         $("input#Hh").focus();
+    });        
+    
+    $("select#type").change(function(){
+        huynja.setP($("select#type option:selected").val());
+//        $("input#Hh").focus();
     });
     
     $("input#Hh").keypress(function(e){
         if(e.which === 13){
             huynja.setHh($("input#Hh").val());
-//            $("input#L").focus();
+            $("input#D").focus();
         }
-    });    
-    
-    $("select#type").change(function(){
-        huynja.setP($("select#type option:selected").val());
-        $("input#D").focus();
     });
-    
     $("input#D").keypress(function(e){
         if(e.which === 13){
             obj['D'] = parseFloat($("input#D").val());
@@ -93,8 +97,8 @@ var obj = new Object();
     this.gamma1 = 0;
     this.long = 0;
     this.long1 = 0;
-    this.snow = 1500;
-    this.wind = 450;
+    this.snow = 150;
+    this.wind = 45;
     this.AB = 0;
     this.BC = 0;
     this.Hhous = 0;
@@ -111,7 +115,7 @@ var obj = new Object();
         var l1 = obj['L1'];
         var h = obj['H'];
         var m = obj['m'];
-        this.step = obj['step'];
+        this.step = (obj['step'])/100;
         
         var alpha = Math.ceil((Math.atan(h/l))*100)/100;
         var alpha1 = Math.ceil((Math.atan(h/l))*100)/100;
@@ -159,6 +163,8 @@ var obj = new Object();
         
         var S = mu*this.snow;
         
+//        alert("S = "+S);
+        
         var K = .75;
         
         if(this.Hhous > 500 && this.Hhous < 1000){
@@ -169,19 +175,34 @@ var obj = new Object();
         
         var W = this.wind*K*.8;
         
+//        alert("W = "+W);
+        
         var SUM = S+W+this.pokr+50;
         
-        var QR = SUM*this.AB;
+//        alert("SUM = "+SUM);
+        
+        
+        var QR = SUM*this.step;
+        
+//        alert("QR = "+QR);
         
         var Hp = 0;
         
         if(this.gamma < 30){
-            Hp = 8.6*this.AB*Math.pow(QR/(this.widthS*140),1/2);
+            Hp = 8.6*(this.AB/100)*Math.pow(QR/(this.widthS*130),1/2);
         }else{
-            Hp = 9.5*this.AB*Math.pow(QR/(this.widthS*140),1/2);
+            Hp = 9.5*(this.AB/100)*Math.pow(QR/(this.widthS*130),1/2);
         }
         
-        var Contr = 3.125*QR*Math.pow(this.AB,3)/(this.widthS*Math.pow(this.heightS,3));
+        Hp = Math.ceil(Hp*100)/100;
+        
+        this.heightS = prompt("Вишина брусу "+(this.heightS)+", розрахована не меньш за "+(Hp)+" sm",this.heightS);
+        
+        alert("CON w - h = "+this.widthS+" "+this.heightS);
+        
+        var Contr = (3.125*QR*Math.pow(this.AB/100,3))/(this.widthS*Math.pow(this.heightS,3));
+        
+        alert("CONTROL = "+Contr);
         
         if(Contr > 1){
             alert("Хуйня війшла виберіть дебеліший брус!");
@@ -199,8 +220,12 @@ var obj = new Object();
         this.widthS = parseFloat(W);
     };
     
+    this.setHeight = function(W){
+        this.heightS = parseFloat(W);
+    }
+    
     this.setHh = function(Hh){
-        this.heightS = parseFloat(Hh);
+        this.Hhous = parseFloat(Hh);
     };
     
     this.setP = function(P){

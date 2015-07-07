@@ -6,12 +6,33 @@
          <tbody>
              <tr>
                  <td>
+                     <select id="type">
+                         <option value="0" selected>Виберіть тип кровельного матеріалу</option>
+                         <option value="5">Ондулин (битумный шифер)</option>
+                         <option value="5">Металлочерепица</option>
+                         <option value="5">Профнастил</option>
+                         <option value="10">Битумная черепица</option>
+                         <option value="15">Шифер</option>
+                         <option value="40">Керамическая черепица</option>
+                         <option value="50">Цементно-песчаная черепица</option>                         
+                     </select>
+                     <br/><br/>
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
                          <option value="5">50</option>
                          <option value="6">60</option>
                          <option value="7.5">75</option>
                          <option value="10">100</option>                         
+                     </select>
+                     &nbsp;
+                     <select id="hs">
+                         <option value="0" selected>Виберіть вишину бруса</option>
+                         <option value="8">80</option>
+                         <option value="9">90</option>
+                         <option value="10">100</option>
+                         <option value="12">120</option>
+                         <option value="15">150</option>
+                         <option value="20">200</option> 
                      </select>
                  </td>
                  <td>
@@ -21,7 +42,7 @@
                  </td>
                  
              </tr>
-             <tr>
+<!--             <tr>
                  <td colspan="2">
                      <select id="type">
                          <option value="0" selected>Виберіть тип кровельного матеріалу</option>
@@ -35,7 +56,7 @@
                          
                      </select>
                  </td>
-             </tr> 
+             </tr> -->
              <tr>
                  <td>
                       <canvas id="a" width="560" height="330"></canvas>
