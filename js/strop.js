@@ -261,7 +261,7 @@ var obj = new Object();
         this.step = (obj['step'])/100;
         
         var alpha = Math.ceil((Math.atan(h/l))*100)/100;
-        var alpha1 = Math.ceil((Math.atan(h/l))*100)/100;
+        var alpha1 = Math.ceil((Math.atan(h/l1))*100)/100;
 //    degree    
         this.gamma = Math.ceil((180*alpha/Math.PI)*100)/100;
         this.gamma1 = Math.ceil((180*alpha1/Math.PI)*100)/100;
@@ -359,20 +359,20 @@ var obj = new Object();
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText(this.widthS, 80, 85);
+        context.fillText((this.widthS*10), 80, 85);
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText(this.heightS, 140, 150);
+        context.fillText((this.heightS*10), 140, 150);
         
         context.fillStyle = "#000";
         context.font = "bold 16px sans-serif";
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText("Довжина стропильної ноги L="+this.long+" см", 190, 80);
-        context.fillText("Довжина стропильної ноги L1="+this.long1+" см", 190, 100);
-        context.fillText("Перетин стропильного бруса "+this.widthS+"X"+this.heightS+" см", 190, 120);
+        context.fillText("Довжина стропильної ноги L="+this.long+" см", 190, 110);
+        context.fillText("Довжина стропильної ноги L1="+this.long1+" см", 190, 140);
+        context.fillText("Перетин стропильного бруса "+this.widthS+"X"+this.heightS+" см", 190, 170);
         
     };
     

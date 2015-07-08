@@ -23,7 +23,8 @@
                          <option value="0" selected>Виберіть ширшину бруса</option>
                          <option value="5">50</option>
                          <option value="6">60</option>
-                         <option value="7.5">75</option>
+                         <option value="8">80</option>
+                         <option value="9">90</option>
                          <option value="10">100</option>                         
                      </select>
                      &nbsp;
