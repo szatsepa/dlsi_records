@@ -42,24 +42,9 @@
                  </td>
                  
              </tr>
-<!--             <tr>
-                 <td colspan="2">
-                     <select id="type">
-                         <option value="0" selected>Виберіть тип кровельного матеріалу</option>
-                         <option value="5">Ондулин (битумный шифер)</option>
-                         <option value="5">Металлочерепица</option>
-                         <option value="5">Профнастил</option>
-                         <option value="10">Битумная черепица</option>
-                         <option value="15">Шифер</option>
-                         <option value="40">Керамическая черепица</option>
-                         <option value="50">Цементно-песчаная черепица</option>
-                         
-                     </select>
-                 </td>
-             </tr> -->
              <tr>
                  <td>
-                      <canvas id="a" width="560" height="330"></canvas>
+                      <canvas id="a" width="560" height="600"></canvas>
                  </td>
                  <td>
                      *<small>все вимірюється в сантиметрах</small>*<br/><br/>

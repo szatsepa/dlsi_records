@@ -2,6 +2,9 @@ $(document).ready(function(){
     
     var huynja =  new Drows();
     
+    huynja.init();
+    
+    $("canvas#a").css('outline','1px solid #ccc');
     
     $("select#ws").change(function(){
         huynja.setWidth($("select#ws option:selected").val());
@@ -101,12 +104,57 @@ var obj = new Object();
     this.wind = 45;
     this.AB = 0;
     this.BC = 0;
-    this.Hhous = 0;
+    this.Hwood = 0;
     this.pokr = 0;
     this.widthS = 0;
     this.heightS = 0;
     this.step = 0;
     context.font = "bold 12px sans-serif";
+    
+    this.init = function(){
+        
+            var wood = new Image();
+            wood.src = "../images/wood.png";
+            wood.onload = function() {
+                
+                var y = 600;
+                var x = 90;
+                
+                for(var i = 0; i < 3; i++){
+
+                    y -=(30); 
+                    context.drawImage(wood, x,y,30,30);
+                    context.drawImage(wood, (x+380),y,30,30);
+                }
+                
+                
+
+                
+
+            };
+        context.beginPath();
+        context.zindex = 1;
+
+        for (var x = 0.5; x < 560; x += 10) {
+            context.moveTo(x, 0);
+            context.lineTo(x, 600);
+            }
+        for (var y = 0.5; y < 600; y += 10) {
+            context.moveTo(0, y);
+            context.lineTo(560, y);
+            }
+
+        context.strokeStyle = "#eee";
+        context.stroke();
+
+        context.beginPath();
+        context.zindex = 2;
+        context.moveTo(280, 0);
+        context.lineTo(280, 600);
+
+        context.strokeStyle = "#aaa";
+        context.stroke();
+    };
     
     this.calculate = function (obj){
         
@@ -163,58 +211,46 @@ var obj = new Object();
         
         var S = mu*this.snow;
         
-//        alert("S = "+S);
-        
         var K = .75;
         
-        if(this.Hhous > 500 && this.Hhous < 1000){
+        if(this.Hwood > 500 && this.Hwood < 1000){
             K = 1;
-        }else if(this.Hhous > 1000 && this.Hhous < 2000){
+        }else if(this.Hwood > 1000 && this.Hwood < 2000){
             K = 1.25;
         }
         
         var W = this.wind*K*.8;
         
-//        alert("W = "+W);
-        
         var SUM = S+W+this.pokr+50;
-        
-//        alert("SUM = "+SUM);
-        
         
         var QR = SUM*this.step;
         
-//        alert("QR = "+QR);
-        
         var Hp = 0;
-        
-        if(this.gamma < 30){
-            Hp = 8.6*(this.AB/100)*Math.pow(QR/(this.widthS*130),1/2);
-        }else{
-            Hp = 9.5*(this.AB/100)*Math.pow(QR/(this.widthS*130),1/2);
-        }
-        
-        Hp = Math.ceil(Hp*100)/100;
-        
-        this.heightS = prompt("Вишина брусу "+(this.heightS)+", розрахована не меньш за "+(Hp)+" sm",this.heightS);
-        
-        alert("CON w - h = "+this.widthS+" "+this.heightS);
         
         var Contr = (3.125*QR*Math.pow(this.AB/100,3))/(this.widthS*Math.pow(this.heightS,3));
         
-        alert("CONTROL = "+Contr);
-        
         if(Contr > 1){
-            alert("Хуйня війшла виберіть дебеліший брус!");
-            return false;
+            if(confirm("Хуйня війшла виберіть дебеліший брус!\nПродовжити?")){
+               Hp = this.calc_height(Hp,QR);
+            }else{
+                return false;
+            }           
+            
         }else{
-            alert(this.widthS+" "+this.heightS);
+            alert("Вибраний брус "+this.widthS+"Х"+this.heightS+" відповідає умовам міцності!");
         }
- 
-
-
-        
     };
+    
+    this.calc_height = function (hp, QR){
+            
+            var Hp = hp;
+            
+            Hp = Math.ceil(Math.pow((3.125*QR*Math.pow(this.AB,3)/this.widthS),1/3)*1000)/100000;
+        
+            this.heightS = prompt("Вишина брусу "+(this.heightS)+", розрахована не меньш за "+(Hp)+" sm",this.heightS);
+            
+            this.hardness();
+        };
     
     this.setWidth = function(W){
         this.widthS = parseFloat(W);
@@ -225,7 +261,7 @@ var obj = new Object();
     }
     
     this.setHh = function(Hh){
-        this.Hhous = parseFloat(Hh);
+        this.Hwood = parseFloat(Hh);
     };
     
     this.setP = function(P){
@@ -264,51 +300,33 @@ var obj = new Object();
         context.fillText(m, 105, 315);
     };
     
-    var hous = new Image();
-    hous.src = "../images/hous.png";
-    hous.onload = function() {
-        
-        context.drawImage(hous, 0,0,560,330);
-        
-    };
+
     
     
-    context.beginPath();
+
     
-    for (var x = 0.5; x < 680; x += 10) {
-        context.moveTo(x, 0);
-        context.lineTo(x, 400);
-        }
-    for (var y = 0.5; y < 400; y += 10) {
-        context.moveTo(0, y);
-        context.lineTo(680, y);
-        }
-        
-    context.strokeStyle = "#eee";
-    context.stroke();
-    
-    context.beginPath();
-    
-    context.strokeStyle = "#000";
-    
-    context.moveTo(400, 280);
-    context.lineTo(456, 310);
-    context.lineTo(506, 310);
-    context.moveTo(280, 270);
-    context.lineTo(280, 330);
-    context.stroke();
-    
-    context.textAlign = "left";
-    context.textBaseline = "bottom";
-    context.fillText("D", 458, 308);
-    
-    context.textAlign = "left";
-    context.textBaseline = "bottom";
-    context.fillText("L", 170, 310);
-    
-    context.textAlign = "left";
-    context.textBaseline = "bottom";
-    context.fillText("L1", 310, 310);
+//    context.beginPath();
+//    
+//    context.strokeStyle = "#000";
+//    
+//    context.moveTo(400, 280);
+//    context.lineTo(456, 310);
+//    context.lineTo(506, 310);
+//    context.moveTo(280, 270);
+//    context.lineTo(280, 330);
+//    context.stroke();
+//    
+//    context.textAlign = "left";
+//    context.textBaseline = "bottom";
+//    context.fillText("D", 458, 308);
+//    
+//    context.textAlign = "left";
+//    context.textBaseline = "bottom";
+//    context.fillText("L", 170, 310);
+//    
+//    context.textAlign = "left";
+//    context.textBaseline = "bottom";
+//    context.fillText("L1", 310, 310);
     
 
 };
