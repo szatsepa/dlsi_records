@@ -6,32 +6,40 @@ $(document).ready(function(){
     
     $("canvas#a").css('outline','1px solid #ccc');
     
+    $("input#rigel").change(function(){
+        if($("input#rigel").attr('checked') === 'checked'){
+            huynja.drowRigel(true);
+        }else{
+            huynja.drowRigel(false);
+        }
+    });
+    
     $("select#ws").change(function(){
         huynja.setWidth($("select#ws option:selected").val());
-//        $("input#Hh").focus();
+//        $("input#Hh").focus().select();
     });
     
     $("select#hs").change(function(){
         huynja.setHeight($("select#hs option:selected").val());
-        $("input#Hh").focus();
+        $("input#Hh").focus().select();
     });        
     
     $("select#type").change(function(){
         huynja.setP($("select#type option:selected").val());
-//        $("input#Hh").focus();
+//        $("input#Hh").focus().select();
     });
     
     $("input#Hh").keypress(function(e){
         if(e.which === 13){
             huynja.setHh($("input#Hh").val());
-            $("input#D").focus();
+            $("input#D").focus().select();
         }
     });
     $("input#D").keypress(function(e){
         if(e.which === 13){
             obj['D'] = parseFloat($("input#D").val());
             huynja.setD($("input#D").val());
-            $("input#L").focus();
+            $("input#L").focus().select();
         }
     });
 
@@ -39,15 +47,15 @@ $(document).ready(function(){
         if(e.which === 13){
             obj['L'] = parseFloat($("input#L").val());
             huynja.setL($("input#L").val());
-            $("input#L1").focus();
+            $("input#L1").focus().select();
         }
     });
     
     $("input#L1").keypress(function(e){
         if(e.which === 13){
             obj['L1'] = parseFloat($("input#L1").val());
-//            huynja.setL1($("input#L1").val());
-            $("input#H").focus();
+            huynja.setL1($("input#L1").val());
+            $("input#H").focus().select();
         }
     });
     
@@ -55,14 +63,14 @@ $(document).ready(function(){
         if(e.which === 13){
             obj['H'] = parseFloat($("input#H").val());
             huynja.setH($("input#H").val());
-            $("input#m").focus();
+            $("input#m").focus().select();
         }
     });
     $("input#m").keypress(function(e){
         if(e.which === 13){
             obj['m'] = parseFloat($("input#m").val());            
             huynja.setM($("input#m").val());
-            $("input#step").focus();
+            $("input#step").focus().select();
 //            huynja.calculate(obj);
         }
     });
@@ -109,32 +117,12 @@ var obj = new Object();
     this.widthS = 0;
     this.heightS = 0;
     this.step = 0;
+    this.rigel = false;
+    
     context.font = "bold 12px sans-serif";
     
     this.init = function(){
         
-            var wood = new Image();
-            wood.src = "../images/wood.png";
-            wood.onload = function() {
-                
-                var y = 600;
-                var x = 90;
-                
-                for(var i = 0; i < 3; i++){
-
-                    y -=(30); 
-                    context.drawImage(wood, x,y,30,30);
-                    context.drawImage(wood, (x+380),y,30,30);
-                }
-                
-                
-
-                
-
-            };
-        context.beginPath();
-        context.zindex = 1;
-
         for (var x = 0.5; x < 560; x += 10) {
             context.moveTo(x, 0);
             context.lineTo(x, 600);
@@ -145,15 +133,122 @@ var obj = new Object();
             }
 
         context.strokeStyle = "#eee";
-        context.stroke();
+        context.stroke();        
+               
+        var wood = new Image();
+        wood.src = "../images/wood.png";
+        wood.onload = function() {
 
+            var y = 600;
+            var x = 90;
+
+            for(var i = 0; i < 3; i++){
+
+                y -=(30); 
+                context.drawImage(wood, x,y,30,30);
+                context.drawImage(wood, (x+350),y,30,30);
+            }
+        };
+        context.beginPath();
+        context.zindex = 3;
+        context.moveTo(105, 510);
+        context.lineTo(455, 510);
+        
+        context.moveTo(280, 510);
+        context.lineTo(280, 390);
+        
+        context.moveTo(280, 390);
+        context.lineTo(50, 540);
+        
+        context.moveTo(280, 390);
+        context.lineTo(510, 540);
+        
+        context.moveTo(135, 510);
+        context.lineTo(125, 490);
+        
+        context.moveTo(425, 510);
+        context.lineTo(435, 490);
+        
+        context.strokeStyle = "#777";
+        context.stroke();
+        
+        context.beginPath();
+        context.moveTo(50, 540);
+        context.lineTo(32, 510);
+        
+        context.moveTo(50, 540);
+        context.lineTo(50, 570);
+        
+        context.moveTo(50, 565);
+        context.lineTo(90, 565);
+        
+        context.moveTo(280, 390);
+        context.lineTo(260, 363);
+        
+        context.moveTo(37, 515);
+        context.lineTo(265, 370);
+        
+        context.moveTo(280, 390);
+        context.lineTo(300, 363);
+        
+        context.moveTo(510, 540);
+        context.lineTo(530, 510);
+        
+        context.moveTo(297, 370);
+        context.lineTo(522, 519);
+        
+        context.moveTo(105, 570);
+        context.lineTo(450, 570);
+        
+        context.moveTo(280, 390);
+        context.lineTo(250, 390);
+        
+        context.moveTo(280, 510);
+        context.lineTo(250, 510);
+        
+        context.moveTo(255, 390);
+        context.lineTo(255, 510);
+        
+        context.moveTo(50, 585);
+        context.lineTo(135, 585);
+        
+        context.strokeStyle = "green";
+        context.stroke();
+        
+        
+            
+        context.beginPath();
+        context.zindex = 1;
+        
         context.beginPath();
         context.zindex = 2;
         context.moveTo(280, 0);
         context.lineTo(280, 600);
+        
+        
 
         context.strokeStyle = "#aaa";
         context.stroke();
+        
+        
+    };
+    
+    this.drowRigel = function(parm){
+        
+        this.rigel = parm;
+        
+        if(parm){
+            context.beginPath();
+            context.zindex = 2;
+            context.moveTo(200, 440);
+            context.lineTo(360, 440);
+            context.strokeStyle = "#aaa";
+            context.stroke(); 
+        }else{
+            context.clearRect(200, 439, 160, 2);
+        }
+
+        
     };
     
     this.calculate = function (obj){
@@ -171,30 +266,18 @@ var obj = new Object();
         this.gamma = Math.ceil((180*alpha/Math.PI)*100)/100;
         this.gamma1 = Math.ceil((180*alpha1/Math.PI)*100)/100;
 //       stropilo do opor 
-        this.AB = Math.pow((Math.pow(h,2)+Math.pow(l,2)),.5);
-        this.BC = Math.pow((Math.pow(h,2)+Math.pow(l1,2)),.5);
+        
+        var partAB = 0;
+        var partBC = 0;
+        if(this.rigel){
+            partAB = (h/3)/Math.sin(alpha);
+            partBC = (h/3)/Math.sin(alpha1);
+        }
+        this.AB = Math.pow((Math.pow(h,2)+Math.pow(l,2)),.5)-partAB;
+        this.BC = Math.pow((Math.pow(h,2)+Math.pow(l1,2)),.5)-partBC;
 //        stropilo s vyletom
         this.long = Math.ceil((Math.pow((Math.pow(h,2)+Math.pow(l,2)),.5)+(m+.5*d)/Math.cos(alpha))*100)/100;
         this.long1 = Math.ceil((Math.pow((Math.pow(h,2)+Math.pow(l1,2)),.5)+(m+.5*d)/Math.cos(alpha))*100)/100;
-        
-        context.beginPath();
-        context.moveTo(70, 270);
-        context.lineTo(60, 250);
-        context.moveTo(275, 185);
-        context.lineTo(265, 165);
-        context.moveTo(63, 255);
-        context.lineTo(268, 169);
-        
-        context.strokeStyle = "#000";
-        context.stroke();
-        
-        context.textAlign = "left";
-        context.textBaseline = "bottom";
-        context.fillText("Ls "+this.long, 148, 205);
-        
-        context.textAlign = "left";
-        context.textBaseline = "bottom";
-        context.fillText("Кут наклона даху -"+this.gamma, 5, 105);
         
         this.hardness();
     };
@@ -227,25 +310,77 @@ var obj = new Object();
         
         var Hp = 0;
         
-        var Contr = (3.125*QR*Math.pow(this.AB/100,3))/(this.widthS*Math.pow(this.heightS,3));
+        var tmplong = this.AB;
+        
+        if(this.BC > this.AB){
+            tmplong = this.BC;
+        }
+        
+        var Contr = (3.125*QR*Math.pow(tmplong/100,3))/(this.widthS*Math.pow(this.heightS,3));
         
         if(Contr > 1){
             if(confirm("Хуйня війшла виберіть дебеліший брус!\nПродовжити?")){
-               Hp = this.calc_height(Hp,QR);
+               Hp = this.calc_height(Hp,QR,tmplong);
             }else{
                 return false;
             }           
             
         }else{
             alert("Вибраний брус "+this.widthS+"Х"+this.heightS+" відповідає умовам міцності!");
+            this.drowingRes();
         }
     };
     
-    this.calc_height = function (hp, QR){
+    this.drowingRes = function(){
+        
+//        context.color = "#f69";
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText(this.long, 105, 455);
+        
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText(this.long1, 435, 455);
+        
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText("A="+this.gamma, 140, 505);
+        
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText("B="+this.gamma1, 375, 505);
+        
+        context.fillStyle = "#753";
+        context.beginPath();
+        context.fillRect(60,90,75,120);
+        
+        context.fillStyle = "#f69";
+        context.font = "bold 16px sans-serif";
+        
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText(this.widthS, 80, 85);
+        
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText(this.heightS, 140, 150);
+        
+        context.fillStyle = "#000";
+        context.font = "bold 16px sans-serif";
+        
+        context.textAlign = "left";
+        context.textBaseline = "bottom";
+        context.fillText("Довжина стропильної ноги L="+this.long+" см", 190, 80);
+        context.fillText("Довжина стропильної ноги L1="+this.long1+" см", 190, 100);
+        context.fillText("Перетин стропильного бруса "+this.widthS+"X"+this.heightS+" см", 190, 120);
+        
+    };
+    
+    this.calc_height = function (hp, QR,L){
             
             var Hp = hp;
             
-            Hp = Math.ceil(Math.pow((3.125*QR*Math.pow(this.AB,3)/this.widthS),1/3)*1000)/100000;
+            Hp = Math.ceil(Math.pow((3.125*QR*Math.pow(L,3)/this.widthS),1/3)*1000)/100000;
         
             this.heightS = prompt("Вишина брусу "+(this.heightS)+", розрахована не меньш за "+(Hp)+" sm",this.heightS);
             
@@ -272,32 +407,32 @@ var obj = new Object();
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
-        context.fillText(d, 478, 308);
+        context.fillText(d, 60, 585);
 
     };
     
     this.setL = function(l){
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.fillText(l, 200, 310);
+        context.fillText(l, 200, 570);
     };
     
     this.setL1 = function(l){
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.fillText(l, 400, 310);
+        context.fillText(l, 370, 570);
     };
     
     this.setH = function(h){
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.fillText(h, 335, 245);
+        context.fillText(h, 260, 455);
     };
     
     this.setM = function(m){
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.fillText(m, 105, 315);
+        context.fillText(m, 80, 565);
     };
     
 

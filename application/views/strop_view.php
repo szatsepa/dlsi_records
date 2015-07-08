@@ -16,6 +16,8 @@
                          <option value="40">Керамическая черепица</option>
                          <option value="50">Цементно-песчаная черепица</option>                         
                      </select>
+                     &nbsp;&nbsp;
+                     <input type="checkbox" id="rigel" title="Ділить вишину на 2/3 до 1/3"/>&nbsp;Є ригель(стяжкa).
                      <br/><br/>
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
