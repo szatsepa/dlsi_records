@@ -2,6 +2,9 @@ $(document).ready(function(){
     
     var huynja =  new Drows();
     
+    var dataobj = new Object();
+
+    
     huynja.init();
     
     $("canvas#a").css('outline','1px solid #ccc');
@@ -37,7 +40,7 @@ $(document).ready(function(){
     });
     $("input#D").keypress(function(e){
         if(e.which === 13){
-            obj['D'] = parseFloat($("input#D").val());
+            dataobj['D'] = parseFloat($("input#D").val());
             huynja.setD($("input#D").val());
             $("input#L").focus().select();
         }
@@ -45,7 +48,7 @@ $(document).ready(function(){
 
     $("input#L").keypress(function(e){
         if(e.which === 13){
-            obj['L'] = parseFloat($("input#L").val());
+            dataobj['L'] = parseFloat($("input#L").val());
             huynja.setL($("input#L").val());
             $("input#L1").focus().select();
         }
@@ -53,7 +56,7 @@ $(document).ready(function(){
     
     $("input#L1").keypress(function(e){
         if(e.which === 13){
-            obj['L1'] = parseFloat($("input#L1").val());
+            dataobj['L1'] = parseFloat($("input#L1").val());
             huynja.setL1($("input#L1").val());
             $("input#H").focus().select();
         }
@@ -61,34 +64,34 @@ $(document).ready(function(){
     
     $("input#H").keypress(function(e){
         if(e.which === 13){
-            obj['H'] = parseFloat($("input#H").val());
+            dataobj['H'] = parseFloat($("input#H").val());
             huynja.setH($("input#H").val());
             $("input#m").focus().select();
         }
     });
     $("input#m").keypress(function(e){
         if(e.which === 13){
-            obj['m'] = parseFloat($("input#m").val());            
+            dataobj['m'] = parseFloat($("input#m").val());            
             huynja.setM($("input#m").val());
             $("input#step").focus().select();
-//            huynja.calculate(obj);
+//            huynja.calculate(dataobj);
         }
     });
     
     $("input#step").keypress(function(e){
         if(e.which === 13){
             
-            obj['step'] = parseFloat($("input#step").val());
-            huynja.calculate(obj);
+            dataobj['step'] = parseFloat($("input#step").val());
+            huynja.calculate(dataobj);
         }
     });
     
     $("input.btn-save").mousedown(function(){
-        obj['D'] = parseFloat($("input#D").val());
-        obj['L'] = parseFloat($("input#L").val());
-        obj['L1'] = parseFloat($("input#L1").val());
-        obj['H'] = parseFloat($("input#H").val());
-        obj['m'] = parseFloat($("input#m").val());
+        dataobj['D'] = parseFloat($("input#D").val());
+        dataobj['L'] = parseFloat($("input#L").val());
+        dataobj['L1'] = parseFloat($("input#L1").val());
+        dataobj['H'] = parseFloat($("input#H").val());
+        dataobj['m'] = parseFloat($("input#m").val());
         obj['step'] = parseFloat($("input#step").val());
         huynja.calculate(obj);
     });
@@ -97,7 +100,7 @@ $(document).ready(function(){
     
 });
 
-var obj = new Object();
+//var obj = new Object();
 
  Drows = function (){
     
@@ -326,7 +329,7 @@ var obj = new Object();
             }           
             
         }else{
-            alert("Вибраний брус "+this.widthS+"Х"+this.heightS+" відповідає умовам міцності!");
+            alert("Вибраний брус "+this.widthS+"Х"+this.heightS+" відповідає умовам міцності!("+Contr+")");
             this.drowingRes();
         }
     };
@@ -366,7 +369,7 @@ var obj = new Object();
         context.fillText((this.heightS*10), 140, 150);
         
         context.fillStyle = "#000";
-        context.font = "bold 16px sans-serif";
+        context.font = "normal 16px sans-serif";
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
@@ -433,36 +436,7 @@ var obj = new Object();
         context.textAlign = "right";
         context.textBaseline = "bottom";
         context.fillText(m, 80, 565);
-    };
-    
-
-    
-    
-
-    
-//    context.beginPath();
-//    
-//    context.strokeStyle = "#000";
-//    
-//    context.moveTo(400, 280);
-//    context.lineTo(456, 310);
-//    context.lineTo(506, 310);
-//    context.moveTo(280, 270);
-//    context.lineTo(280, 330);
-//    context.stroke();
-//    
-//    context.textAlign = "left";
-//    context.textBaseline = "bottom";
-//    context.fillText("D", 458, 308);
-//    
-//    context.textAlign = "left";
-//    context.textBaseline = "bottom";
-//    context.fillText("L", 170, 310);
-//    
-//    context.textAlign = "left";
-//    context.textBaseline = "bottom";
-//    context.fillText("L1", 310, 310);
-    
+    };    
 
 };
 
