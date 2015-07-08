@@ -7,6 +7,17 @@ $(document).ready(function(){
     
     huynja.init();
     
+//    $("#print").mousedown(function(){
+//        
+//        $('diw#dPrint').printElement({
+//                overrideElementCSS:[
+//		'/css/print_element.css',
+//		{ href:'/css/print_element.css',media:'print'}],
+//                leaveOpen:true,
+//                printMode:'popup'
+//            });
+//    });
+    
     $("canvas#a").css('outline','1px solid #ccc');
     
     $("input#rigel").change(function(){

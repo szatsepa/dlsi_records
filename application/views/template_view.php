@@ -25,7 +25,7 @@
                 <script type="text/javascript" src="/js/main_menu.js"></script>
                 <?php
                 if($data === 'izba'){
-                   echo  '<script type="text/javascript" src="/js/strop.js"></script>';
+//                   echo  '<script type="text/javascript" src="/js/strop.js"></script>';
                 }
                 
                 ?>

@@ -47,7 +47,14 @@
              </tr>
              <tr>
                  <td>
-                      <canvas id="a" width="560" height="600"></canvas>
+                     
+                         <canvas id="a" width="560" height="600"></canvas>
+<!--                       <div id="dPrint">   <br/>
+                          <p style="text-align: center;">
+                            <input type="button" class="btn-save" id="print" value="Дуркувати"/>
+                         </p>
+                     </div>-->
+                      
                  </td>
                  <td>
                      *<small>все вимірюється в сантиметрах</small>*<br/><br/>
@@ -70,3 +77,5 @@
      </table>
    
 </div>
+<script type="text/javascript" src="js/jquery.printElement.js"></script>
+<script type="text/javascript" src="/js/strop.js"></script>
