@@ -78,4 +78,13 @@
    
 </div>
 <script type="text/javascript" src="js/jquery.printElement.js"></script>
-<script type="text/javascript" src="/js/strop.js"></script>
+<?php
+if($data === 'izba'){
+    echo '<script type="text/javascript" src="/js/strop.js"></script>';
+}elseif ($data === 'quadro') {
+    echo '<script type="text/javascript" src="/js/quadro.js"></script>';
+    echo '<script type="text/javascript" src="/js/quadro_drows.js"></script>';
+}
+
+?>
+

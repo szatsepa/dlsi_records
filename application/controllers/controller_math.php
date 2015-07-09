@@ -31,8 +31,14 @@ class Controller_Math extends Controller
             $this->view->generate('power_view.php', 'template_view.php');
         }
         
-        function action_strop() {
+        function action_strop($list) {
             
-            $this->view->generate('strop_view.php', 'template_view.php','izba');
+            $data = 'izba';
+            
+            if($list){
+                $data = $list;
+            }
+            
+            $this->view->generate('strop_view.php', 'template_view.php',$data);
         }
 }

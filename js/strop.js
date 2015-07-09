@@ -407,7 +407,7 @@ $(document).ready(function(){
     
     this.setHeight = function(W){
         this.heightS = parseFloat(W);
-    }
+    };
     
     this.setHh = function(Hh){
         this.Hwood = parseFloat(Hh);
