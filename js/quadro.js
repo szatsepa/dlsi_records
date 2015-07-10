@@ -128,13 +128,13 @@ $(document).ready(function(){
     function view(obj){
         var str = '';
         for(var param in obj){
-            str += param+":"+obj[param]+";\n";
+            str += param+":"+obj[param]+";<br/>";
         }
 
 
         $("table tbody tr td#res").empty().append("<a>Перерахувати</a>");
-        
-        alert(str);
+        $("table tbody tr td#res").append("<br/>"+str+"<br/>");
+//        alert(str);
     }
     
 });

@@ -162,8 +162,9 @@ Drows = function (){
 //        розрахунок ноги BG
         this.sizes['BG'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cg'],2)),1/2);
         this.sizes['angB'] = Math.asin(this.building['cg']/this.sizes['BG']);
-        this.sizes['BGL'] = this.sizes['BG'] + (this.building['m']+.5*this.building['D'])*Math.cos(this.building['cg']/this.sizes['BG']);
-//        розрахунок ноги CG        
+        alert(this.sizes['BG']+"+"+"("+Math.cos(this.building['cg']+this.sizes['BG'])+")"+"*("+this.building['m']+"+(0.5*"+this.building['D']+"))");
+        this.sizes['BGL'] = this.sizes['BG']+(this.building['m']+(.5*this.building['D']));
+//        розрахунок ноги CG     + (Math.cos(this.building['cg']/this.sizes['BG'])*(this.building['m']+(.5*this.building['D'])))    
         this.sizes['DG'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cg'],2)),1/2);
         this.sizes['angD'] = Math.asin(this.building['cg']/this.sizes['DG']);
         this.sizes['DGL'] = this.sizes['DG'] + (this.building['m']+.5*this.building['D'])*Math.cos(this.building['cg']/this.sizes['DG']);
@@ -179,11 +180,19 @@ Drows = function (){
         this.sizes['AGL'] = this.sizes['DGL']/Math.cos(this.sizes['angDGE']);
 //        розрахунок ноги FG         
         this.sizes['FG'] = Math.pow((Math.pow(this.building['cf'],2)+Math.pow(this.building['cg'],2)),1/2);
-        this.sizes['anfF'] = Math.asin(this.building['cg']/this.sizes['FG']);
+        this.sizes['angfF'] = Math.asin(this.building['cg']/this.sizes['FG']);
         this.sizes['FGL'] = this.sizes['BG'] + (this.building['m']+.5*this.building['D'])*Math.cos(this.building['cg']/this.sizes['BG']);
-        this.sizes['m'] = (this.sizes['FGL'] - this.sizes['FG'])*Math.cos(this.sizes['anfF']);
+        this.sizes['m'] = (this.sizes['FGL'] - this.sizes['FG'])*Math.cos(this.sizes['angfF'])-this.building['D']/2;
         
-        return this.sizes;
+        if(this.sizes['m'] < 40){
+           this.resize(); 
+        }else{
+           return this.sizes; 
+        }
+    };
+    
+    this.resize = function(){
+      alert(":PYZDARIKY");  
     };
 };
 
