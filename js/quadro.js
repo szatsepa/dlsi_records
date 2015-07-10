@@ -104,14 +104,14 @@ $(document).ready(function(){
                 flag = false;
             }
             
-            dataobj[$(this).parent().attr('id')] = $(this).val();
+            dataobj[$(this).parent().attr('id')] = parseFloat($(this).val());
         });
         
         $.each($("input"),function(){
             if($(this).val() === undefined || $(this).val() === ''){
                 flag =  false;
             }
-            dataobj[$(this).attr('id')] = $(this).val();
+            dataobj[$(this).attr('id')] = parseFloat($(this).val());
         });
         
         if(!flag){
