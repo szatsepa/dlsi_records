@@ -16,8 +16,8 @@
                          <option value="40">Керамическая черепица</option>
                          <option value="50">Цементно-песчаная черепица</option>                         
                      </select>
-                     &nbsp;&nbsp;
-                     <input type="checkbox" id="rigel" title="Ділить вишину на 2/3 до 1/3"/>&nbsp;Є ригель(стяжкa).
+<!--                     &nbsp;&nbsp;
+                     <input type="checkbox" id="rigel" title="Ділить вишину на 2/3 до 1/3"/>&nbsp;Є ригель(стяжкa).-->
                      <br/><br/>
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
@@ -49,23 +49,20 @@
                  <td>
                      
                          <canvas id="a" width="560" height="600"></canvas>
-<!--                       <div id="dPrint">   <br/>
-                          <p style="text-align: center;">
-                            <input type="button" class="btn-save" id="print" value="Дуркувати"/>
-                         </p>
-                     </div>-->
                       
                  </td>
-                 <td>
+                 <td id="res">
                      *<small>все вимірюється в сантиметрах</small>*<br/><br/>
                      Діаметер стінового бревна - <strong>D</strong><br/><br/>
                      <input type="text" id="D" placeholder="діаметер" size="12"/><br/><br/>
-                     Відстань вісь стіни 1 до центру - <strong>L</strong><br/><br/>
-                     <input type="text" id="L" placeholder="міжосьове" size="12"/><br/><br/>
-                     Відстань вісь стіни 2 до центру - <strong>L1</strong><br/><br/>
-                     <input type="text" id="L1" placeholder="міжосьове" size="12"/><br/><br/>
-                     Відстань від балок до стріхи - <strong>H</strong><br/><br/>
-                     <input type="text" id="H" placeholder="вишина" size="12"/><br/><br/>
+                     Відстань <strong>bc</strong><br/><br/>
+                     <input type="text" id="bc" placeholder="bc - sm." size="12"/><br/><br/>
+                     Відстань <strong>cd</strong><br/><br/>
+                     <input type="text" id="cd" placeholder="cd - sm." size="12"/><br/><br/>
+                     Відстань <strong>cf</strong><br/><br/>
+                     <input type="text" id="cf" placeholder="cf - sm." size="12"/><br/><br/>
+                     Відстань від балок до стріхи - <strong>cg</strong><br/><br/>
+                     <input type="text" id="cg" placeholder="cg - sm." size="12"/><br/><br/>
                      Відстань від стіни до краю - <strong>m</strong><br/><br/>
                      <input type="text" id="m" placeholder="відстань" size="12"/><br/><br/>
                      Крок стропил - <strong>Step</strong><br/><br/>
@@ -78,6 +75,5 @@
    
 </div>
 <script type="text/javascript" src="js/jquery.printElement.js"></script>
-<script type="text/javascript" src="/js/strop.js"></script>
-
-
+<script type="text/javascript" src="/js/quadro.js"></script>
+<script type="text/javascript" src="/js/quadro_drows.js"></script>

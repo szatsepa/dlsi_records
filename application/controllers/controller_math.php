@@ -37,8 +37,11 @@ class Controller_Math extends Controller
             
             if($list){
                 $data = $list;
-            }
+                
+                $this->view->generate('quadro_view.php', 'template_view.php',$data);
+            }else{
+                $this->view->generate('strop_view.php', 'template_view.php',$data);
+            }           
             
-            $this->view->generate('strop_view.php', 'template_view.php',$data);
         }
 }
