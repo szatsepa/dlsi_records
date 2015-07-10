@@ -39,8 +39,12 @@
                      </select>
                  </td>
                  <td>
-                     Вишина будівлі в метрах - <strong>Hh</strong><br/><br/>
-                     <input type="text" id="Hh" placeholder="вишина" size="12"/>
+                     Вишина будівлі в метрах - <strong>Hh</strong><br/>
+                     <input type="text" id="Hh" placeholder="вишина" size="12"/><br/>
+                     Рoзмір будівлі по осях стін <strong>S</strong><br/>
+                     <input type="text" id="W" placeholder="W - m." size="6"/>
+                     &nbsp;X&nbsp;
+                     <input type="text" id="L" placeholder="L - m." size="6"/>
                      
                  </td>
                  
@@ -54,7 +58,7 @@
                  <td id="res">
                      *<small>все вимірюється в сантиметрах</small>*<br/><br/>
                      Діаметер стінового бревна - <strong>D</strong><br/><br/>
-                     <input type="text" id="D" placeholder="діаметер" size="12"/><br/><br/>
+                     <input type="text" id="D" placeholder="діаметер" size="12"/><br/><br/>                     
                      Відстань <strong>bc</strong><br/><br/>
                      <input type="text" id="bc" placeholder="bc - sm." size="12"/><br/><br/>
                      Відстань <strong>cd</strong><br/><br/>
