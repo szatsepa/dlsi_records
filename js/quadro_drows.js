@@ -5,6 +5,7 @@ Drows = function (){
     var context = obj.getContext("2d");
     this.building = new Object();
     this.sizes = new Object();
+    this.sizes['num'] = 0;
     this.gamma = 0;
     this.gamma1 = 0;
     this.snow = 150;
@@ -159,41 +160,59 @@ Drows = function (){
     this.geometry = function(obj){
         
         this.building = obj;
-//        розрахунок ноги BG
-        this.sizes['bg'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cg'],2)),1/2);
-        this.sizes['angleB'] = Math.asin(this.building['cg']/this.sizes['bg']);
-        this.sizes['Bg'] = (this.building['m']+.5*this.building['D']+this.building['bc'])*this.sizes['bg']/this.building['bc'];
-//        розрахунок ноги CG    
-        this.sizes['dg'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cg'],2)),1/2);
-        this.sizes['angleD'] = Math.asin(this.building['cg']/this.sizes['dg']);
-        this.sizes['Dg'] = (this.building['m']+.5*this.building['D']+this.building['cd'])*this.sizes['dg']/this.building['cd'];
-//        розрахунок ноги ag  
-        this.sizes['ac'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cf'],2)),.5);
-        this.sizes['ag'] = Math.pow(Math.pow(this.sizes['ac'],2)+Math.pow(this.building['cf'],2),.5);
-//        this.sizes['angleB'] = Math.acos(this.sizes['ac']/this.sizes['ag']);
-        this.sizes['Ag'] = (this.sizes['Bg']*this.sizes['ag'])/this.sizes['bg'];
-//        розрахунок ноги EG        
-        this.sizes['ce'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cf'],2)),.5);
-        this.sizes['eg'] = Math.pow(Math.pow(this.sizes['ce'],2)+Math.pow(this.building['cf'],2),.5);
-//        this.sizes['angDGE'] = Math.acos(this.sizes['ce']/this.sizes['eg']);
-        this.sizes['Eg'] = (this.sizes['Dg']*this.sizes['ag'])/this.sizes['dg'];
-////        розрахунок ноги FG         
-        this.sizes['fg'] = Math.pow((Math.pow(this.building['cf'],2)+Math.pow(this.building['cg'],2)),1/2);
-        this.sizes['angleF'] = Math.asin(this.building['cg']/this.sizes['fg']);
-        this.sizes['Fg'] = Math.pow(Math.pow(this.sizes['Ag'],2) - Math.pow((this.sizes['Ag']*this.building['bc'])/this.sizes['ag'],2),1/2);
-        this.sizes['m'] = (this.sizes['Fg']-this.sizes['fg'])*this.building['cf']/this.sizes['fg']-this.building['D']/2;
-//        
-        if(this.sizes['m'] < 40){
-           this.resize();
-           return this.sizes;
-        }else{
-           return this.sizes; 
+//        alert("A");
+        for(var i=0; i < 150;i++){
+//            alert("B");
+            this.building['cf'] += 5; 
+            this.sizes['cf'] = this.building['cf'];
+            this.sizes['num']++;
+    //        розрахунок ноги BG
+            this.sizes['bg'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cg'],2)),1/2);
+            this.sizes['angleB'] = Math.asin(this.building['cg']/this.sizes['bg']);
+            this.sizes['Bg'] = (this.building['m']+.5*this.building['D']+this.building['bc'])*this.sizes['bg']/this.building['bc'];
+    //        розрахунок ноги CG    
+            this.sizes['dg'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cg'],2)),1/2);
+            this.sizes['angleD'] = Math.asin(this.building['cg']/this.sizes['dg']);
+            this.sizes['Dg'] = (this.building['m']+.5*this.building['D']+this.building['cd'])*this.sizes['dg']/this.building['cd'];
+    //        розрахунок ноги ag  
+            this.sizes['ac'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cf'],2)),.5);
+            this.sizes['ag'] = Math.pow(Math.pow(this.sizes['ac'],2)+Math.pow(this.building['cf'],2),.5);
+            this.sizes['Ag'] = (this.sizes['Bg']*this.sizes['ag'])/this.sizes['bg'];
+    //        розрахунок ноги EG        
+            this.sizes['ce'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cf'],2)),.5);
+            this.sizes['eg'] = Math.pow(Math.pow(this.sizes['ce'],2)+Math.pow(this.building['cf'],2),.5);
+            this.sizes['Eg'] = (this.sizes['Dg']*this.sizes['ag'])/this.sizes['dg'];
+    ////        розрахунок ноги FG         
+            this.sizes['fg'] = Math.pow((Math.pow(this.building['cf'],2)+Math.pow(this.building['cg'],2)),1/2);
+            this.sizes['angleF'] = Math.asin(this.building['cg']/this.sizes['fg']);
+            this.sizes['Fg'] = Math.pow(Math.pow(this.sizes['Ag'],2) - Math.pow((this.sizes['Ag']*this.building['bc'])/this.sizes['ag'],2),1/2);
+            this.sizes['m'] = (this.sizes['Fg']-this.sizes['fg'])*this.building['cf']/this.sizes['fg']-this.building['D']/2;
+    //        розрахунок стріхи gg
+            this.sizes['L'] = 100*this.building['L'] - 2*this.building['cf'];
+            
+            if(this.sizes['m'] >= (this.building['m']-3)){
+                break;
+            }
         }
+        
+        return this.sizes;
+        
+        
+        
+        
+//        if(this.sizes['m'] >= this.building['m']){
+////           
+//           return {'joppa':'pizdets'};           
+//        }else{
+//            this.resize(); 
+//        }
     };
     
     this.resize = function(){
-      alert(":PYZDARIKY");
-      return false;
+        
+      this.building['cf'] += 5;
+     
+      this.geometry(this.building);
     };
 };
 

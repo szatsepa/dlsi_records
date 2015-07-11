@@ -1,9 +1,9 @@
 $(document).ready(function(){
     
     var huynja =  new Drows();
+    
     huynja.init();
     
-    var resume = new Object();
     
     $("canvas#a").css('outline','1px solid #ccc');
     
@@ -82,15 +82,14 @@ $(document).ready(function(){
     
     $("input#step").keypress(function(e){
         if(e.which === 13){
-            
-            prepare();
+            view(huynja.geometry(prepare()));
         }
     });
     
     
     $("input.btn-save").mousedown(function(){
         
-        prepare();
+        view(huynja.geometry(prepare()));
      });
     
     function prepare(){
@@ -118,11 +117,10 @@ $(document).ready(function(){
             alert("Не все заповнено - перевірте");
                 return false;
         }else{
-            resume = huynja.geometry(dataobj);
-        
-            view(resume);
+            
+            return dataobj;
         }
-        
+   
     }
     
     function view(obj){
@@ -130,11 +128,8 @@ $(document).ready(function(){
         for(var param in obj){
             str += param+":"+obj[param]+";<br/>";
         }
-
-
         $("table tbody tr td#res").empty().append("<a>Перерахувати</a>");
         $("table tbody tr td#res").append("<br/>"+str+"<br/>");
-//        alert(str);
     }
     
 });
