@@ -139,9 +139,10 @@ $(document).ready(function(){
         var ms = Math.ceil(obj['ms']*100)/100;
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
+        var QR = Math.ceil(obj['QR']*100)/100;
         
         $("table tbody tr td#res").empty();
-        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<p><a>Перерахувати</a></p>");
+        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<br/>Найбільше навантаження на стропило - "+QR+" кг/м<p><a>Перерахувати</a></p>");
         
         $.each($("select#ws option"),function(){
             $(this).attr('selected',false);
@@ -158,6 +159,10 @@ $(document).ready(function(){
                 $(this).attr('selected',true);
             }
         });
+        
+        if(obj['C'] < 0.75){
+            $("table tbody tr td#res").append("<p><strong>Запас міцності дещо завеликий - можна спробувати зменшити перетин стропила</strong></p>");
+        }
     }
     
 });

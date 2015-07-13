@@ -206,22 +206,16 @@ Drows = function (){
         
         this.sizes['angle'] = tmp['angle'];
         
-//        var ang = 'angle'+tmp['angle'];
-//        
-//        alert(this.sizes[tmp['angle']]);
-        
         this.hardness(this.building['ws'],this.building['hs'],this.sizes[tmp['angle']]);
         
         return this.sizes;
 
     };
     
-    this.hardness = function(w,h,angle){
-//        var snow = 150;
-//        var wind = 45;
+    this.hardness = function(w,h,ang){
         var W = w;
         var H = h;
-        var angle = parseFloat(angle);
+        var angle = parseFloat(ang);
         var mu = 0;
         var gamma = 180*angle/Math.PI;
         
@@ -246,7 +240,7 @@ Drows = function (){
 // суммарная нагрузка ветровая снегрвая и человег на м кв       
         var SUM = Snow+Wind+this.building['type']+50;
         
-// с учетом шага стропил       
+// с учетом шага стропил на пог м      
         var QR = SUM*(this.building['step']/100);
         
         var Contr = (3.125*QR*Math.pow(this.sizes['maxraft']/100,3))/(W*Math.pow(H,3));
@@ -259,9 +253,11 @@ Drows = function (){
             }           
             
         }else{
-            alert("Вибраний брус "+W+"Х"+H+" відповідає умовам міцності!("+Contr+")");
+//            alert("Вибраний брус "+W+"Х"+H+" відповідає умовам міцності!("+Contr+")");
             this.sizes['W'] = W;
             this.sizes['H'] = H;
+            this.sizes['QR'] = QR;
+            this.sizes['C'] = Contr;
         }
         
         
