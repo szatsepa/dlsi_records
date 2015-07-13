@@ -25,7 +25,9 @@
                          <option value="6">60</option>
                          <option value="8">80</option>
                          <option value="9">90</option>
-                         <option value="10">100</option>                         
+                         <option value="10">100</option>
+                         <option value="12">120</option>
+                         <option value="15">150</option>
                      </select>
                      &nbsp;
                      <select id="hs">
@@ -36,6 +38,8 @@
                          <option value="12">120</option>
                          <option value="15">150</option>
                          <option value="20">200</option> 
+                         <option value="22">220</option>
+                         <option value="25">250</option>
                      </select>
                  </td>
                  <td>

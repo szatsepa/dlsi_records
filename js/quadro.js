@@ -125,9 +125,9 @@ $(document).ready(function(){
     
     function view(obj){
         var str = '';
-        for(var param in obj){
-            str += param+":"+obj[param]+";<br/>";
-        }
+//        for(var param in obj){
+//            str += param+":"+obj[param]+";<br/>";
+//        }
         var Ag = Math.ceil(obj['Ag']*100)/100;
         var Bg = Math.ceil(obj['Bg']*100)/100;
         var Dg = Math.ceil(obj['Dg']*100)/100;
@@ -137,9 +137,27 @@ $(document).ready(function(){
         var L = Math.ceil(obj['L']*100)/100;
         var mf = Math.ceil(obj['mf']*100)/100;
         var ms = Math.ceil(obj['ms']*100)/100;
+        var W = Math.ceil(obj['W']*10);
+        var H = Math.ceil(obj['H']*10);
         
         $("table tbody tr td#res").empty();
-        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Nайдовша стропилина - "+obj['maxraft']+"<br/>Кут - "+obj['angle']+" rad.<p><a>Перерахувати</a></p>");
+        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<p><a>Перерахувати</a></p>");
+        
+        $.each($("select#ws option"),function(){
+            $(this).attr('selected',false);
+            var w = parseFloat($(this).text());
+            if(W === w){
+                $(this).attr('selected',true);
+            }
+        });
+        
+        $.each($("select#hs option"),function(){
+            var h = parseFloat($(this).text());
+            $(this).attr('selected',false);
+            if(H === h){
+                $(this).attr('selected',true);
+            }
+        });
     }
     
 });

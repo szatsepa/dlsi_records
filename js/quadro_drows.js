@@ -178,10 +178,12 @@ Drows = function (){
             this.sizes['ac'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cf'],2)),.5);
             this.sizes['ag'] = Math.pow(Math.pow(this.sizes['ac'],2)+Math.pow(this.building['cf'],2),.5);
             this.sizes['Ag'] = (this.sizes['Bg']*this.sizes['ag'])/this.sizes['bg'];
+            this.sizes['angleA'] = Math.asin(this.building['cg']/this.sizes['dg']);;
     //        розрахунок ноги EG        
             this.sizes['ce'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cf'],2)),.5);
             this.sizes['eg'] = Math.pow(Math.pow(this.sizes['ce'],2)+Math.pow(this.building['cf'],2),.5);
             this.sizes['Eg'] = (this.sizes['Dg']*this.sizes['eg'])/this.sizes['dg'];
+            this.sizes['angleE'] = Math.asin(this.building['cg']/this.sizes['dg']);
     ////        розрахунок ноги FG         
             this.sizes['fg'] = Math.pow((Math.pow(this.building['cf'],2)+Math.pow(this.building['cg'],2)),1/2);
             this.sizes['angleF'] = Math.asin(this.building['cg']/this.sizes['fg']);
@@ -204,27 +206,33 @@ Drows = function (){
         
         this.sizes['angle'] = tmp['angle'];
         
-        this.hardness(this.building['ws'],this.building['hs'],this.sizes['angle']);
+//        var ang = 'angle'+tmp['angle'];
+//        
+//        alert(this.sizes[tmp['angle']]);
+        
+        this.hardness(this.building['ws'],this.building['hs'],this.sizes[tmp['angle']]);
         
         return this.sizes;
 
     };
     
     this.hardness = function(w,h,angle){
-        var snow = 150;
-        var wind = 45;
+//        var snow = 150;
+//        var wind = 45;
         var W = w;
         var H = h;
-        var angle = angle;
+        var angle = parseFloat(angle);
         var mu = 0;
         var gamma = 180*angle/Math.PI;
         
+        this.building['hs'] = h;
+//        alert(gamma+"degree");
         if(gamma <= 30){
             mu = 1;
         }else if(gamma > 30 && gamma <= 60){
             mu =  .033*(60-gamma);
         }
-        var Snow = mu*snow;
+        var Snow = mu*150;
         
         var K = .75;
         
@@ -234,28 +242,70 @@ Drows = function (){
             K = 1.25;
         }
         
-        var Wind = wind*K*.8;
-        
+        var Wind = 45*K*.8;
+// суммарная нагрузка ветровая снегрвая и человег на м кв       
         var SUM = Snow+Wind+this.building['type']+50;
         
-        var QR = SUM*this.building['step'];
+// с учетом шага стропил       
+        var QR = SUM*(this.building['step']/100);
         
-        var Contr = (3.125*QR*Math.pow(this.sizes['maxraft']/100,3))/(W*Math.pow(this.heightS,3));
+        var Contr = (3.125*QR*Math.pow(this.sizes['maxraft']/100,3))/(W*Math.pow(H,3));
         
          if(Contr > 1){
             if(confirm("Хуйня війшла виберіть дебеліший брус!\nПродовжити?")){
-//               Hp = this.calc_height(Hp,QR,tmplong);
+               H = this.calc_height(H,QR,(this.sizes['maxraft']),W,angle);
             }else{
                 return false;
             }           
             
         }else{
             alert("Вибраний брус "+W+"Х"+H+" відповідає умовам міцності!("+Contr+")");
-//            this.drowingRes();
+            this.sizes['W'] = W;
+            this.sizes['H'] = H;
         }
         
         
     };
+    
+    this.calc_height = function (hp, QR,l,W,angle){
+            
+            var Hp = 0;
+            
+            var L = l/100;
+            
+            var W = W;
+            
+            if(angle < 30){
+                Hp = 8.6*L*Math.pow((QR/(130*W)),1/2);
+            }else{
+                Hp = 9.5*L*Math.pow((QR/(130*W)),1/2);
+            }
+            
+            if(Hp < hp){
+                Hp = hp;
+            }
+            
+            var tmp = Math.ceil(Hp*100)/100;
+            
+            if(tmp > 20){
+                var tmpw = parseFloat(W)+1;
+                W = prompt("Ширина брусу "+(W)+", має бути збільшена шонайменьше на 1 sm",(tmpw));
+                if(!W){
+                    return false;
+                }
+                this.building['ws'] = W;
+            }else{
+                Hp = prompt("Вишина брусу "+(this.building['hs'])+", розрахована не меньш за "+(tmp)+" sm",tmp);
+                if(!Hp){
+                    return false;
+                }
+                this.building['hs'] = Hp;
+            }
+        
+            
+            
+            this.hardness(this.building['ws'],this.building['hs'],this.sizes[this.sizes['angle']]);
+        };
     
     this.maxsize = function(obj){
         
