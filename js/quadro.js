@@ -128,8 +128,18 @@ $(document).ready(function(){
         for(var param in obj){
             str += param+":"+obj[param]+";<br/>";
         }
-        $("table tbody tr td#res").empty().append("<a>Перерахувати</a>");
-        $("table tbody tr td#res").append("<br/>"+str+"<br/>");
+        var Ag = Math.ceil(obj['Ag']*100)/100;
+        var Bg = Math.ceil(obj['Bg']*100)/100;
+        var Dg = Math.ceil(obj['Dg']*100)/100;
+        var Eg = Math.ceil(obj['Eg'])*100/100;
+        var Fg = Math.ceil(obj['Fg']*100)/100;
+        var cf = Math.ceil(obj['cf']*100)/100;
+        var L = Math.ceil(obj['L']*100)/100;
+        var mf = Math.ceil(obj['mf']*100)/100;
+        var ms = Math.ceil(obj['ms']*100)/100;
+        
+        $("table tbody tr td#res").empty();
+        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Nайдовша стропилина - "+obj['maxraft']+"<br/>Кут - "+obj['angle']+" rad.<p><a>Перерахувати</a></p>");
     }
     
 });

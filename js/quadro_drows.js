@@ -6,17 +6,17 @@ Drows = function (){
     this.building = new Object();
     this.sizes = new Object();
     this.sizes['num'] = 0;
-    this.gamma = 0;
-    this.gamma1 = 0;
-    this.snow = 150;
-    this.wind = 45;
-    this.AB = 0;
-    this.BC = 0;
-    this.Halpha = 0;
-    this.pokr = 0;
-    this.widthS = 0;
-    this.heightS = 0;
-    this.step = 0;
+//    this.gamma = 0;
+//    this.gamma1 = 0;
+//    this.snow = 150;
+//    this.wind = 45;
+//    this.AB = 0;
+//    this.BC = 0;
+//    this.Halpha = 0;
+//    this.pokr = 0;
+//    this.widthS = 0;
+//    this.heightS = 0;
+//    this.step = 0;
     this.rigel = false;
     
     context.font = "bold 12px sans-serif";
@@ -181,31 +181,94 @@ Drows = function (){
     //        розрахунок ноги EG        
             this.sizes['ce'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cf'],2)),.5);
             this.sizes['eg'] = Math.pow(Math.pow(this.sizes['ce'],2)+Math.pow(this.building['cf'],2),.5);
-            this.sizes['Eg'] = (this.sizes['Dg']*this.sizes['ag'])/this.sizes['dg'];
+            this.sizes['Eg'] = (this.sizes['Dg']*this.sizes['eg'])/this.sizes['dg'];
     ////        розрахунок ноги FG         
             this.sizes['fg'] = Math.pow((Math.pow(this.building['cf'],2)+Math.pow(this.building['cg'],2)),1/2);
             this.sizes['angleF'] = Math.asin(this.building['cg']/this.sizes['fg']);
             this.sizes['Fg'] = Math.pow(Math.pow(this.sizes['Ag'],2) - Math.pow((this.sizes['Ag']*this.building['bc'])/this.sizes['ag'],2),1/2);
-            this.sizes['m'] = (this.sizes['Fg']-this.sizes['fg'])*this.building['cf']/this.sizes['fg']-this.building['D']/2;
+            this.sizes['ms'] = (this.sizes['Fg']-this.sizes['fg'])*this.building['cf']/this.sizes['fg']-this.building['D']/2;
     //        розрахунок стріхи gg
             this.sizes['L'] = 100*this.building['L'] - 2*this.building['cf'];
+            this.sizes['mf'] = this.building['m'];
             
-            if(this.sizes['m'] >= (this.building['m']-3)){
+            if(this.sizes['ms'] >= (this.building['m']-3)){
                 break;
             }
         }
         
+        var raft = {'A':this.sizes['ag'],'B':this.sizes['bg'],'C':this.sizes['dg'],'E':this.sizes['eg'],'F':this.sizes['fg']};
+        
+        var tmp = this.maxsize(raft);
+        
+        this.sizes['maxraft'] = tmp['raft'];
+        
+        this.sizes['angle'] = tmp['angle'];
+        
+        this.hardness(this.building['ws'],this.building['hs'],this.sizes['angle']);
+        
         return this.sizes;
+
+    };
+    
+    this.hardness = function(w,h,angle){
+        var snow = 150;
+        var wind = 45;
+        var W = w;
+        var H = h;
+        var angle = angle;
+        var mu = 0;
+        var gamma = 180*angle/Math.PI;
+        
+        if(gamma <= 30){
+            mu = 1;
+        }else if(gamma > 30 && gamma <= 60){
+            mu =  .033*(60-gamma);
+        }
+        var Snow = mu*snow;
+        
+        var K = .75;
+        
+        if(this.building['Hh'] > 500 && this.building['Hh'] < 1000){
+            K = 1;
+        }else if(this.building['Hh'] > 1000 && this.building['Hh'] < 2000){
+            K = 1.25;
+        }
+        
+        var Wind = wind*K*.8;
+        
+        var SUM = Snow+Wind+this.building['type']+50;
+        
+        var QR = SUM*this.building['step'];
+        
+        var Contr = (3.125*QR*Math.pow(this.sizes['maxraft']/100,3))/(W*Math.pow(this.heightS,3));
+        
+         if(Contr > 1){
+            if(confirm("Хуйня війшла виберіть дебеліший брус!\nПродовжити?")){
+//               Hp = this.calc_height(Hp,QR,tmplong);
+            }else{
+                return false;
+            }           
+            
+        }else{
+            alert("Вибраний брус "+W+"Х"+H+" відповідає умовам міцності!("+Contr+")");
+//            this.drowingRes();
+        }
         
         
+    };
+    
+    this.maxsize = function(obj){
         
+        var maxraft = 0;
+        var angle = 0;
         
-//        if(this.sizes['m'] >= this.building['m']){
-////           
-//           return {'joppa':'pizdets'};           
-//        }else{
-//            this.resize(); 
-//        }
+        for(var i in obj){
+            if(obj[i] > maxraft){
+                maxraft = obj[i];
+                angle = 'angle'+i;
+            }
+        }
+        return {'raft':maxraft,'angle':angle};
     };
     
     this.resize = function(){
