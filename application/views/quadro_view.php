@@ -78,9 +78,10 @@
                      <input type="button" class="btn-save" value="Порахувати"/><br/><br/>
                  </td>
              </tr>
+             
          </tbody>
      </table>
-   
+   <div id='resume' style="display: none;"><canvas id='b' width='860' height='630'></canvas></div>
 </div>
 <script type="text/javascript" src="js/jquery.printElement.js"></script>
 <script type="text/javascript" src="/js/quadro.js"></script>

@@ -6,18 +6,6 @@ Drows = function (){
     this.building = new Object();
     this.sizes = new Object();
     this.sizes['num'] = 0;
-//    this.gamma = 0;
-//    this.gamma1 = 0;
-//    this.snow = 150;
-//    this.wind = 45;
-//    this.AB = 0;
-//    this.BC = 0;
-//    this.Halpha = 0;
-//    this.pokr = 0;
-//    this.widthS = 0;
-//    this.heightS = 0;
-//    this.step = 0;
-    this.rigel = false;
     
     context.font = "bold 12px sans-serif";
     
@@ -53,6 +41,7 @@ Drows = function (){
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
+        
         context.fillText('a', 80, 315);
         context.fillText('A', 30, 305);
         context.fillText('b', 199, 255);
@@ -322,6 +311,80 @@ Drows = function (){
       this.building['cf'] += 5;
      
       this.geometry(this.building);
+    };
+    
+    this.drowFront = function(){
+        
+        var objb = new Object();
+        var points = new Array();
+        objb = document.getElementById("b");
+        var cont = objb.getContext("2d");
+        cont.font = "bold 12px sans-serif";
+        cont.fillStyle = "#fa6";
+//        определим коэфф по осям коорд
+
+        var K = 820/(this.building['L']*100+2*this.sizes['ms']+this.building['D']);
+        
+        if(K > (560/(this.building['Hh']*100))){
+            
+            K = 560/(this.building['Hh']*100);
+        }
+        
+//  left point
+
+        var x = 60; 
+        var y = Math.floor(45+this.building['cg']*K) ;        
+        cont.fillRect(x, y,4,4);
+        points.push([x,y]);
+        
+        x += Math.floor(this.sizes['ms']*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        y += Math.floor((this.building['Hh']*100 - this.building['cg'])*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        x += Math.floor((this.building['L']*100+this.building['D'])*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        y -= Math.floor((this.building['Hh']*100 - this.building['cg'])*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        x += Math.floor(this.sizes['ms']*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        x -= Math.floor((this.sizes['ms']+this.building['cd'])*K);
+        y -= Math.floor(40+this.building['cg']*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        x -= Math.floor((this.sizes['ms']+this.building['cb'])*K);
+        y += Math.floor(45+this.building['cg']*K);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+        
+        cont.beginPath();
+        
+        var n = 0;
+        for(var i in points){
+            var a = parseFloat(i);
+            var b = a+1;
+            if(points[b] === undefined){
+                break;
+            }
+            cont.moveTo(points[a][0], points[a][1]);
+            cont.lineTo(points[b][0], points[b][1]);
+            n++;
+        }
+        cont.moveTo(points[n][0], points[n][1]);
+        cont.lineTo(points[0][0], points[0][1]);
+        cont.strokeStyle = "#333";
+        cont.stroke();
+        
     };
 };
 

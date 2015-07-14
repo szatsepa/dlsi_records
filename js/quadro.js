@@ -124,10 +124,7 @@ $(document).ready(function(){
     }
     
     function view(obj){
-        var str = '';
-//        for(var param in obj){
-//            str += param+":"+obj[param]+";<br/>";
-//        }
+        
         var Ag = Math.ceil(obj['Ag']*100)/100;
         var Bg = Math.ceil(obj['Bg']*100)/100;
         var Dg = Math.ceil(obj['Dg']*100)/100;
@@ -163,6 +160,12 @@ $(document).ready(function(){
         if(obj['C'] < 0.75){
             $("table tbody tr td#res").append("<p><strong>Запас міцності дещо завеликий - можна спробувати зменшити перетин стропила</strong></p>");
         }
+        
+//        $("table tbody").append("<tr id='resume'><td colspan='2'><canvas id='b' width='960' height='600'></canvas></td></tr>");
+        $("canvas#b").css({'outline':'1px solid #ccc'});
+        $("div#resume").css({'display':'block'});
+        
+        huynja.drowFront();
     }
     
 });
