@@ -159,7 +159,7 @@ Drows = function (){
             this.sizes['bg'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cg'],2)),1/2);
             this.sizes['angleB'] = Math.asin(this.building['cg']/this.sizes['bg']);
             this.sizes['Bg'] = (this.building['m']+.5*this.building['D']+this.building['bc'])*this.sizes['bg']/this.building['bc'];
-    //        розрахунок ноги CG    
+    //        розрахунок ноги CG   TODO сделать расчет вылета крыши с тыла с учетом того что край крыши в одном уровне 
             this.sizes['dg'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cg'],2)),1/2);
             this.sizes['angleD'] = Math.asin(this.building['cg']/this.sizes['dg']);
             this.sizes['Dg'] = (this.building['m']+.5*this.building['D']+this.building['cd'])*this.sizes['dg']/this.building['cd'];
@@ -318,6 +318,7 @@ Drows = function (){
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
+        objb.width = objb.width;
         var cont = objb.getContext("2d");
         cont.font = "bold 12px sans-serif";
         cont.fillStyle = "#fa6";
@@ -333,7 +334,6 @@ Drows = function (){
 //  left point
 
         var x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2); 
-//        alert(((this.building['L']+this.building['D'])*K)/2);
         var y = 625;        
         cont.fillRect(x, y,1,1);
         points.push([x,y]);
@@ -403,6 +403,106 @@ Drows = function (){
             cont.lineTo(points[b][0], points[b][1]);
             n++;
         }
+        cont.moveTo(points[n][0], points[n][1]);
+        cont.lineTo(points[0][0], points[0][1]);
+        cont.strokeStyle = "green";
+        cont.stroke();
+    };
+    
+    this.drowSide = function(){
+        var objb = new Object();
+        var points = new Array();
+        objb = document.getElementById("b");
+        objb.width = objb.width;
+        var cont = objb.getContext("2d");
+        cont.font = "bold 12px sans-serif";
+        cont.fillStyle = "#fa6";
+//        определим коэфф по осям коорд
+
+        var K = 820/(this.building['W']*100+2*this.building['m']+this.building['D']);
+        
+        if(K > (560/(this.building['Hh']*100))){
+            
+            K = 560/(this.building['Hh']*100);
+        }
+        
+        var x = Math.floor((860 -(this.building['W']*100+this.building['D'])*K)/2); 
+        var y = 625;        
+        cont.fillRect(x, y,1,1);
+        points.push([x,y]);
+        
+        x += Math.floor((this.building['W']*100+this.building['D'])*K);
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+        
+        y -= Math.floor(625 - (this.building['Hh']*100 - this.building['cg'])*K);
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+        
+        x -= Math.floor((this.building['W']*100+this.building['D'])*K);
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+        
+        cont.beginPath();
+        
+        var n = 0;
+        for(var i in points){
+            var a = parseFloat(i);
+            var b = a+1;
+            if(points[b] === undefined){
+                break;
+            }
+            cont.moveTo(points[a][0], points[a][1]);
+            cont.lineTo(points[b][0], points[b][1]);
+            n++;
+        }
+        cont.moveTo(points[n][0], points[n][1]);
+        cont.lineTo(points[0][0], points[0][1]);
+        cont.strokeStyle = "brown";
+        cont.stroke();
+        
+        points.length = 0;
+        
+        cont.fillStyle = "green";
+        
+        x += Math.floor(this.building['bc']*K);
+        y -= Math.floor(this.building['cg']*K+this.sizes['H']*K/Math.sin(this.sizes['angleD'])/2);        
+        cont.fillRect(x, y,1,1);
+        points.push([x,y]);
+        
+        var tmpx = x;
+        x += Math.floor((this.building['cd']*this.sizes['Dg']/this.sizes['dg'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleD'])/2);
+        
+        y += Math.floor((this.building['cg']*this.sizes['Dg']/this.sizes['dg'])*K+this.sizes['H']*K/Math.sin(this.sizes['angleD'])/2);
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+        
+        x = Math.floor(tmpx - ((this.building['bc']*this.sizes['Bg']/this.sizes['bg'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleB'])/2));
+//        y += Math.floor((this.building['cg']*this.sizes['Dg']/this.sizes['dg'])*K+this.sizes['H']*K/Math.sin(this.sizes['angleD'])/2);
+        cont.fillRect(x, y,4,4);        
+        points.push([x,y]);
+//        alert("x1 "+tmpx+'\nx2 '+x)
+        
+//
+//        x -= Math.floor((this.building['W']*100+this.building['D'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleB'])/2+this.sizes['ms']*2*K);
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+
+         cont.beginPath();
+        
+        var n = 0;
+        
+        for(var i in points){
+            var a = parseFloat(i);
+            var b = a+1;
+            if(points[b] === undefined){
+                break;
+            }
+            cont.moveTo(points[a][0], points[a][1]);
+            cont.lineTo(points[b][0], points[b][1]);
+            n++;
+        }
+        
         cont.moveTo(points[n][0], points[n][1]);
         cont.lineTo(points[0][0], points[0][1]);
         cont.strokeStyle = "green";

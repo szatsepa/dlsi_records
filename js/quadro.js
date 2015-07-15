@@ -1,8 +1,8 @@
 $(document).ready(function(){
     
-    var huynja =  new Drows();
+    var project =  new Drows();
     
-    huynja.init();
+    project.init();
     
     
     $("canvas#a").css('outline','1px solid #ccc');
@@ -82,15 +82,26 @@ $(document).ready(function(){
     
     $("input#step").keypress(function(e){
         if(e.which === 13){
-            view(huynja.geometry(prepare()));
+            view(project.geometry(prepare()));
         }
     });
     
     
     $("input.btn-save").mousedown(function(){
         
-        view(huynja.geometry(prepare()));
+        view(project.geometry(prepare()));
      });
+     
+     var flag = false;
+     
+    $("canvas#b").mousedown(function(){
+        if(!flag){            
+            project.drowSide();
+        }else{
+            project.drowFront();
+        }
+        flag = !flag;
+    }); 
     
     function prepare(){
         
@@ -162,10 +173,10 @@ $(document).ready(function(){
         }
         
 //        $("table tbody").append("<tr id='resume'><td colspan='2'><canvas id='b' width='960' height='600'></canvas></td></tr>");
-        $("canvas#b").css({'outline':'1px solid #ccc'});
+        $("canvas#b").css({'outline':'1px solid #ccc','cursor':'pointer'});
         $("div#resume").css({'display':'block'});
         
-        huynja.drowFront();
+        project.drowFront();     
     }
     
 });
