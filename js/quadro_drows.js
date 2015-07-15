@@ -32,12 +32,12 @@ Drows = function (){
         context.fillRect(471, 540,2,2);
         
         context.fillRect(298, 220,2,2);        
-        context.fillRect(194, 260,4,4);
+        context.fillRect(194, 260,1,1);
         context.fillRect(367, 460,2,2);
-        context.fillRect(471, 420,4,4);
+        context.fillRect(471, 420,1,1);
         
-        context.fillRect(330.5, 340,4,4);
-        context.fillRect(330.5, 260,4,4);
+        context.fillRect(330.5, 340,1,1);
+        context.fillRect(330.5, 260,1,1);
         
         context.textAlign = "left";
         context.textBaseline = "bottom";
@@ -332,39 +332,22 @@ Drows = function (){
         
 //  left point
 
-        var x = 60; 
-        var y = Math.floor(45+this.building['cg']*K) ;        
-        cont.fillRect(x, y,4,4);
-        points.push([x,y]);
-        
-        x += Math.floor(this.sizes['ms']*K);
-        cont.fillRect(x, y,4,4);        
-        points.push([x,y]);
-        
-        y += Math.floor((this.building['Hh']*100 - this.building['cg'])*K);
-        cont.fillRect(x, y,4,4);        
+        var x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2); 
+//        alert(((this.building['L']+this.building['D'])*K)/2);
+        var y = 625;        
+        cont.fillRect(x, y,1,1);
         points.push([x,y]);
         
         x += Math.floor((this.building['L']*100+this.building['D'])*K);
-        cont.fillRect(x, y,4,4);        
+        cont.fillRect(x, y,1,1);        
         points.push([x,y]);
         
-        y -= Math.floor((this.building['Hh']*100 - this.building['cg'])*K);
-        cont.fillRect(x, y,4,4);        
+        y -= Math.floor(625 - (this.building['Hh']*100 - this.building['cg'])*K);
+        cont.fillRect(x, y,1,1);        
         points.push([x,y]);
         
-        x += Math.floor(this.sizes['ms']*K);
-        cont.fillRect(x, y,4,4);        
-        points.push([x,y]);
-        
-        x -= Math.floor((this.sizes['ms']+this.building['cd'])*K);
-        y -= Math.floor(40+this.building['cg']*K);
-        cont.fillRect(x, y,4,4);        
-        points.push([x,y]);
-        
-        x -= Math.floor((this.sizes['ms']+this.building['cb'])*K);
-        y += Math.floor(45+this.building['cg']*K);
-        cont.fillRect(x, y,4,4);        
+        x -= Math.floor((this.building['L']*100+this.building['D'])*K);
+        cont.fillRect(x, y,1,1);        
         points.push([x,y]);
         
         cont.beginPath();
@@ -382,9 +365,48 @@ Drows = function (){
         }
         cont.moveTo(points[n][0], points[n][1]);
         cont.lineTo(points[0][0], points[0][1]);
-        cont.strokeStyle = "#333";
+        cont.strokeStyle = "brown";
         cont.stroke();
         
+        points.length = 0;
+        
+        cont.fillStyle = "green";
+        
+        x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2+(this.building['cf']*K)-this.sizes['H']*K/Math.sin(this.sizes['angleF'])/2);
+        y -= Math.floor(this.building['cg']*K);        
+        cont.fillRect(x, y,1,1);
+        points.push([x,y]);
+        
+        x += Math.floor((this.sizes['L'])*K+1*this.sizes['H']*K/Math.sin(this.sizes['angleF']));
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+
+        x += Math.floor((this.sizes['Fg']*this.sizes['cf']/this.sizes['fg'])*K);
+        y += Math.floor((this.sizes['Fg']*this.building['cg']/this.sizes['fg'])*K-this.sizes['H']*K/Math.cos(this.sizes['angleF'])/2);
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+        
+        x -= Math.floor((2*this.building['m'] + (this.building['L']*100+this.building['D']))*K);
+        cont.fillRect(x, y,1,1);        
+        points.push([x,y]);
+        
+        cont.beginPath();
+        
+        var n = 0;
+        for(var i in points){
+            var a = parseFloat(i);
+            var b = a+1;
+            if(points[b] === undefined){
+                break;
+            }
+            cont.moveTo(points[a][0], points[a][1]);
+            cont.lineTo(points[b][0], points[b][1]);
+            n++;
+        }
+        cont.moveTo(points[n][0], points[n][1]);
+        cont.lineTo(points[0][0], points[0][1]);
+        cont.strokeStyle = "green";
+        cont.stroke();
     };
 };
 

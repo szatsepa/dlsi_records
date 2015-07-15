@@ -37,6 +37,7 @@
                          <option value="10">100</option>
                          <option value="12">120</option>
                          <option value="15">150</option>
+                         <option value="18">180</option>
                          <option value="20">200</option> 
                          <option value="22">220</option>
                          <option value="25">250</option>
