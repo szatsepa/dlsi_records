@@ -5,7 +5,7 @@ Drows = function (){
     var context = obj.getContext("2d");
     this.building = new Object();
     this.sizes = new Object();
-    this.sizes['num'] = 0;
+//    this.sizes['num'] = 0;
     
     context.font = "bold 12px sans-serif";
     
@@ -146,56 +146,65 @@ Drows = function (){
         context.stroke();
     };
     
-    this.geometry = function(obj){
-        
+    this.setData = function(obj){
         this.building = obj;
-//        alert("A");
-        for(var i=0; i < 150;i++){
-//            alert("B");
-            this.building['cf'] += 5; 
-            this.sizes['cf'] = this.building['cf'];
-            this.sizes['num']++;
-    //        розрахунок ноги BG
-            this.sizes['bg'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cg'],2)),1/2);
-            this.sizes['angleB'] = Math.asin(this.building['cg']/this.sizes['bg']);
-            this.sizes['Bg'] = (this.building['m']+.5*this.building['D']+this.building['bc'])*this.sizes['bg']/this.building['bc'];
-    //        розрахунок ноги CG   TODO сделать расчет вылета крыши с тыла с учетом того что край крыши в одном уровне 
-            this.sizes['dg'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cg'],2)),1/2);
-            this.sizes['angleD'] = Math.asin(this.building['cg']/this.sizes['dg']);
-            this.sizes['Dg'] = (this.building['m']+.5*this.building['D']+this.building['cd'])*this.sizes['dg']/this.building['cd'];
-    //        розрахунок ноги ag  
-            this.sizes['ac'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cf'],2)),.5);
-            this.sizes['ag'] = Math.pow(Math.pow(this.sizes['ac'],2)+Math.pow(this.building['cf'],2),.5);
-            this.sizes['Ag'] = (this.sizes['Bg']*this.sizes['ag'])/this.sizes['bg'];
-            this.sizes['angleA'] = Math.asin(this.building['cg']/this.sizes['dg']);;
-    //        розрахунок ноги EG        
-            this.sizes['ce'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cf'],2)),.5);
-            this.sizes['eg'] = Math.pow(Math.pow(this.sizes['ce'],2)+Math.pow(this.building['cf'],2),.5);
-            this.sizes['Eg'] = (this.sizes['Dg']*this.sizes['eg'])/this.sizes['dg'];
-            this.sizes['angleE'] = Math.asin(this.building['cg']/this.sizes['dg']);
-    ////        розрахунок ноги FG         
-            this.sizes['fg'] = Math.pow((Math.pow(this.building['cf'],2)+Math.pow(this.building['cg'],2)),1/2);
-            this.sizes['angleF'] = Math.asin(this.building['cg']/this.sizes['fg']);
-            this.sizes['Fg'] = Math.pow(Math.pow(this.sizes['Ag'],2) - Math.pow((this.sizes['Ag']*this.building['bc'])/this.sizes['ag'],2),1/2);
-            this.sizes['ms'] = (this.sizes['Fg']-this.sizes['fg'])*this.building['cf']/this.sizes['fg']-this.building['D']/2;
-    //        розрахунок стріхи gg
-            this.sizes['L'] = 100*this.building['L'] - 2*this.building['cf'];
-            this.sizes['mf'] = this.building['m'];
-            
-            if(this.sizes['ms'] >= (this.building['m']-3)){
-                break;
-            }
-        }
+    };
+    
+    this.setCF = function(data){
+        this.building['cf'] = data;
+    };
+    
+    this.geometry = function(){
         
-        var raft = {'A':this.sizes['ag'],'B':this.sizes['bg'],'C':this.sizes['dg'],'E':this.sizes['eg'],'F':this.sizes['fg']};
+//        this.building = obj;obj
         
-        var tmp = this.maxsize(raft);
+//        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами
+        var tmp = 0;
+        this.sizes['a'] = {x:(-this.building['bc']),y:0,z:this.building['cf']};
+        this.sizes['b'] = {x:(-this.building['bc']),y:0,z:0};
+        this.sizes['c'] = {x:0,y:0,z:0};
+        this.sizes['d'] = {x:this.building['cd'],y:0,z:0};
+        this.sizes['e'] = {x:this.building['cd'],y:0,z:this.building['cf']};
+        this.sizes['f'] = {x:0,y:0,z:this.building['cf']};
+        this.sizes['g'] = {x:0,y:this.building['cg'],z:0};
+//      Cc -> tmp нижний уровень кріши отн плоскости abcdef 
+        tmp = ((this.building['bc']+this.building['m']+.5*this.building['D'])*this.building['cg']/this.building['bc']) - this.building['cg'];
         
-        this.sizes['maxraft'] = tmp['raft'];
+        this.sizes['A'] = {x:(-(this.building['bc']+this.building['m']+.5*this.building['D'])),y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
+        this.sizes['B'] = {x:(-(this.building['bc']+this.building['m']+.5*this.building['D'])),y:(-tmp),z:0};
+        this.sizes['D'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:0};
+        this.sizes['E'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
+        this.sizes['F'] = {x:0,y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
         
-        this.sizes['angle'] = tmp['angle'];
+//        довжина стропильних ніг по осях
+
+        this.sizes['Ag'] = Math.pow((Math.pow((this.sizes['A']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['A']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['A']['z']-this.sizes['g']['z']),2)),.5);
+        this.sizes['Bg'] = Math.pow((Math.pow((this.sizes['B']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['B']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['B']['z']-this.sizes['g']['z']),2)),.5);
+        this.sizes['Dg'] = Math.pow((Math.pow((this.sizes['D']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['D']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['D']['z']-this.sizes['g']['z']),2)),.5);
+        this.sizes['Eg'] = Math.pow((Math.pow((this.sizes['E']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['E']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['E']['z']-this.sizes['g']['z']),2)),.5);
+        this.sizes['Fg'] = Math.pow((Math.pow((this.sizes['F']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['F']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['F']['z']-this.sizes['g']['z']),2)),.5);
         
-        this.hardness(this.building['ws'],this.building['hs'],this.sizes[tmp['angle']]);
+//      углы наклона стропильных ног по реперным точкам
+
+        this.sizes['angleA'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['a']['x']));
+        this.sizes['angleB'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['b']['x']));
+        this.sizes['angleD'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['d']['x']));
+        this.sizes['angleE'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['e']['x']));
+        this.sizes['angleF'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['f']['x']));
+        
+//      вылет крыши М
+        
+        var m = new Array();
+        
+        m.push((this.sizes['b']['x']-this.sizes['B']['x']-.5*this.building['D']));
+        m.push((this.sizes['D']['x']-this.sizes['d']['x']-.5*this.building['D']));
+        m.push((this.sizes['F']['z']-this.sizes['f']['z']-.5*this.building['D']));
+        
+        this.sizes['mar'] = m;
+        this.sizes['cf'] = this.building['cf'];
+        this.sizes['L'] = 100*this.building['L']-2*this.building['cf'];
+        
+//        this.hardness()
         
         return this.sizes;
 

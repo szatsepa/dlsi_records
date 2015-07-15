@@ -82,14 +82,16 @@ $(document).ready(function(){
     
     $("input#step").keypress(function(e){
         if(e.which === 13){
-            view(project.geometry(prepare()));
+            project.setData(prepare());
+            view(project.geometry());
         }
     });
     
     
     $("input.btn-save").mousedown(function(){
         
-        view(project.geometry(prepare()));
+            project.setData(prepare());
+            view(project.geometry());
      });
      
      var flag = false;
@@ -136,6 +138,21 @@ $(document).ready(function(){
     
     function view(obj){
         
+        
+        for(var i in obj['mar']){
+            
+//            alert(obj['mar'][i] < parseFloat($("input#m").val()));
+            if(obj['mar'][i] < (parseFloat($("input#m").val())-3)){
+                var lcf = prompt("Найменьший виліт даху малуватий "+(obj['mar'][i])+", має бути збільшена відстань cf",(obj['cf']));
+                if(!lcf){
+                    return false;
+                }else{
+                    project.setCF(lcf);
+                    view(project.geometry());
+                }
+            }
+        }
+        
         var Ag = Math.ceil(obj['Ag']*100)/100;
         var Bg = Math.ceil(obj['Bg']*100)/100;
         var Dg = Math.ceil(obj['Dg']*100)/100;
@@ -143,14 +160,15 @@ $(document).ready(function(){
         var Fg = Math.ceil(obj['Fg']*100)/100;
         var cf = Math.ceil(obj['cf']*100)/100;
         var L = Math.ceil(obj['L']*100)/100;
-        var mf = Math.ceil(obj['mf']*100)/100;
-        var ms = Math.ceil(obj['ms']*100)/100;
+        var mf = Math.ceil(obj['mar'][0]*100)/100;
+        var mr = Math.ceil(obj['mar'][1]*100)/100;
+        var ms = Math.ceil(obj['mar'][2]*100)/100;
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
         var QR = Math.ceil(obj['QR']*100)/100;
         
         $("table tbody tr td#res").empty();
-        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<br/>Найбільше навантаження на стропило - "+QR+" кг/м<p><a>Перерахувати</a></p>");
+        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+"  sm.<br/>Виліт даху(тил) - "+mr+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<br/>Найбільше навантаження на стропило - "+QR+" кг/м<p><a>Перерахувати</a></p>");
         
         $.each($("select#ws option"),function(){
             $(this).attr('selected',false);
