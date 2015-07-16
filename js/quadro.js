@@ -82,16 +82,26 @@ $(document).ready(function(){
     
     $("input#step").keypress(function(e){
         if(e.which === 13){
-            project.setData(prepare());
-            view(project.geometry());
+            var whot = prepare();
+            if(whot){
+               project.setData(whot);
+               view(project.geometry());
+            }else{
+                return false;
+            }
         }
     });
     
     
     $("input.btn-save").mousedown(function(){
         
-            project.setData(prepare());
-            view(project.geometry());
+            var whot = prepare();
+            if(whot){
+               project.setData(whot);
+               view(project.geometry());
+            }else{
+                return false;
+            }
      });
      
      var flag = false;

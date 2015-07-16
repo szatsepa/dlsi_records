@@ -204,18 +204,27 @@ Drows = function (){
         this.sizes['cf'] = this.building['cf'];
         this.sizes['L'] = 100*this.building['L']-2*this.building['cf'];
         
-//        this.hardness()
+//        индексы стропильных ног
+        
+        var Sindex = new Array('A','B','D','E','F');
+        
+        var raft = this.maxsize(Sindex);
+        
+        alert('W '+this.building['ws']+'\nH '+this.building['hs']);
+        
+        this.hardness(this.building['ws'],this.building['hs'],raft['angle'],raft['raft']);
         
         return this.sizes;
 
     };
     
-    this.hardness = function(w,h,ang){
+    this.hardness = function(w,h,ang,raft){
         var W = w;
         var H = h;
         var angle = parseFloat(ang);
         var mu = 0;
         var gamma = 180*angle/Math.PI;
+        var raft = raft;
         
         this.building['hs'] = h;
 //        alert(gamma+"degree");
@@ -241,11 +250,11 @@ Drows = function (){
 // с учетом шага стропил на пог м      
         var QR = SUM*(this.building['step']/100);
         
-        var Contr = (3.125*QR*Math.pow(this.sizes['maxraft']/100,3))/(W*Math.pow(H,3));
+        var Contr = (3.125*QR*Math.pow(raft/100,3))/(W*Math.pow(H,3));
         
          if(Contr > 1){
             if(confirm("Хуйня війшла виберіть дебеліший брус!\nПродовжити?")){
-               H = this.calc_height(H,QR,(this.sizes['maxraft']),W,angle);
+               H = this.calc_height(H,QR,(raft),W,angle);
             }else{
                 return false;
             }           
@@ -301,17 +310,19 @@ Drows = function (){
             this.hardness(this.building['ws'],this.building['hs'],this.sizes[this.sizes['angle']]);
         };
     
-    this.maxsize = function(obj){
+    this.maxsize = function(arr){
         
         var maxraft = 0;
         var angle = 0;
-        
-        for(var i in obj){
-            if(obj[i] > maxraft){
-                maxraft = obj[i];
-                angle = 'angle'+i;
+//        var str = '';
+        for(var i in arr){
+            if(this.sizes[(arr[i]+'g')] > maxraft){
+                maxraft = this.sizes[(arr[i]+'g')];
+                angle = this.sizes[('angle'+arr[i])];
             }
+//            str += arr[i]+'; '+this.sizes[(arr[i]+'g')]+'\n';
         }
+//        alert(str);
         return {'raft':maxraft,'angle':angle};
     };
     
@@ -330,7 +341,7 @@ Drows = function (){
     };
     
     this.drowFront = function(){
-        alert(this.sizes['mr']);
+//        alert(this.sizes['mr']);
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
@@ -340,89 +351,133 @@ Drows = function (){
         cont.fillStyle = "#fa6";
 //        определим коэфф по осям коорд
 
-        var K = 820/(this.building['L']*100+2*this.sizes['ms']+this.building['D']);
+        var K = 860/(this.building['L']*100+2*this.sizes['ms']+this.building['D']);
         
-        if(K > (560/(this.building['Hh']*100))){
+        if(K > (630/(this.building['Hh']*100))){
             
-            K = 560/(this.building['Hh']*100);
+            K = 630/(this.building['Hh']*100);
         }
         
-//  left point
-
-        var x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2); 
-        var y = 625;        
-        cont.fillRect(x, y,1,1);
+//        оси координат
+        
+        cont.fillStyle = "yelow";
+        var x0 = 430;
+        var y0 = 10;
+        cont.fillRect(x0, y0,4,4);
+        points.push([x0,y0]);
+        var dy = (x0-10)*Math.sin(7.17*Math.PI/180);
+//        alert((x0-10)+'\n'+Math.sin(7.17*Math.PI/180)+'\n'+dy);
+        var y = y0+dy;
+        var x = x0 - 420;
+        cont.fillRect(x, y,4,4);
+        points.push([x,y]);
+        dy = (850-x0)*Math.sin(41.42*Math.PI/180);
+        x = 850;
+        y = y0+dy;
+        cont.fillRect(x, y,4,4);
         points.push([x,y]);
         
-        x += Math.floor((this.building['L']*100+this.building['D'])*K);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        y -= Math.floor(625 - (this.building['Hh']*100 - this.building['cg'])*K);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        x -= Math.floor((this.building['L']*100+this.building['D'])*K);
-        cont.fillRect(x, y,1,1);        
+        y = 620;
+        x = x0;
+        cont.fillRect(x, y,4,4);
         points.push([x,y]);
         
         cont.beginPath();
         
-        var n = 0;
-        for(var i in points){
-            var a = parseFloat(i);
-            var b = a+1;
-            if(points[b] === undefined){
-                break;
-            }
-            cont.moveTo(points[a][0], points[a][1]);
-            cont.lineTo(points[b][0], points[b][1]);
-            n++;
-        }
-        cont.moveTo(points[n][0], points[n][1]);
-        cont.lineTo(points[0][0], points[0][1]);
-        cont.strokeStyle = "brown";
+        cont.moveTo(points[0][0], points[0][1]);
+        cont.lineTo(points[1][0], points[1][1]);
+        
+        cont.moveTo(points[0][0], points[0][1]);
+        cont.lineTo(points[2][0], points[2][1]);
+        
+        cont.moveTo(points[0][0], points[0][1]);
+        cont.lineTo(points[3][0], points[3][1]);
+        
+        cont.strokeStyle = "#ff0";
         cont.stroke();
         
+//        центр строения
+
         points.length = 0;
         
-        cont.fillStyle = "green";
+        x = Math.sin(41.42*Math.PI/180)*K*(this.building['L']*100/2);
         
-        x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2+(this.building['cf']*K)-this.sizes['H']*K/Math.sin(this.sizes['angleF'])/2);
-        y -= Math.floor(this.building['cg']*K);        
-        cont.fillRect(x, y,1,1);
-        points.push([x,y]);
-        
-        x += Math.floor((this.sizes['L'])*K+1*this.sizes['H']*K/Math.sin(this.sizes['angleF']));
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-
-        x += Math.floor((this.sizes['Fg']*this.sizes['cf']/this.sizes['fg'])*K);
-        y += Math.floor((this.sizes['Fg']*this.building['cg']/this.sizes['fg'])*K-this.sizes['H']*K/Math.cos(this.sizes['angleF'])/2);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        x -= Math.floor((2*this.building['m'] + (this.building['L']*100+this.building['D']))*K);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        cont.beginPath();
-        
-        var n = 0;
-        for(var i in points){
-            var a = parseFloat(i);
-            var b = a+1;
-            if(points[b] === undefined){
-                break;
-            }
-            cont.moveTo(points[a][0], points[a][1]);
-            cont.lineTo(points[b][0], points[b][1]);
-            n++;
-        }
-        cont.moveTo(points[n][0], points[n][1]);
-        cont.lineTo(points[0][0], points[0][1]);
-        cont.strokeStyle = "green";
-        cont.stroke();
+//  left point
+//
+//        var x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2); 
+//        var y = 625;        
+//        cont.fillRect(x, y,1,1);
+//        points.push([x,y]);
+//        
+//        x += Math.floor((this.building['L']*100+this.building['D'])*K);
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+//        
+//        y -= Math.floor(625 - (this.building['Hh']*100 - this.building['cg'])*K);
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+//        
+//        x -= Math.floor((this.building['L']*100+this.building['D'])*K);
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+//        
+//        cont.beginPath();
+//        
+//        var n = 0;
+//        for(var i in points){
+//            var a = parseFloat(i);
+//            var b = a+1;
+//            if(points[b] === undefined){
+//                break;
+//            }
+//            cont.moveTo(points[a][0], points[a][1]);
+//            cont.lineTo(points[b][0], points[b][1]);
+//            n++;
+//        }
+//        cont.moveTo(points[n][0], points[n][1]);
+//        cont.lineTo(points[0][0], points[0][1]);
+//        cont.strokeStyle = "brown";
+//        cont.stroke();
+//        
+//        points.length = 0;
+//        
+//        cont.fillStyle = "green";
+//        
+//        x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2+(this.building['cf']*K)-this.sizes['H']*K/Math.sin(this.sizes['angleF'])/2);
+//        y -= Math.floor(this.building['cg']*K);        
+//        cont.fillRect(x, y,1,1);
+//        points.push([x,y]);
+//        
+//        x += Math.floor((this.sizes['L'])*K+1*this.sizes['H']*K/Math.sin(this.sizes['angleF']));
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+//
+//        x += Math.floor((this.sizes['Fg']*this.sizes['cf']/this.sizes['fg'])*K);
+//        y += Math.floor((this.sizes['Fg']*this.building['cg']/this.sizes['fg'])*K-this.sizes['H']*K/Math.cos(this.sizes['angleF'])/2);
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+//        
+//        x -= Math.floor((2*this.building['m'] + (this.building['L']*100+this.building['D']))*K);
+//        cont.fillRect(x, y,1,1);        
+//        points.push([x,y]);
+//        
+//        cont.beginPath();
+//        
+//        var n = 0;
+//        for(var i in points){
+//            var a = parseFloat(i);
+//            var b = a+1;
+//            if(points[b] === undefined){
+//                break;
+//            }
+//            cont.moveTo(points[a][0], points[a][1]);
+//            cont.lineTo(points[b][0], points[b][1]);
+//            n++;
+//        }
+//        cont.moveTo(points[n][0], points[n][1]);
+//        cont.lineTo(points[0][0], points[0][1]);
+//        cont.strokeStyle = "green";
+//        cont.stroke();
     };
     
     this.drowSide = function(){
