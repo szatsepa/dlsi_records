@@ -162,7 +162,10 @@ Drows = function (){
     //        розрахунок ноги CG   TODO сделать расчет вылета крыши с тыла с учетом того что край крыши в одном уровне 
             this.sizes['dg'] = Math.pow((Math.pow(this.building['cd'],2)+Math.pow(this.building['cg'],2)),1/2);
             this.sizes['angleD'] = Math.asin(this.building['cg']/this.sizes['dg']);
-            this.sizes['Dg'] = (this.building['m']+.5*this.building['D']+this.building['cd'])*this.sizes['dg']/this.building['cd'];
+//            this.sizes['Dg'] = (this.building['m']+.5*this.building['D']+this.building['cd'])*this.sizes['dg']/this.building['cd'];
+            this.sizes['Dg'] = this.sizes['dg']*(this.building['cd']+(this.building['m']*Math.sin(this.sizes['angleB'])))/this.building['cd'];
+            this.sizes['mr'] = (this.sizes['Dg']-this.sizes['dg'])*Math.sin(this.sizes['angleD']);
+            
     //        розрахунок ноги ag  
             this.sizes['ac'] = Math.pow((Math.pow(this.building['bc'],2)+Math.pow(this.building['cf'],2)),.5);
             this.sizes['ag'] = Math.pow(Math.pow(this.sizes['ac'],2)+Math.pow(this.building['cf'],2),.5);
@@ -313,8 +316,15 @@ Drows = function (){
       this.geometry(this.building);
     };
     
-    this.drowFront = function(){
+    this.resizeM = function(){
         
+      this.building['m'] += 5;
+     
+      this.geometry(this.building);
+    };
+    
+    this.drowFront = function(){
+        alert(this.sizes['mr']);
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
