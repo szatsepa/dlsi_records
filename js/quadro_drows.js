@@ -210,7 +210,7 @@ Drows = function (){
         
         var raft = this.maxsize(Sindex);
         
-        alert('W '+this.building['ws']+'\nH '+this.building['hs']);
+//        alert('W '+this.building['ws']+'\nH '+this.building['hs']);
         
         this.hardness(this.building['ws'],this.building['hs'],raft['angle'],raft['raft']);
         
@@ -351,7 +351,9 @@ Drows = function (){
         cont.fillStyle = "#fa6";
 //        определим коэфф по осям коорд
 
-        var K = 860/(this.building['L']*100+2*this.sizes['ms']+this.building['D']);
+        var K = 860/((this.building['L'])*100+2*(this.building['m'])+(this.building['D']));
+        
+//        alert('K '+K); 
         
         if(K > (630/(this.building['Hh']*100))){
             
@@ -399,8 +401,12 @@ Drows = function (){
 //        центр строения
 
         points.length = 0;
+   
+        x = x0 + (100*K*this.building['L']/2)*Math.cos(41.42*Math.PI/180);
+        y = y0 + (100*K*this.building['L']/2)*Math.sin(41.42*Math.PI/180);
+        cont.fillRect(x, y,4,4);
+        points.push([x,y]);
         
-        x = Math.sin(41.42*Math.PI/180)*K*(this.building['L']*100/2);
         
 //  left point
 //
