@@ -390,28 +390,26 @@ Drows = function (){
 //      проекция вирт оси Х на действ ось Х
         x = x0 + (tmp)*Math.cos(angX);
         y = y0 + (x-x0)*Math.tan(angX);
-        cont.fillRect(x, y,4,4);
-        points.push([x,y]);
-        
-        x = x0 + (tmp*2)*Math.cos(angX);
-        y = y0 + (x-x0)*Math.tan(angX);
-        cont.fillRect(x, y,4,4);
-        points.push([x,y]);
-        
+        var tmpx = x-x0;
+        var tmpy = y-y0;
+               
 //      1/2 center  weight строения по оси Z
 
         tmp = kz*this.building['W']/2;
 //      проекция вирт оси Z на действ ось Х
         x = x0 - ((100*K*tmp)*Math.cos(angZ));
-        y = y0 + (x0-x)*Math.tan(angZ);
+        y = y0 + (x0-x)*Math.tan(angZ);        
+        x += tmpx;
+        y += tmpy;
         cont.fillRect(x, y,4,4);
         points.push([x,y]);
         
-        x = x0 - ((100*K*tmp*2)*Math.cos(angZ));
-        y = y0 + (x0-x)*Math.tan(angZ);
-        
+        var CENTER = {'x':x,'y':y};
+        y += ky*K*this.sizes['g']['y'];
         cont.fillRect(x, y,4,4);
-        points.push([x,y]);
+//        y -= (x0-x)*Math.tan(angZ);
+        cont.fillRect(x0, (y0+ky*K*this.sizes['g']['y']),4,4);
+        
 
     };
     
