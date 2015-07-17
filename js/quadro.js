@@ -85,7 +85,9 @@ $(document).ready(function(){
             var whot = prepare();
             if(whot){
                project.setData(whot);
-               view(project.geometry());
+               project.geometry();
+               _size();
+               view(project.getSizes());
             }else{
                 return false;
             }
@@ -98,7 +100,9 @@ $(document).ready(function(){
             var whot = prepare();
             if(whot){
                project.setData(whot);
-               view(project.geometry());
+               project.geometry();
+               _size();
+               view(project.getSizes());
             }else{
                 return false;
             }
@@ -114,6 +118,18 @@ $(document).ready(function(){
         }
         flag = !flag;
     }); 
+    
+    function _size(){
+        var height = new Array();
+        $.each($("select#hs option"),function(){
+            var h = parseFloat($(this).val())
+            if($(this).val()!==0){
+                height.push(h);
+            }
+        });
+        
+        return project.sizeH(height);
+    }
     
     function prepare(){
         
@@ -149,19 +165,19 @@ $(document).ready(function(){
     function view(obj){
         
         
-        for(var i in obj['mar']){
-            
-//            alert(obj['mar'][i] < parseFloat($("input#m").val()));
-            if(obj['mar'][i] < (parseFloat($("input#m").val())-3)){
-                var lcf = prompt("Найменьший виліт даху малуватий "+(obj['mar'][i])+", має бути збільшена відстань cf",(obj['cf']));
-                if(!lcf){
-                    return false;
-                }else{
-                    project.setCF(lcf);
-                    view(project.geometry());
-                }
-            }
-        }
+//        for(var i in obj['mar']){
+//            
+////            alert(obj['mar'][i] < parseFloat($("input#m").val()));
+//            if(obj['mar'][i] < (parseFloat($("input#m").val())-3)){
+//                var lcf = prompt("Найменьший виліт даху малуватий "+(obj['mar'][i])+", має бути збільшена відстань cf",(obj['cf']));
+//                if(!lcf){
+//                    return false;
+//                }else{
+//                    project.setCF(lcf);
+//                    view(project.geometry());
+//                }
+//            }
+//        }
         
         var Ag = Math.ceil(obj['Ag']*100)/100;
         var Bg = Math.ceil(obj['Bg']*100)/100;

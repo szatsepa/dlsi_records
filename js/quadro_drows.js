@@ -5,7 +5,6 @@ Drows = function (){
     var context = obj.getContext("2d");
     this.building = new Object();
     this.sizes = new Object();
-//    this.sizes['num'] = 0;
     
     context.font = "bold 12px sans-serif";
     
@@ -154,12 +153,10 @@ Drows = function (){
         this.building['cf'] = data;
     };
     
-    this.geometry = function(){
-        
-//        this.building = obj;obj
-        
+    this.geometry = function(){        
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами
         var tmp = 0;
+        var flag = false;
         this.sizes['a'] = {x:(-this.building['bc']),y:0,z:this.building['cf']};
         this.sizes['b'] = {x:(-this.building['bc']),y:0,z:0};
         this.sizes['c'] = {x:0,y:0,z:0};
@@ -199,149 +196,128 @@ Drows = function (){
         m.push((this.sizes['b']['x']-this.sizes['B']['x']-.5*this.building['D']));
         m.push((this.sizes['D']['x']-this.sizes['d']['x']-.5*this.building['D']));
         m.push((this.sizes['F']['z']-this.sizes['f']['z']-.5*this.building['D']));
-        
+        if(!flag){
+            for(var i in m){
+                if(m[i]<40){
+                    if(confirm("Відстань від краю даха до стіни менша ніж 40 см.\nХай буде так, чи перерахуємо?")){
+                        flag = !flag;
+
+                    }else{
+    //                    flag = !flag;
+                        return false;
+                    }
+                }
+                
+            }
+        }
         this.sizes['mar'] = m;
         this.sizes['cf'] = this.building['cf'];
         this.sizes['L'] = 100*this.building['L']-2*this.building['cf'];
-        
-//        индексы стропильных ног
-        
-        var Sindex = new Array('A','B','D','E','F');
-        
-        var raft = this.maxsize(Sindex);
-        
-//        alert('W '+this.building['ws']+'\nH '+this.building['hs']);
-        
-        this.hardness(this.building['ws'],this.building['hs'],raft['angle'],raft['raft']);
         
         return this.sizes;
 
     };
     
-    this.hardness = function(w,h,ang,raft){
-        var W = w;
-        var H = h;
-        var angle = parseFloat(ang);
-        var mu = 0;
-        var gamma = 180*angle/Math.PI;
-        var raft = raft;
+    this.getSizes = function(){
+        return this.sizes;
+    };
+    
+    this.sizeH = function(height){
         
-        this.building['hs'] = h;
-//        alert(gamma+"degree");
-        if(gamma <= 30){
-            mu = 1;
-        }else if(gamma > 30 && gamma <= 60){
-            mu =  .033*(60-gamma);
-        }
-        var Snow = mu*150;
+//        размеры стропильных ног для расчета сечения оных
+        var rafter = new Object();
+        var tmp = 0;
+        var alpha = 0;
+        var W = this.building['ws'];
+        var ks = 0.0098;
+        var SIZE = new Array();
         
-        var K = .75;
+        tmp = Math.pow(Math.pow((this.sizes['g']['x']-this.sizes['a']['x']),2)+Math.pow((this.sizes['g']['y']-this.sizes['a']['y']),2)+Math.pow((this.sizes['g']['z']-this.sizes['a']['z']),2),0.5)*2/300;
+        alpha = this.sizes['angleA'];
+        rafter['a'] = {'alpha':alpha,'l':tmp};
+        tmp = Math.pow(Math.pow((this.sizes['g']['x']-this.sizes['b']['x']),2)+Math.pow((this.sizes['g']['y']-this.sizes['b']['y']),2)+Math.pow((this.sizes['g']['z']-this.sizes['b']['z']),2),0.5)*2/300;
+        alpha = this.sizes['angleB'];
+        rafter['b'] = {'alpha':alpha,'l':tmp};
+        tmp = Math.pow(Math.pow((this.sizes['g']['x']-this.sizes['d']['x']),2)+Math.pow((this.sizes['g']['y']-this.sizes['d']['y']),2)+Math.pow((this.sizes['g']['z']-this.sizes['d']['z']),2),0.5)*2/300;
+        alpha = this.sizes['angleD'];
+        rafter['d'] = {'alpha':alpha,'l':tmp};
+        tmp = Math.pow(Math.pow((this.sizes['g']['x']-this.sizes['e']['x']),2)+Math.pow((this.sizes['g']['y']-this.sizes['e']['y']),2)+Math.pow((this.sizes['g']['z']-this.sizes['e']['z']),2),0.5)*2/300;
+        alpha = this.sizes['angleE'];
+        rafter['e'] = {'alpha':alpha,'l':tmp};
+        tmp = Math.pow(Math.pow((this.sizes['g']['x']-this.sizes['f']['x']),2)+Math.pow((this.sizes['g']['y']-this.sizes['f']['y']),2)+Math.pow((this.sizes['g']['z']-this.sizes['f']['z']),2),0.5)*2/300;
+        alpha = this.sizes['angleF'];
+        rafter['f'] = {'alpha':alpha,'l':tmp};        
         
-        if(this.building['Hh'] > 500 && this.building['Hh'] < 1000){
-            K = 1;
-        }else if(this.building['Hh'] > 1000 && this.building['Hh'] < 2000){
-            K = 1.25;
-        }
-        
-        var Wind = 45*K*.8;
-// суммарная нагрузка ветровая снегрвая и человег на м кв       
-        var SUM = Snow+Wind+this.building['type']+50;
+        for(var i in rafter){
+//            угол наклона стропила
+            var gamma = rafter[i]['alpha']*180/Math.PI;
+            
+            var mu = 0;
+            
+            if(gamma <= 30){
+                mu = 1;
+            }else if(gamma > 30 && gamma <= 60){
+                mu =  .033*(60-gamma);
+            }
+//            все нагрузки в килоньютонах
+//            снеговая нагрузка для нашего региона
+            var Snow = ks*mu*150;
+
+            var K = .75;
+
+            if(this.building['Hh'] > 500 && this.building['Hh'] < 1000){
+                K = 1;
+            }else if(this.building['Hh'] > 1000 && this.building['Hh'] < 2000){
+                K = 1.25;
+            }
+//  ветровая нагрузка для нашего региона      
+            var Wind = ks*45*K*.8;
+// суммарная нагрузка ветровая снегрвая и человег на м кв// (ks*this.building['type'])+1.2 - суммарная нагрузка кровли и человека с инструментом      
+            var SUM = Snow+Wind+(ks*this.building['type'])+1.2;
         
 // с учетом шага стропил на пог м      
-        var QR = SUM*(this.building['step']/100);
-        
-        var Contr = (3.125*QR*Math.pow(raft/100,3))/(W*Math.pow(H,3));
-        
-         if(Contr > 1){
-            if(confirm("Хуйня війшла виберіть дебеліший брус!\nПродовжити?")){
-               H = this.calc_height(H,QR,(raft),W,angle);
-            }else{
-                return false;
-            }           
+            var QR = SUM*(this.building['step']/100);
+//            изгибающий момент kN*m
+            var Mi = (QR*(Math.pow(rafter[i]['l'],2))/8)+(1.2*(rafter[i]['l']*Math.cos(rafter[i]['alpha']))/4);
+          
+//            Определяем расчетное сопротивление древесины изгибу MPa - 10^3 kN/m^2
+            var Ri = 14*Math.pow(10,3)*0.8;
             
-        }else{
-//            alert("Вибраний брус "+W+"Х"+H+" відповідає умовам міцності!("+Contr+")");
-            this.sizes['W'] = W;
-            this.sizes['H'] = H;
-            this.sizes['QR'] = QR;
-            this.sizes['C'] = Contr;
-        }
-        
-        
-    };
-    
-    this.calc_height = function (hp, QR,l,W,angle){
+//            Определяемтребуемый момент сопротивления сечения
             
-            var Hp = 0;
+            var Wt = Math.pow(100,3)*Mi/Ri; 
             
-            var L = l/100;
+//            высота сечения стропильной ноги не менее sm
+
+            var Hr = Math.pow((6*Wt/W),1/2);
             
-            var W = W;
-            
-            if(angle < 30){
-                Hp = 8.6*L*Math.pow((QR/(130*W)),1/2);
-            }else{
-                Hp = 9.5*L*Math.pow((QR/(130*W)),1/2);
-            }
-            
-            if(Hp < hp){
-                Hp = hp;
-            }
-            
-            var tmp = Math.ceil(Hp*100)/100;
-            
-            if(tmp > 20){
-                var tmpw = parseFloat(W)+1;
-                W = prompt("Ширина брусу "+(W)+", має бути збільшена шонайменьше на 1 sm",(tmpw));
-                if(!W){
-                    return false;
+            tmp = Math.ceil(Hr*10)/10;
+            for(var hs=0;hs < height.length;hs++){
+                
+                if(!(tmp >= height[hs])){  
+                    var hh = height[hs];
+                    SIZE.push({'W':W,'H':hh,'QR':QR});
+                    break;
                 }
-                this.building['ws'] = W;
-            }else{
-                Hp = prompt("Вишина брусу "+(this.building['hs'])+", розрахована не меньш за "+(tmp)+" sm",tmp);
-                if(!Hp){
-                    return false;
+             
                 }
-                this.building['hs'] = Hp;
-            }
-        
-            
-            
-            this.hardness(this.building['ws'],this.building['hs'],this.sizes[this.sizes['angle']]);
-        };
-    
-    this.maxsize = function(arr){
-        
-        var maxraft = 0;
-        var angle = 0;
-//        var str = '';
-        for(var i in arr){
-            if(this.sizes[(arr[i]+'g')] > maxraft){
-                maxraft = this.sizes[(arr[i]+'g')];
-                angle = this.sizes[('angle'+arr[i])];
-            }
-//            str += arr[i]+'; '+this.sizes[(arr[i]+'g')]+'\n';
         }
-//        alert(str);
-        return {'raft':maxraft,'angle':angle};
-    };
-    
-    this.resize = function(){
-        
-      this.building['cf'] += 5;
-     
-      this.geometry(this.building);
-    };
-    
-    this.resizeM = function(){
-        
-      this.building['m'] += 5;
-     
-      this.geometry(this.building);
+        var out = {};
+        tmp = 0;
+        for(var i in SIZE){ 
+            
+            if(tmp < SIZE[i]['H']){
+                tmp = SIZE[i]['H'];
+                out = SIZE[i];
+            }
+       }
+       this.sizes['W'] = out['W'];
+       this.sizes['H'] = out['H'];
+       this.sizes['QR'] = out['QR']/ks;
+        return out;
     };
     
     this.drowFront = function(){
-//        alert(this.sizes['mr']);
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
@@ -352,9 +328,7 @@ Drows = function (){
 //        определим коэфф по осям коорд
 
         var K = 860/((this.building['L'])*100+2*(this.building['m'])+(this.building['D']));
-        
-//        alert('K '+K); 
-        
+                
         if(K > (630/(this.building['Hh']*100))){
             
             K = 630/(this.building['Hh']*100);
@@ -363,19 +337,26 @@ Drows = function (){
 //        оси координат
         
         cont.fillStyle = "yelow";
-        var x0 = 430;
+        var x0 = 600;
         var y0 = 10;
-        cont.fillRect(x0, y0,4,4);
-        points.push([x0,y0]);
-        var dy = (x0-10)*Math.sin(7.17*Math.PI/180);
-//        alert((x0-10)+'\n'+Math.sin(7.17*Math.PI/180)+'\n'+dy);
+        var kx = 0.47;
+        var ky = 0.94;
+        var kz = 0.94;
+        var angX = 41.42*Math.PI/180;
+        var angZ = 7.17*Math.PI/180;
+        var dy = (x0-10)*Math.tan(angZ);
         var y = y0+dy;
-        var x = x0 - 420;
-        cont.fillRect(x, y,4,4);
+        var x = 5;
+        cont.fillRect(x0, y0,1,1);
+        points.push([x0,y0]);        
+        
+        cont.fillRect(x, y,1,1);
         points.push([x,y]);
-        dy = (850-x0)*Math.sin(41.42*Math.PI/180);
+        
+        dy = (850-x0)*Math.tan(angX);
         x = 850;
         y = y0+dy;
+        
         cont.fillRect(x, y,4,4);
         points.push([x,y]);
         
@@ -383,7 +364,7 @@ Drows = function (){
         x = x0;
         cont.fillRect(x, y,4,4);
         points.push([x,y]);
-        
+//        линии координат
         cont.beginPath();
         
         cont.moveTo(points[0][0], points[0][1]);
@@ -398,92 +379,40 @@ Drows = function (){
         cont.strokeStyle = "#ff0";
         cont.stroke();
         
-//        центр строения
-
+//      точка  центр строения
+        cont.fillStyle = "red";
         points.length = 0;
-   
-        x = x0 + (100*K*this.building['L']/2)*Math.cos(41.42*Math.PI/180);
-        y = y0 + (100*K*this.building['L']/2)*Math.sin(41.42*Math.PI/180);
+        var tmp = 0;
+        
+//      1/2 center  длина строения по оси Х
+
+        tmp = 100*kx*K*this.building['L']/2;
+//      проекция вирт оси Х на действ ось Х
+        x = x0 + (tmp)*Math.cos(angX);
+        y = y0 + (x-x0)*Math.tan(angX);
         cont.fillRect(x, y,4,4);
         points.push([x,y]);
         
+        x = x0 + (tmp*2)*Math.cos(angX);
+        y = y0 + (x-x0)*Math.tan(angX);
+        cont.fillRect(x, y,4,4);
+        points.push([x,y]);
         
-//  left point
-//
-//        var x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2); 
-//        var y = 625;        
-//        cont.fillRect(x, y,1,1);
-//        points.push([x,y]);
-//        
-//        x += Math.floor((this.building['L']*100+this.building['D'])*K);
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-//        
-//        y -= Math.floor(625 - (this.building['Hh']*100 - this.building['cg'])*K);
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-//        
-//        x -= Math.floor((this.building['L']*100+this.building['D'])*K);
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-//        
-//        cont.beginPath();
-//        
-//        var n = 0;
-//        for(var i in points){
-//            var a = parseFloat(i);
-//            var b = a+1;
-//            if(points[b] === undefined){
-//                break;
-//            }
-//            cont.moveTo(points[a][0], points[a][1]);
-//            cont.lineTo(points[b][0], points[b][1]);
-//            n++;
-//        }
-//        cont.moveTo(points[n][0], points[n][1]);
-//        cont.lineTo(points[0][0], points[0][1]);
-//        cont.strokeStyle = "brown";
-//        cont.stroke();
-//        
-//        points.length = 0;
-//        
-//        cont.fillStyle = "green";
-//        
-//        x = Math.floor((860 -(this.building['L']*100+this.building['D'])*K)/2+(this.building['cf']*K)-this.sizes['H']*K/Math.sin(this.sizes['angleF'])/2);
-//        y -= Math.floor(this.building['cg']*K);        
-//        cont.fillRect(x, y,1,1);
-//        points.push([x,y]);
-//        
-//        x += Math.floor((this.sizes['L'])*K+1*this.sizes['H']*K/Math.sin(this.sizes['angleF']));
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-//
-//        x += Math.floor((this.sizes['Fg']*this.sizes['cf']/this.sizes['fg'])*K);
-//        y += Math.floor((this.sizes['Fg']*this.building['cg']/this.sizes['fg'])*K-this.sizes['H']*K/Math.cos(this.sizes['angleF'])/2);
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-//        
-//        x -= Math.floor((2*this.building['m'] + (this.building['L']*100+this.building['D']))*K);
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-//        
-//        cont.beginPath();
-//        
-//        var n = 0;
-//        for(var i in points){
-//            var a = parseFloat(i);
-//            var b = a+1;
-//            if(points[b] === undefined){
-//                break;
-//            }
-//            cont.moveTo(points[a][0], points[a][1]);
-//            cont.lineTo(points[b][0], points[b][1]);
-//            n++;
-//        }
-//        cont.moveTo(points[n][0], points[n][1]);
-//        cont.lineTo(points[0][0], points[0][1]);
-//        cont.strokeStyle = "green";
-//        cont.stroke();
+//      1/2 center  weight строения по оси Z
+
+        tmp = kz*this.building['W']/2;
+//      проекция вирт оси Z на действ ось Х
+        x = x0 - ((100*K*tmp)*Math.cos(angZ));
+        y = y0 + (x0-x)*Math.tan(angZ);
+        cont.fillRect(x, y,4,4);
+        points.push([x,y]);
+        
+        x = x0 - ((100*K*tmp*2)*Math.cos(angZ));
+        y = y0 + (x0-x)*Math.tan(angZ);
+        
+        cont.fillRect(x, y,4,4);
+        points.push([x,y]);
+
     };
     
     this.drowSide = function(){
@@ -555,16 +484,8 @@ Drows = function (){
         points.push([x,y]);
         
         x = Math.floor(tmpx - ((this.building['bc']*this.sizes['Bg']/this.sizes['bg'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleB'])/2));
-//        y += Math.floor((this.building['cg']*this.sizes['Dg']/this.sizes['dg'])*K+this.sizes['H']*K/Math.sin(this.sizes['angleD'])/2);
         cont.fillRect(x, y,4,4);        
         points.push([x,y]);
-//        alert("x1 "+tmpx+'\nx2 '+x)
-        
-//
-//        x -= Math.floor((this.building['W']*100+this.building['D'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleB'])/2+this.sizes['ms']*2*K);
-//        cont.fillRect(x, y,1,1);        
-//        points.push([x,y]);
-
          cont.beginPath();
         
         var n = 0;
