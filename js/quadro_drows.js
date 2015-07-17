@@ -357,12 +357,12 @@ Drows = function (){
         x = 850;
         y = y0+dy;
         
-        cont.fillRect(x, y,4,4);
+        cont.fillRect(x, y,1,1);
         points.push([x,y]);
         
         y = 620;
         x = x0;
-        cont.fillRect(x, y,4,4);
+        cont.fillRect(x, y,1,1);
         points.push([x,y]);
 //        линии координат
         cont.beginPath();
@@ -386,18 +386,18 @@ Drows = function (){
         
 //      1/2 center  длина строения по оси Х
 
-        tmp = 100*kx*K*this.building['L']/2;
+        var tmpL = 100*K*this.building['L']/2;
 //      проекция вирт оси Х на действ ось Х
-        x = x0 + (tmp)*Math.cos(angX);
+        x = x0 + (kx*tmpL)*Math.cos(angX);
         y = y0 + (x-x0)*Math.tan(angX);
         var tmpx = x-x0;
         var tmpy = y-y0;
                
 //      1/2 center  weight строения по оси Z
 
-        tmp = kz*this.building['W']/2;
+        var tmpW = 100*K*this.building['W']/2;
 //      проекция вирт оси Z на действ ось Х
-        x = x0 - ((100*K*tmp)*Math.cos(angZ));
+        x = x0 - ((kz*tmpW)*Math.cos(angZ));
         y = y0 + (x0-x)*Math.tan(angZ);        
         x += tmpx;
         y += tmpy;
@@ -405,11 +405,24 @@ Drows = function (){
         points.push([x,y]);
         
         var CENTER = {'x':x,'y':y};
-        y += ky*K*this.sizes['g']['y'];
-        cont.fillRect(x, y,4,4);
-//        y -= (x0-x)*Math.tan(angZ);
-        cont.fillRect(x0, (y0+ky*K*this.sizes['g']['y']),4,4);
         
+        y += y0+ky*K*this.sizes['g']['y'];
+//        cont.fillRect(x, y,4,4);
+//        point a
+        cont.fillRect(x0, y,4,4);
+//        point b
+//        tmpW = 
+        x = x0 + 2*kx*tmpL*Math.cos(angX);
+        y = y+(x-x0)*Math.tan(angX);
+        
+        cont.fillRect(x, y,4,4);
+//        point b1
+        tmpx = x;
+        x -= 2*kz*tmpW*Math.cos(angZ);
+//        alert('x '+x+'\n dx -'+2*kz*tmpL*Math.cos(angZ));
+        y += (tmpx - x)*Math.tan(angZ);
+//        alert('x '+x+'\ny '+y);
+        cont.fillRect(x, y,4,4);
 
     };
     
