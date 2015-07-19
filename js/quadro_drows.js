@@ -157,6 +157,7 @@ Drows = function (){
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами
         var tmp = 0;
         var flag = false;
+        
         this.sizes['a'] = {x:(-this.building['bc']),y:0,z:this.building['cf']};
         this.sizes['b'] = {x:(-this.building['bc']),y:0,z:0};
         this.sizes['c'] = {x:0,y:0,z:0};
@@ -172,6 +173,9 @@ Drows = function (){
         this.sizes['D'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:0};
         this.sizes['E'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
         this.sizes['F'] = {x:0,y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
+        
+        var points = new Array(this.sizes['a'],this.sizes['b'],this.sizes['c'],this.sizes['d'],this.sizes['e'],this.sizes['f'],this.sizes['g'],this.sizes['A'],this.sizes['B'],this.sizes['D'],this.sizes['E'],this.sizes['F']);
+        this.sizes['points'] = points;
         
 //        довжина стропильних ніг по осях
 
@@ -317,7 +321,22 @@ Drows = function (){
         return out;
     };
     
+    this.drowDach = function(){
+//        Теперь относительно математического аппарата. Нам нужно уметь преобразовать реальные трехмерные 
+//        координаты точек поверхности кубика в двухмерные (изометрическая проекция на экран).
+//           Это мы сможем сделать с помощью следующих формул:
+//      x' = (x — z) * sin 60о = (x — z) * 0.866
+//      y' = (x + z) * cos 60о — y = (x + z) * 0.5 — y,
+//      где x,y,z — реальные координаты точек куба, x',y' — координаты точек на экране.constructor
+        var w = this.building['W']*100;
+        var l = this.building['L']*100;
+
+    };
+    
     this.drowFront = function(){
+        
+
+
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
@@ -342,9 +361,9 @@ Drows = function (){
         var kx = 0.47;
         var ky = 0.94;
         var kz = 0.94;
-        var angX = 41.42*Math.PI/180;
-        var angZ = 7.17*Math.PI/180;
-        var dy = (x0-10)*Math.tan(angZ);
+        var angX = 60*Math.PI/180;
+        var angZ = 60*Math.PI/180;
+//        var dy = (x0-10)*Math.tan(angZ);
         var y = y0+dy;
         var x = 5;
         cont.fillRect(x0, y0,1,1);
