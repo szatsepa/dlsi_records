@@ -437,22 +437,38 @@ Drows = function (){
         var cont = objb.getContext("2d");
         var l = this.building['L']*100;
         var x0 = 450;
-        var y0 = 200;
-        var h = 100*this.building['Hh']-this.building['cg'];
+        var y0 = 250;
+        var h = 100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']);
         var dx = this.sizes['points']['a']['x'] - this.sizes['points']['A']['x'];
         
         cont.fillStyle = "brown";
-
+//TODO это вид со стороны где видно g & g1
+//
 //        cont.fillRect(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y'],6,6);
 //        cont.fillRect(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y'],6,6);
 //        cont.fillRect(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y'],6,6);
 //        cont.fillRect(x0+this.sizes['points']['A']['x'],y0-this.sizes['points']['A']['y'],6,6);
 //        
 //        cont.fillRect((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y'],6,6);
-//        
+        cont.fillStyle = "brown"; 
         cont.beginPath();
+        cont.strokeStyle = "brown";
+        cont.strokeRect(x0+this.sizes['points']['a']['x'],y0-this.sizes['points']['a']['y'],this.building['D'],h);
+        cont.strokeRect(x0+this.sizes['points']['a']['x']+l-this.building['D'],y0-this.sizes['points']['a']['y'],this.building['D'],h);
+//        
+        cont.strokeStyle = "brown";
+        cont.stroke();
+        cont.beginPath();
+        
+//        высота бруса стропильной ноги
+        
+        var hraft_a = this.sizes['H']*Math.cos(this.sizes['angleA']);
+        var hraft_a = this.sizes['H']*Math.cos(this.sizes['angleA']);
+
         cont.moveTo(x0+this.sizes['points']['A']['x'], y0-this.sizes['points']['A']['y']);
         cont.lineTo((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y']);
+        
+        
         cont.moveTo((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y']);
         cont.lineTo(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y']);
         cont.moveTo(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y']);
@@ -463,15 +479,15 @@ Drows = function (){
         
         cont.beginPath();
         
-        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
-        cont.lineTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']);
-        cont.moveTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']);
-        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
-        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
-        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
-        
-        cont.strokeStyle = "#f69";
-        cont.stroke();
+//        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
+//        cont.lineTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']);
+//        cont.moveTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']);
+//        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
+//        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
+//        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
+//        
+//        cont.strokeStyle = "#f69";
+//        cont.stroke();
 
     };
     
