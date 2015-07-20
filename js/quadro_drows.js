@@ -432,113 +432,46 @@ Drows = function (){
     
     this.drowFront = function(){
         
-
-
         var objb = new Object();
-        var points = new Array();
         objb = document.getElementById("b");
-//        objb.width = objb.width;
         var cont = objb.getContext("2d");
-        cont.font = "bold 12px sans-serif";
-        cont.fillStyle = "#fa6";
-//        определим коэфф по осям коорд
+        var l = this.building['L']*100;
+        var x0 = 450;
+        var y0 = 200;
+        var h = 100*this.building['Hh']-this.building['cg'];
+        var dx = this.sizes['points']['a']['x'] - this.sizes['points']['A']['x'];
+        
+        cont.fillStyle = "brown";
 
-        var K = 860/((this.building['L'])*100+2*(this.building['m'])+(this.building['D']));
-                
-        if(K > (630/(this.building['Hh']*100))){
-            
-            K = 630/(this.building['Hh']*100);
-        }
-        
-//        оси координат
-        
-        cont.fillStyle = "yelow";
-        var x0 = 600;
-        var y0 = 10;
-        var kx = 0.47;
-        var ky = 0.94;
-        var kz = 0.94;
-        var angX = 60*Math.PI/180;
-        var angZ = 60*Math.PI/180;
-//        var dy = (x0-10)*Math.tan(angZ);
-        var y = y0+dy;
-        var x = 5;
-        cont.fillRect(x0, y0,1,1);
-        points.push([x0,y0]);        
-        
-        cont.fillRect(x, y,1,1);
-        points.push([x,y]);
-        
-        dy = (850-x0)*Math.tan(angX);
-        x = 850;
-        y = y0+dy;
-        
-        cont.fillRect(x, y,1,1);
-        points.push([x,y]);
-        
-        y = 620;
-        x = x0;
-        cont.fillRect(x, y,1,1);
-        points.push([x,y]);
-//        линии координат
+//        cont.fillRect(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y'],6,6);
+//        cont.fillRect(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y'],6,6);
+//        cont.fillRect(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y'],6,6);
+//        cont.fillRect(x0+this.sizes['points']['A']['x'],y0-this.sizes['points']['A']['y'],6,6);
+//        
+//        cont.fillRect((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y'],6,6);
+//        
         cont.beginPath();
+        cont.moveTo(x0+this.sizes['points']['A']['x'], y0-this.sizes['points']['A']['y']);
+        cont.lineTo((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y']);
+        cont.moveTo((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y']);
+        cont.lineTo(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y']);
+        cont.moveTo(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y']);
+        cont.lineTo(x0+this.sizes['points']['A']['x'], y0-this.sizes['points']['A']['y']);
         
-        cont.moveTo(points[0][0], points[0][1]);
-        cont.lineTo(points[1][0], points[1][1]);
-        
-        cont.moveTo(points[0][0], points[0][1]);
-        cont.lineTo(points[2][0], points[2][1]);
-        
-        cont.moveTo(points[0][0], points[0][1]);
-        cont.lineTo(points[3][0], points[3][1]);
-        
-        cont.strokeStyle = "#ff0";
+        cont.strokeStyle = "brown";
         cont.stroke();
         
-//      точка  центр строения
-        cont.fillStyle = "red";
-        points.length = 0;
-        var tmp = 0;
+        cont.beginPath();
         
-//      1/2 center  длина строения по оси Х
-
-        var tmpL = 100*K*this.building['L']/2;
-//      проекция вирт оси Х на действ ось Х
-        x = x0 + (kx*tmpL)*Math.cos(angX);
-        y = y0 + (x-x0)*Math.tan(angX);
-        var tmpx = x-x0;
-        var tmpy = y-y0;
-               
-//      1/2 center  weight строения по оси Z
-
-        var tmpW = 100*K*this.building['W']/2;
-//      проекция вирт оси Z на действ ось Х
-        x = x0 - ((kz*tmpW)*Math.cos(angZ));
-        y = y0 + (x0-x)*Math.tan(angZ);        
-        x += tmpx;
-        y += tmpy;
-        cont.fillRect(x, y,4,4);
-        points.push([x,y]);
+        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
+        cont.lineTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']);
+        cont.moveTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']);
+        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
+        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
+        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
         
-        var CENTER = {'x':x,'y':y};
-        
-        y += y0+ky*K*this.sizes['g']['y'];
-//        cont.fillRect(x, y,4,4);
-//        point a
-        cont.fillRect(x0, y,4,4);
-//        point b
-//        tmpW = 
-        x = x0 + 2*kx*tmpL*Math.cos(angX);
-        y = y+(x-x0)*Math.tan(angX);
-        
-        cont.fillRect(x, y,4,4);
-//        point b1
-        tmpx = x;
-        x -= 2*kz*tmpW*Math.cos(angZ);
-//        alert('x '+x+'\n dx -'+2*kz*tmpL*Math.cos(angZ));
-        y += (tmpx - x)*Math.tan(angZ);
-//        alert('x '+x+'\ny '+y);
-        cont.fillRect(x, y,4,4);
+        cont.strokeStyle = "#f69";
+        cont.stroke();
 
     };
     
@@ -546,7 +479,7 @@ Drows = function (){
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
-        objb.width = objb.width;
+//        objb.width = objb.width;
         var cont = objb.getContext("2d");
         cont.font = "bold 12px sans-serif";
         cont.fillStyle = "#fa6";

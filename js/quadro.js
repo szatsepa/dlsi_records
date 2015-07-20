@@ -205,7 +205,7 @@ $(document).ready(function(){
         $("canvas#b").css({'outline':'1px solid #ccc','cursor':'pointer'});
         $("div#resume").css({'display':'block'});
         
-        project.drowDach();     
+        project.drowFront();     
     }
     
 });
