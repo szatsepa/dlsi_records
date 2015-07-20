@@ -174,7 +174,7 @@ Drows = function (){
         this.sizes['E'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
         this.sizes['F'] = {x:0,y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
         
-        var points = new Array(this.sizes['a'],this.sizes['b'],this.sizes['c'],this.sizes['d'],this.sizes['e'],this.sizes['f'],this.sizes['g'],this.sizes['A'],this.sizes['B'],this.sizes['D'],this.sizes['E'],this.sizes['F']);
+        var points = {'a':this.sizes['a'],'b':this.sizes['b'],'c':this.sizes['c'],'d':this.sizes['d'],'e':this.sizes['e'],'f':this.sizes['f'],'g':this.sizes['g'],'A':this.sizes['A'],'B':this.sizes['B'],'D':this.sizes['D'],'E':this.sizes['E'],'F':this.sizes['F']};
         this.sizes['points'] = points;
         
 //        довжина стропильних ніг по осях
@@ -328,9 +328,106 @@ Drows = function (){
 //      x' = (x — z) * sin 60о = (x — z) * 0.866
 //      y' = (x + z) * cos 60о — y = (x + z) * 0.5 — y,
 //      где x,y,z — реальные координаты точек куба, x',y' — координаты точек на экране.constructor
-        var w = this.building['W']*100;
+        var objb = new Object();
+        objb = document.getElementById("b");
+        var cont = objb.getContext("2d");
+        var cosX = .866;
+        var sinY = .5;
         var l = this.building['L']*100;
+        var x0 = 1350;
+        var y0 = 500;
+        var str = '';
+        var garret = new Object();
+//        var tmp = ((this.sizes['points']['a']['x']-this.sizes['points']['a']['z'])*0.866) + x0;
+//        alert(tmp);
+        garret['a'] = {'x':.5*((this.sizes['points']['a']['x']-this.sizes['points']['a']['z'])*cosX + x0),'y':.5*((this.sizes['points']['a']['x']+this.sizes['points']['a']['z'])*sinY - this.sizes['points']['a']['y']+y0)};
+        garret['a1'] = {'x':.5*((this.sizes['points']['a']['x']-(this.sizes['points']['a']['z']+l))*cosX +x0),'y':.5*((this.sizes['points']['a']['x']+(this.sizes['points']['a']['z']+l))*sinY - this.sizes['points']['a']['y']+y0)};
+////        
+        garret['e1'] = {'x':.5*(((this.sizes['points']['e']['x'])-(this.sizes['points']['e']['z']+l))*cosX + x0),'y':.5*(((this.sizes['points']['e']['x'])+(this.sizes['points']['e']['z']+l))*sinY - this.sizes['points']['e']['y']+y0)};
+        garret['e'] = {'x':.5*((this.sizes['points']['e']['x']-this.sizes['points']['e']['z'])*cosX + x0),'y':.5*((this.sizes['points']['e']['x']+this.sizes['points']['e']['z'])*sinY - this.sizes['points']['e']['y']+y0)};
+        
+        cont.fillStyle = "green";
+        
+        var lines = new Array();
+        
+        for(var i in garret){
+            var xn = garret[i]['x'];
+            var yn = garret[i]['y'];
+            cont.fillRect(xn, yn,6,6);
+            lines.push({'x':xn,'y':yn});
+            
+        }
 
+        cont.beginPath();
+        for(var i=0;i<lines.length-1;i++){
+            
+        
+            cont.moveTo(lines[i]['x'], lines[i]['y']);
+            cont.lineTo(lines[i+1]['x'], lines[i+1]['y']);
+        }
+        cont.moveTo(lines[lines.length-1]['x'], lines[lines.length-1]['y']);
+        cont.lineTo(lines[0]['x'], lines[0]['y']);
+                
+        cont.strokeStyle = "#ff0";
+        cont.stroke();
+        
+        var lowerroof = new Object();
+        
+        var L = l+this.sizes['mar'][0]+.5*this.building['D']+this.sizes['mar'][1];
+        var L1 = l+this.sizes['mar'][1]+.5*this.building['D'];
+        
+        lowerroof['A'] = {'x':.5*((this.sizes['points']['A']['x']-this.sizes['points']['A']['z'])*cosX + x0),'y':.5*((this.sizes['points']['A']['x']+this.sizes['points']['A']['z'])*sinY - this.sizes['points']['A']['y']+y0)};
+        lowerroof['A1'] = {'x':.5*((this.sizes['points']['A']['x']-(this.sizes['points']['A']['z']+L))*cosX +x0),'y':.5*((this.sizes['points']['A']['x']+(this.sizes['points']['A']['z']+L))*sinY - this.sizes['points']['A']['y']+y0)};
+//        
+        lowerroof['E1'] = {'x':.5*(((this.sizes['points']['E']['x'])-(this.sizes['points']['E']['z']+L))*cosX + x0),'y':.5*(((this.sizes['points']['E']['x'])+(this.sizes['points']['E']['z']+L))*sinY - this.sizes['points']['E']['y']+y0)};
+        lowerroof['E'] = {'x':.5*((this.sizes['points']['E']['x']-(this.sizes['points']['E']['z']))*cosX + x0),'y':.5*((this.sizes['points']['E']['x']+(this.sizes['points']['E']['z']))*sinY - this.sizes['points']['E']['y']+y0)};
+        
+        lines.length = 0;
+        cont.fillStyle = "brown";
+        for(var i in lowerroof){
+            var xn = lowerroof[i]['x'];
+            var yn = lowerroof[i]['y'];
+            cont.fillRect(xn, yn,6,6);
+            lines.push({'x':xn,'y':yn});
+            
+        }
+        
+        lowerroof['g'] = {'x':.5*((this.sizes['points']['g']['x']-this.sizes['points']['g']['z'])*cosX + x0),'y':.5*((this.sizes['points']['g']['x']+this.sizes['points']['g']['z'])*sinY - this.sizes['points']['g']['y']+y0)};
+        cont.fillRect(lowerroof['g']['x'], lowerroof['g']['y'],6,6);
+        var gg = this.sizes['L'];
+        lowerroof['g1'] = {'x':.5*((this.sizes['points']['g']['x']-(this.sizes['points']['A']['z']+gg))*cosX +x0),'y':.5*((this.sizes['points']['g']['x']+(this.sizes['points']['g']['z']+gg))*sinY - this.sizes['points']['g']['y']+y0)};
+        cont.fillRect(lowerroof['g1']['x'], lowerroof['g1']['y'],6,6);
+        
+        cont.beginPath();
+        for(var i=0;i<lines.length-1;i++){
+            
+        
+            cont.moveTo(lines[i]['x'], lines[i]['y']);
+            cont.lineTo(lines[i+1]['x'], lines[i+1]['y']);
+        }
+        cont.moveTo(lines[lines.length-1]['x'], lines[lines.length-1]['y']);
+        cont.lineTo(lines[0]['x'], lines[0]['y']);
+        
+        cont.moveTo(lowerroof['g']['x'], lowerroof['g']['y']);
+        cont.lineTo(lowerroof['g1']['x'], lowerroof['g1']['y']);
+        
+        cont.moveTo(lowerroof['g']['x'], lowerroof['g']['y']);
+        cont.lineTo(lowerroof['A']['x'], lowerroof['A']['y']);
+        
+        cont.moveTo(lowerroof['g1']['x'], lowerroof['g1']['y']);
+        cont.lineTo(lowerroof['A1']['x'], lowerroof['A1']['y']);
+        
+        cont.moveTo(lowerroof['g']['x'], lowerroof['g']['y']);
+        cont.lineTo(lowerroof['E']['x'], lowerroof['E']['y']);
+        
+        cont.moveTo(lowerroof['g1']['x'], lowerroof['g1']['y']);
+        cont.lineTo(lowerroof['E1']['x'], lowerroof['E1']['y']);
+        
+        alert('e '+garret['e']['x']+' - '+garret['e']['y']+';\n'+'e1 '+garret['e1']['x']+' - '+garret['e1']['y']+';\n'+"g1 "+lowerroof['g1']['x']+' - '+ lowerroof['g1']['y']+";\nE1 "+lowerroof['E1']['x']+' - '+lowerroof['E1']['y']);
+                
+        cont.strokeStyle = "brown";
+        cont.stroke();
+        
     };
     
     this.drowFront = function(){
@@ -340,7 +437,7 @@ Drows = function (){
         var objb = new Object();
         var points = new Array();
         objb = document.getElementById("b");
-        objb.width = objb.width;
+//        objb.width = objb.width;
         var cont = objb.getContext("2d");
         cont.font = "bold 12px sans-serif";
         cont.fillStyle = "#fa6";
