@@ -122,13 +122,13 @@ $(document).ready(function(){
     function _size(){
         var height = new Array();
         $.each($("select#hs option"),function(){
-            var h = parseFloat($(this).val())
+            var h = parseFloat($(this).val());
             if($(this).val()!==0){
                 height.push(h);
             }
         });
         
-        return project.sizeH(height);
+        return project.calculateHeight(height);
     }
     
     function prepare(){

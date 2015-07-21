@@ -216,7 +216,7 @@ Drows = function (){
         }
         this.sizes['mar'] = m;
         this.sizes['cf'] = this.building['cf'];
-        this.sizes['L'] = 100*this.building['L']-2*this.building['cf'];
+        this.sizes['L'] = 100*this.building['W']-2*this.building['cf'];
         
         return this.sizes;
 
@@ -226,7 +226,7 @@ Drows = function (){
         return this.sizes;
     };
     
-    this.sizeH = function(height){
+    this.calculateHeight = function(height){
         
 //        размеры стропильных ног для расчета сечения оных
         var rafter = new Object();
@@ -318,116 +318,7 @@ Drows = function (){
        this.sizes['W'] = out['W'];
        this.sizes['H'] = out['H'];
        this.sizes['QR'] = out['QR']/ks;
-        return out;
-    };
-    
-    this.drowDach = function(){
-//        Теперь относительно математического аппарата. Нам нужно уметь преобразовать реальные трехмерные 
-//        координаты точек поверхности кубика в двухмерные (изометрическая проекция на экран).
-//           Это мы сможем сделать с помощью следующих формул:
-//      x' = (x — z) * sin 60о = (x — z) * 0.866
-//      y' = (x + z) * cos 60о — y = (x + z) * 0.5 — y,
-//      где x,y,z — реальные координаты точек куба, x',y' — координаты точек на экране.constructor
-        var objb = new Object();
-        objb = document.getElementById("b");
-        var cont = objb.getContext("2d");
-        var cosX = .866;
-        var sinY = .5;
-        var l = this.building['L']*100;
-        var x0 = 1350;
-        var y0 = 500;
-        var str = '';
-        var garret = new Object();
-//        var tmp = ((this.sizes['points']['a']['x']-this.sizes['points']['a']['z'])*0.866) + x0;
-//        alert(tmp);
-        garret['a'] = {'x':.5*((this.sizes['points']['a']['x']-this.sizes['points']['a']['z'])*cosX + x0),'y':.5*((this.sizes['points']['a']['x']+this.sizes['points']['a']['z'])*sinY - this.sizes['points']['a']['y']+y0)};
-        garret['a1'] = {'x':.5*((this.sizes['points']['a']['x']-(this.sizes['points']['a']['z']+l))*cosX +x0),'y':.5*((this.sizes['points']['a']['x']+(this.sizes['points']['a']['z']+l))*sinY - this.sizes['points']['a']['y']+y0)};
-////        
-        garret['e1'] = {'x':.5*(((this.sizes['points']['e']['x'])-(this.sizes['points']['e']['z']+l))*cosX + x0),'y':.5*(((this.sizes['points']['e']['x'])+(this.sizes['points']['e']['z']+l))*sinY - this.sizes['points']['e']['y']+y0)};
-        garret['e'] = {'x':.5*((this.sizes['points']['e']['x']-this.sizes['points']['e']['z'])*cosX + x0),'y':.5*((this.sizes['points']['e']['x']+this.sizes['points']['e']['z'])*sinY - this.sizes['points']['e']['y']+y0)};
-        
-        cont.fillStyle = "green";
-        
-        var lines = new Array();
-        
-        for(var i in garret){
-            var xn = garret[i]['x'];
-            var yn = garret[i]['y'];
-            cont.fillRect(xn, yn,6,6);
-            lines.push({'x':xn,'y':yn});
-            
-        }
-
-        cont.beginPath();
-        for(var i=0;i<lines.length-1;i++){
-            
-        
-            cont.moveTo(lines[i]['x'], lines[i]['y']);
-            cont.lineTo(lines[i+1]['x'], lines[i+1]['y']);
-        }
-        cont.moveTo(lines[lines.length-1]['x'], lines[lines.length-1]['y']);
-        cont.lineTo(lines[0]['x'], lines[0]['y']);
-                
-        cont.strokeStyle = "#ff0";
-        cont.stroke();
-        
-        var lowerroof = new Object();
-        
-        var L = l+this.sizes['mar'][0]+.5*this.building['D']+this.sizes['mar'][1];
-        var L1 = l+this.sizes['mar'][1]+.5*this.building['D'];
-        
-        lowerroof['A'] = {'x':.5*((this.sizes['points']['A']['x']-this.sizes['points']['A']['z'])*cosX + x0),'y':.5*((this.sizes['points']['A']['x']+this.sizes['points']['A']['z'])*sinY - this.sizes['points']['A']['y']+y0)};
-        lowerroof['A1'] = {'x':.5*((this.sizes['points']['A']['x']-(this.sizes['points']['A']['z']+L))*cosX +x0),'y':.5*((this.sizes['points']['A']['x']+(this.sizes['points']['A']['z']+L))*sinY - this.sizes['points']['A']['y']+y0)};
-//        
-        lowerroof['E1'] = {'x':.5*(((this.sizes['points']['E']['x'])-(this.sizes['points']['E']['z']+L))*cosX + x0),'y':.5*(((this.sizes['points']['E']['x'])+(this.sizes['points']['E']['z']+L))*sinY - this.sizes['points']['E']['y']+y0)};
-        lowerroof['E'] = {'x':.5*((this.sizes['points']['E']['x']-(this.sizes['points']['E']['z']))*cosX + x0),'y':.5*((this.sizes['points']['E']['x']+(this.sizes['points']['E']['z']))*sinY - this.sizes['points']['E']['y']+y0)};
-        
-        lines.length = 0;
-        cont.fillStyle = "brown";
-        for(var i in lowerroof){
-            var xn = lowerroof[i]['x'];
-            var yn = lowerroof[i]['y'];
-            cont.fillRect(xn, yn,6,6);
-            lines.push({'x':xn,'y':yn});
-            
-        }
-        
-        lowerroof['g'] = {'x':.5*((this.sizes['points']['g']['x']-this.sizes['points']['g']['z'])*cosX + x0),'y':.5*((this.sizes['points']['g']['x']+this.sizes['points']['g']['z'])*sinY - this.sizes['points']['g']['y']+y0)};
-        cont.fillRect(lowerroof['g']['x'], lowerroof['g']['y'],6,6);
-        var gg = this.sizes['L'];
-        lowerroof['g1'] = {'x':.5*((this.sizes['points']['g']['x']-(this.sizes['points']['A']['z']+gg))*cosX +x0),'y':.5*((this.sizes['points']['g']['x']+(this.sizes['points']['g']['z']+gg))*sinY - this.sizes['points']['g']['y']+y0)};
-        cont.fillRect(lowerroof['g1']['x'], lowerroof['g1']['y'],6,6);
-        
-        cont.beginPath();
-        for(var i=0;i<lines.length-1;i++){
-            
-        
-            cont.moveTo(lines[i]['x'], lines[i]['y']);
-            cont.lineTo(lines[i+1]['x'], lines[i+1]['y']);
-        }
-        cont.moveTo(lines[lines.length-1]['x'], lines[lines.length-1]['y']);
-        cont.lineTo(lines[0]['x'], lines[0]['y']);
-        
-        cont.moveTo(lowerroof['g']['x'], lowerroof['g']['y']);
-        cont.lineTo(lowerroof['g1']['x'], lowerroof['g1']['y']);
-        
-        cont.moveTo(lowerroof['g']['x'], lowerroof['g']['y']);
-        cont.lineTo(lowerroof['A']['x'], lowerroof['A']['y']);
-        
-        cont.moveTo(lowerroof['g1']['x'], lowerroof['g1']['y']);
-        cont.lineTo(lowerroof['A1']['x'], lowerroof['A1']['y']);
-        
-        cont.moveTo(lowerroof['g']['x'], lowerroof['g']['y']);
-        cont.lineTo(lowerroof['E']['x'], lowerroof['E']['y']);
-        
-        cont.moveTo(lowerroof['g1']['x'], lowerroof['g1']['y']);
-        cont.lineTo(lowerroof['E1']['x'], lowerroof['E1']['y']);
-        
-        alert('e '+garret['e']['x']+' - '+garret['e']['y']+';\n'+'e1 '+garret['e1']['x']+' - '+garret['e1']['y']+';\n'+"g1 "+lowerroof['g1']['x']+' - '+ lowerroof['g1']['y']+";\nE1 "+lowerroof['E1']['x']+' - '+lowerroof['E1']['y']);
-                
-        cont.strokeStyle = "brown";
-        cont.stroke();
-        
+       return out;
     };
     
     this.drowFront = function(){
@@ -438,22 +329,26 @@ Drows = function (){
         cont.lineWidth = .5;
         
         
-        var l = this.building['W']*100;
-        var x0 = (20+l+this.building['D']+this.sizes['mar'][2]-.5*this.sizes['L'])/2;
+        
+        var x0 = ((this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D']+this.building['W']*100))/2;
         var K = 1;
-        if(x0 > 450){
-            K = 430/x0;
-            x0 = 450;
+        if(x0 <= 50){
+            K = 800/(this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D']+this.building['W']*100);
+//            
         }
-        var y0 = K*this.building['cg']+40;
+        x0 = 50;
+        var y0 = this.building['cg']+40;
+        var l = K*this.building['W']*100;
+        alert('x0 '+x0+"\ny0 "+y0+"\n"+K);
+        
         var h = (100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']))*K;
 //        высота бруса стропильной ноги
 //        
-        var hraft_a = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
+        var hraft = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
         
         var dx = (this.sizes['points']['A']['z'] - this.sizes['points']['a']['z'])*K;
         
-                //        уровень чердака
+//        уровень чердака
 
         cont.beginPath();
         
@@ -470,7 +365,7 @@ Drows = function (){
 //        уровень свеса крыши
         
         xn = K*(x0-this.sizes['points']['A']['z']);
-        yn = K*(y0-this.sizes['points']['A']['y'])+0.5*hraft_a;
+        yn = K*(y0-this.sizes['points']['A']['y'])+0.5*hraft;
         cont.moveTo(xn, yn);
         xn = K*(x0-this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D'])+l;
         cont.lineTo(xn,yn);
@@ -485,7 +380,7 @@ Drows = function (){
 //        cont.strokeStyle = 'black';
 //        cont.fillStyle = 'black';
 //        g-g1
-        cont.strokeRect(xn,yn,K*(this.sizes['L']),hraft_a);
+        cont.strokeRect(xn,yn,K*(this.sizes['L']),hraft);
         
 //        a wholl
 
@@ -506,14 +401,14 @@ Drows = function (){
         yn = K*(y0-this.sizes['points']['g']['y']);
         cont.moveTo(xn, yn);   
         xn = K*(x0-this.sizes['points']['A']['z']);
-        yn = K*(y0-this.sizes['points']['A']['y'])-.5*hraft_a;
+        yn = K*(y0-this.sizes['points']['A']['y'])-.5*hraft;
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
-        yn += hraft_a;
+        yn += hraft;
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
         xn = K*(x0-this.sizes['points']['g']['z']);
-        yn = K*(y0-this.sizes['points']['g']['y'])+hraft_a;
+        yn = K*(y0-this.sizes['points']['g']['y'])+hraft;
         cont.lineTo(xn,yn);
         
 //        A1g
@@ -521,14 +416,14 @@ Drows = function (){
         yn = K*(y0-this.sizes['points']['g']['y']);
         cont.moveTo(xn, yn);
         xn = K*(x0-this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D'])+l;
-        yn = K*(y0-this.sizes['points']['A']['y'])-.5*hraft_a;
+        yn = K*(y0-this.sizes['points']['A']['y'])-.5*hraft;
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
-        yn += hraft_a;
+        yn += hraft;
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
         xn = K*(x0-this.sizes['points']['g']['z']+this.sizes['L']);
-        yn = K*(y0-this.sizes['points']['g']['y'])+hraft_a;
+        yn = K*(y0-this.sizes['points']['g']['y'])+hraft;
         cont.lineTo(xn,yn);
         
         cont.stroke();
@@ -540,10 +435,11 @@ Drows = function (){
         xn = K*(x0-this.sizes['points']['g']['z']);
         yn = K*((y0-this.sizes['points']['g']['y']));
         var ws = K*this.sizes['W'];
-        var hs = (K*(y0-this.sizes['points']['A']['y'])+0.5*hraft_a)-yn;
+        var hs = (K*(y0-this.sizes['points']['A']['y'])+0.5*hraft)-yn;
         var N = Math.ceil(this.sizes['L']/this.building['step']);
         var delta = this.sizes['L']/N;
-        this.sizes['step'] = Math.ceil(delta*10)/10;
+        this.sizes['step'] = Math.floor(delta*10)/10;
+        delta = K*delta;
         
         for(var i = 0;i<(N+1);i++){
             var x = xn+(i*delta);;
@@ -589,7 +485,7 @@ Drows = function (){
         var h = (100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']))*K;
 //        высота бруса стропильной ноги
 //        
-        var hraft_a = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
+        var hraft = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
     };
 };
 
