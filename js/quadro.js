@@ -92,7 +92,7 @@ $(document).ready(function(){
                 return false;
             }
         }
-    });
+    }).focus();
     
     
     $("input.btn-save").mousedown(function(){

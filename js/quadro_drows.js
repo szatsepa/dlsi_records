@@ -154,7 +154,7 @@ Drows = function (){
     };
     
     this.geometry = function(){        
-//        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами
+//        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
         var tmp = 0;
         var flag = false;
         
@@ -431,156 +431,165 @@ Drows = function (){
     };
     
     this.drowFront = function(){
-        
+// Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.       
         var objb = new Object();
         objb = document.getElementById("b");
         var cont = objb.getContext("2d");
-        var l = this.building['L']*100;
-        var x0 = 450;
-        var y0 = 250;
-        var h = 100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']);
-        var dx = this.sizes['points']['a']['x'] - this.sizes['points']['A']['x'];
+        cont.lineWidth = .5;
         
-        cont.fillStyle = "brown";
-//TODO это вид со стороны где видно g & g1
-//
-//        cont.fillRect(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y'],6,6);
-//        cont.fillRect(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y'],6,6);
-//        cont.fillRect(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y'],6,6);
-//        cont.fillRect(x0+this.sizes['points']['A']['x'],y0-this.sizes['points']['A']['y'],6,6);
-//        
-//        cont.fillRect((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y'],6,6);
-        cont.fillStyle = "brown"; 
-        cont.beginPath();
-        cont.strokeStyle = "brown";
-        cont.strokeRect(x0+this.sizes['points']['a']['x'],y0-this.sizes['points']['a']['y'],this.building['D'],h);
-        cont.strokeRect(x0+this.sizes['points']['a']['x']+l-this.building['D'],y0-this.sizes['points']['a']['y'],this.building['D'],h);
-//        
-        cont.strokeStyle = "brown";
-        cont.stroke();
-        cont.beginPath();
         
+        var l = this.building['W']*100;
+        var x0 = (20+l+this.building['D']+this.sizes['mar'][2]-.5*this.sizes['L'])/2;
+        var K = 1;
+        if(x0 > 450){
+            K = 430/x0;
+            x0 = 450;
+        }
+        var y0 = K*this.building['cg']+40;
+        var h = (100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']))*K;
 //        высота бруса стропильной ноги
+//        
+        var hraft_a = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
         
-        var hraft_a = this.sizes['H']*Math.cos(this.sizes['angleA']);
-        var hraft_a = this.sizes['H']*Math.cos(this.sizes['angleA']);
+        var dx = (this.sizes['points']['A']['z'] - this.sizes['points']['a']['z'])*K;
+        
+                //        уровень чердака
 
-        cont.moveTo(x0+this.sizes['points']['A']['x'], y0-this.sizes['points']['A']['y']);
-        cont.lineTo((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y']);
+        cont.beginPath();
         
+        xn = K*(x0-this.sizes['points']['a']['z']);
+        yn = K*(y0-this.sizes['points']['a']['y']);
+        cont.moveTo(xn, yn);
+        xn = K*(x0-this.sizes['points']['a']['z'])+l;
+        cont.lineTo(xn,yn);
         
-        cont.moveTo((x0+this.sizes['points']['A']['x']+l+2*dx),y0-this.sizes['points']['A']['y']);
-        cont.lineTo(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y']);
-        cont.moveTo(x0+this.sizes['points']['g']['x'],y0-this.sizes['points']['g']['y']);
-        cont.lineTo(x0+this.sizes['points']['A']['x'], y0-this.sizes['points']['A']['y']);
-        
-        cont.strokeStyle = "brown";
         cont.stroke();
         
         cont.beginPath();
         
-//        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
-//        cont.lineTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']);
-//        cont.moveTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']);
-//        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
-//        cont.moveTo(x0+this.sizes['points']['a']['x'],y0+this.sizes['points']['a']['y']+h);
-//        cont.lineTo(x0+this.sizes['points']['a']['x']+l,y0+this.sizes['points']['a']['y']+h);
+//        уровень свеса крыши
+        
+        xn = K*(x0-this.sizes['points']['A']['z']);
+        yn = K*(y0-this.sizes['points']['A']['y'])+0.5*hraft_a;
+        cont.moveTo(xn, yn);
+        xn = K*(x0-this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D'])+l;
+        cont.lineTo(xn,yn);
+        
+        cont.stroke();
+        
+//TODO это вид со стороны где видно g & g1
 //        
-//        cont.strokeStyle = "#f69";
-//        cont.stroke();
+        var xn = K*(x0-this.sizes['points']['g']['z']);
+        var yn = K*((y0-this.sizes['points']['g']['y']));
+        
+//        cont.strokeStyle = 'black';
+//        cont.fillStyle = 'black';
+//        g-g1
+        cont.strokeRect(xn,yn,K*(this.sizes['L']),hraft_a);
+        
+//        a wholl
+
+        xn = K*(x0-this.sizes['points']['a']['z']);
+        yn = K*(y0-this.sizes['points']['a']['y']);
+        var w = this.building['D'];
+        cont.strokeRect(xn,yn,w,h);
+        
+//        a1 wholl
+        xn += (l-this.building['D']);
+        
+        cont.strokeRect(xn,yn,w,h); 
+        
+        cont.beginPath();
+        
+//        Ag
+        xn = K*(x0-this.sizes['points']['g']['z']);
+        yn = K*(y0-this.sizes['points']['g']['y']);
+        cont.moveTo(xn, yn);   
+        xn = K*(x0-this.sizes['points']['A']['z']);
+        yn = K*(y0-this.sizes['points']['A']['y'])-.5*hraft_a;
+        cont.lineTo(xn,yn);
+        cont.moveTo(xn, yn);
+        yn += hraft_a;
+        cont.lineTo(xn,yn);
+        cont.moveTo(xn, yn);
+        xn = K*(x0-this.sizes['points']['g']['z']);
+        yn = K*(y0-this.sizes['points']['g']['y'])+hraft_a;
+        cont.lineTo(xn,yn);
+        
+//        A1g
+        xn = K*(x0-this.sizes['points']['g']['z']+this.sizes['L']);
+        yn = K*(y0-this.sizes['points']['g']['y']);
+        cont.moveTo(xn, yn);
+        xn = K*(x0-this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D'])+l;
+        yn = K*(y0-this.sizes['points']['A']['y'])-.5*hraft_a;
+        cont.lineTo(xn,yn);
+        cont.moveTo(xn, yn);
+        yn += hraft_a;
+        cont.lineTo(xn,yn);
+        cont.moveTo(xn, yn);
+        xn = K*(x0-this.sizes['points']['g']['z']+this.sizes['L']);
+        yn = K*(y0-this.sizes['points']['g']['y'])+hraft_a;
+        cont.lineTo(xn,yn);
+        
+        cont.stroke();
+        
+
+        
+//        прорисовка стропильных ног
+
+        xn = K*(x0-this.sizes['points']['g']['z']);
+        yn = K*((y0-this.sizes['points']['g']['y']));
+        var ws = K*this.sizes['W'];
+        var hs = (K*(y0-this.sizes['points']['A']['y'])+0.5*hraft_a)-yn;
+        var N = Math.ceil(this.sizes['L']/this.building['step']);
+        var delta = this.sizes['L']/N;
+        this.sizes['step'] = Math.ceil(delta*10)/10;
+        
+        for(var i = 0;i<(N+1);i++){
+            var x = xn+(i*delta);;
+            
+            if(i>0 && i<(N)){
+                x -= .5*ws;
+            }else if(i>=(N)){
+                x -= ws;
+            }
+            cont.strokeRect(x,yn,ws,hs);
+            
+        }
+        
+//        нулевой уровень
+
+        cont.beginPath();
+        
+        yn = K*(y0-this.sizes['points']['a']['y'])+h;
+        cont.moveTo(0,yn);
+        cont.lineTo(900,yn);
+        
+        cont.stroke();
+
 
     };
     
     this.drowSide = function(){
+        // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.       
         var objb = new Object();
-        var points = new Array();
         objb = document.getElementById("b");
-//        objb.width = objb.width;
         var cont = objb.getContext("2d");
-        cont.font = "bold 12px sans-serif";
-        cont.fillStyle = "#fa6";
-//        определим коэфф по осям коорд
-
-        var K = 820/(this.building['W']*100+2*this.building['m']+this.building['D']);
+        cont.lineWidth = .5;
         
-        if(K > (560/(this.building['Hh']*100))){
-            
-            K = 560/(this.building['Hh']*100);
+        
+        var l = this.building['W']*100;
+        var x0 = (20+l+this.building['D']+this.sizes['mar'][2]-.5*this.sizes['L'])/2;
+        var K = 1;
+        if(x0 > 450){
+            K = 430/x0;
+            x0 = 450;
         }
-        
-        var x = Math.floor((860 -(this.building['W']*100+this.building['D'])*K)/2); 
-        var y = 625;        
-        cont.fillRect(x, y,1,1);
-        points.push([x,y]);
-        
-        x += Math.floor((this.building['W']*100+this.building['D'])*K);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        y -= Math.floor(625 - (this.building['Hh']*100 - this.building['cg'])*K);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        x -= Math.floor((this.building['W']*100+this.building['D'])*K);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        cont.beginPath();
-        
-        var n = 0;
-        for(var i in points){
-            var a = parseFloat(i);
-            var b = a+1;
-            if(points[b] === undefined){
-                break;
-            }
-            cont.moveTo(points[a][0], points[a][1]);
-            cont.lineTo(points[b][0], points[b][1]);
-            n++;
-        }
-        cont.moveTo(points[n][0], points[n][1]);
-        cont.lineTo(points[0][0], points[0][1]);
-        cont.strokeStyle = "brown";
-        cont.stroke();
-        
-        points.length = 0;
-        
-        cont.fillStyle = "green";
-        
-        x += Math.floor(this.building['bc']*K);
-        y -= Math.floor(this.building['cg']*K+this.sizes['H']*K/Math.sin(this.sizes['angleD'])/2);        
-        cont.fillRect(x, y,1,1);
-        points.push([x,y]);
-        
-        var tmpx = x;
-        x += Math.floor((this.building['cd']*this.sizes['Dg']/this.sizes['dg'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleD'])/2);
-        
-        y += Math.floor((this.building['cg']*this.sizes['Dg']/this.sizes['dg'])*K+this.sizes['H']*K/Math.sin(this.sizes['angleD'])/2);
-        cont.fillRect(x, y,1,1);        
-        points.push([x,y]);
-        
-        x = Math.floor(tmpx - ((this.building['bc']*this.sizes['Bg']/this.sizes['bg'])*K+this.sizes['H']*K/Math.cos(this.sizes['angleB'])/2));
-        cont.fillRect(x, y,4,4);        
-        points.push([x,y]);
-         cont.beginPath();
-        
-        var n = 0;
-        
-        for(var i in points){
-            var a = parseFloat(i);
-            var b = a+1;
-            if(points[b] === undefined){
-                break;
-            }
-            cont.moveTo(points[a][0], points[a][1]);
-            cont.lineTo(points[b][0], points[b][1]);
-            n++;
-        }
-        
-        cont.moveTo(points[n][0], points[n][1]);
-        cont.lineTo(points[0][0], points[0][1]);
-        cont.strokeStyle = "green";
-        cont.stroke();
+        var y0 = K*this.building['cg']+40;
+        var h = (100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']))*K;
+//        высота бруса стропильной ноги
+//        
+        var hraft_a = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
     };
 };
 
