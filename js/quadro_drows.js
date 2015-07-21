@@ -330,16 +330,14 @@ Drows = function (){
         
         
         
-        var x0 = ((this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D']+this.building['W']*100))/2;
+        var param = (900-(this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D']+this.building['W']*100))/2;
         var K = 1;
-        if(x0 <= 50){
+        if(param <= 30){
             K = 800/(this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D']+this.building['W']*100);
-//            
         }
-        x0 = 50;
+        var x0 = 2*this.building['cf']+(900-K*(this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D']+this.building['W']*100))/2;
         var y0 = this.building['cg']+40;
         var l = K*this.building['W']*100;
-        alert('x0 '+x0+"\ny0 "+y0+"\n"+K);
         
         var h = (100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']))*K;
 //        высота бруса стропильной ноги
@@ -451,6 +449,18 @@ Drows = function (){
             }
             cont.strokeRect(x,yn,ws,hs);
             
+        }
+        
+//        стропильные ноги на участках cf & c1f1
+
+        if(this.building['cf'] > 0){
+            N = Math.ceil(K*this.building['cf']/this.sizes['step']);
+            var step = K*(this.sizes['a']['z']-x0)/(N+1);
+            var ls = hs*step/(K*this.building['cf']);
+            x = K*(x0)-step;
+            yn = K*this.sizes['a']['y']+ls;
+            cont.strokeRect(x,yn,ws,ls);
+//            alert(step);
         }
         
 //        нулевой уровень
