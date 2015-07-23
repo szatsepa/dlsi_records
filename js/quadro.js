@@ -205,7 +205,17 @@ $(document).ready(function(){
         $("canvas#b").css({'outline':'1px solid #ccc','cursor':'pointer'});
         $("div#resume").css({'display':'block'});
         
-        project.drowFront();     
+        project.drowFront();  
+        
+        var string = '';
+        
+        for(var i in project.length){
+            
+            var lb = Math.ceil(Math.pow(Math.pow(project.length[i],2),1/2)*100)/100;
+            string += lb+"\n";
+        }
+        
+        alert(string);
     }
     
 });

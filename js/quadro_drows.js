@@ -5,6 +5,7 @@ Drows = function (){
     var context = obj.getContext("2d");
     this.building = new Object();
     this.sizes = new Object();
+    this.length = new Array();
     
     context.font = "bold 12px sans-serif";
     
@@ -153,7 +154,9 @@ Drows = function (){
         this.building['cf'] = data;
     };
     
-    this.geometry = function(){        
+    this.geometry = function(){ 
+        
+        
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
         var tmp = 0;
         var flag = false;
@@ -184,6 +187,19 @@ Drows = function (){
         this.sizes['Dg'] = Math.pow((Math.pow((this.sizes['D']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['D']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['D']['z']-this.sizes['g']['z']),2)),.5);
         this.sizes['Eg'] = Math.pow((Math.pow((this.sizes['E']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['E']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['E']['z']-this.sizes['g']['z']),2)),.5);
         this.sizes['Fg'] = Math.pow((Math.pow((this.sizes['F']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['F']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['F']['z']-this.sizes['g']['z']),2)),.5);
+        
+//        все размеры стропильных ног поместим в массив
+
+        this.length.push(this.sizes['Ag']);
+        this.length.push(this.sizes['Bg']);
+        this.length.push(this.sizes['Dg']);
+        this.length.push(this.sizes['Eg']);
+        this.length.push(this.sizes['Fg']);
+        this.length.push(this.sizes['Ag']);
+        this.length.push(this.sizes['Bg']);
+        this.length.push(this.sizes['Dg']);
+        this.length.push(this.sizes['Eg']);
+        this.length.push(this.sizes['Fg']);
         
 //      углы наклона стропильных ног по реперным точкам
 
@@ -375,8 +391,6 @@ Drows = function (){
         var xn = K*(x0-this.sizes['points']['g']['z']);
         var yn = K*((y0-this.sizes['points']['g']['y']));
         
-//        cont.strokeStyle = 'black';
-//        cont.fillStyle = 'black';
 //        g-g1
         cont.strokeRect(xn,yn,K*(this.sizes['L']),hraft);
         
@@ -432,15 +446,29 @@ Drows = function (){
 
         xn = K*(x0-this.sizes['points']['g']['z']);
         yn = K*((y0-this.sizes['points']['g']['y']));
+        
         var ws = K*this.sizes['W'];
         var hs = (K*(y0-this.sizes['points']['A']['y'])+0.5*hraft)-yn;
+       
         var N = Math.ceil(this.sizes['L']/this.building['step']);
-        var delta = this.sizes['L']/N;
-        this.sizes['step'] = Math.floor(delta*10)/10;
-        delta = K*delta;
         
+        var delta = this.sizes['L']/N;
+        
+        if(N === 0){
+            delta = 0;
+        }
+        if(Math.floor(delta*10)/10>0){
+            
+            this.sizes['step'] = Math.floor(delta*10)/10;
+        
+            delta = K*delta;
+            
+        }else{
+            this.sizes['step'] = this.building['step'];
+        } 
+        this.length.push(0);
         for(var i = 0;i<(N+1);i++){
-            var x = xn+(i*delta);;
+            var x = K*(x0-this.sizes['points']['g']['z'])+(i*delta);;
             
             if(i>0 && i<(N)){
                 x -= .5*ws;
@@ -449,18 +477,33 @@ Drows = function (){
             }
             cont.strokeRect(x,yn,ws,hs);
             
+            this.length.push((hs/Math.sin(this.sizes['angleB'])/K));
+            this.length.push((hs/Math.sin(this.sizes['angleD'])/K));
+
         }
-        
 //        стропильные ноги на участках cf & c1f1
 
         if(this.building['cf'] > 0){
-            N = Math.ceil(K*this.building['cf']/this.sizes['step']);
-            var step = K*(this.sizes['a']['z']-x0)/(N+1);
-            var ls = hs*step/(K*this.building['cf']);
-            x = K*(x0)-step;
-            yn = K*this.sizes['a']['y']+ls;
-            cont.strokeRect(x,yn,ws,ls);
-//            alert(step);
+            
+            var AB = K*(this.building['cf']+this.sizes['mar'][2]+this.building['D']/2);
+            N = Math.ceil(K*AB/this.sizes['step']);
+            var xA1 = K*(x0-this.sizes['points']['A']['z']+2*this.sizes['mar'][2]+this.building['D'])+l;
+            var step = AB/(N);
+            this.length.push(1);
+            for(var i = 1;i < (N);i++){
+                var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+hraft;
+                x = K*(x0-this.sizes['points']['A']['z'])+step*i+(hraft*Math.sin(this.sizes['angleA'])/2);
+                yn = K*(y0-this.sizes['points']['A']['y'])-ls+hraft/2;
+                cont.strokeRect(x,yn,ws,ls);
+                
+                this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
+                this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
+                x = xA1- step*i-K*this.sizes['W']-(hraft*Math.sin(this.sizes['angleA'])/2);
+                cont.strokeRect(x,yn,ws,ls);
+                this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
+                this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
+            }
+            
         }
         
 //        нулевой уровень
