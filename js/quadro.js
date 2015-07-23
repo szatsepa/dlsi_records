@@ -107,17 +107,17 @@ $(document).ready(function(){
                 return false;
             }
      });
-     
-     var flag = false;
-     
-    $("canvas#b").mousedown(function(){
-        if(!flag){            
-            project.drowSide();
-        }else{
-            project.drowFront();
-        }
-        flag = !flag;
-    }); 
+//     
+//     var flag = false;
+//     
+//    $("canvas#b").mousedown(function(){
+//        if(!flag){            
+//            project.drowSide();
+//        }else{
+//            project.drowFront();
+//        }
+//        flag = !flag;
+//    }); 
     
     function _size(){
         var height = new Array();
@@ -201,12 +201,11 @@ $(document).ready(function(){
             $("table tbody tr td#res").append("<p><strong>Запас міцності дещо завеликий - можна спробувати зменшити перетин стропила</strong></p>");
         }
         
-//        $("table tbody").append("<tr id='resume'><td colspan='2'><canvas id='b' width='960' height='600'></canvas></td></tr>");
-        $("canvas#b").css({'outline':'1px solid #ccc','cursor':'pointer'});
-        $("div#resume").css({'display':'block'});
-        
-        project.drowFront();  
-        
+        $("canvas#c").css({'outline':'1px solid #ccc'});
+        $("canvas#b").css({'outline':'1px solid #ccc'});
+        $("div#front").css({'display':'block'});
+        $("div#side").css({'display':'block'});
+        project.drowFront();
         var string = '';
         
         for(var i in project.length){
@@ -215,7 +214,7 @@ $(document).ready(function(){
             string += lb+"\n";
         }
         
-        alert(string);
+//        alert(string);
     }
     
 });
