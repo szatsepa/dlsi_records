@@ -161,6 +161,7 @@ Drows = function (){
         var tmp = 0;
         var flag = false;
         
+        this.sizes['distance'] = new Array(this.building['m']);
         this.sizes['a'] = {x:(-this.building['bc']),y:0,z:this.building['cf']};
         this.sizes['b'] = {x:(-this.building['bc']),y:0,z:0};
         this.sizes['c'] = {x:0,y:0,z:0};
@@ -169,10 +170,14 @@ Drows = function (){
         this.sizes['f'] = {x:0,y:0,z:this.building['cf']};
         this.sizes['g'] = {x:0,y:this.building['cg'],z:0};
 //      Cc -> tmp нижний уровень кріши отн плоскости abcdef 
-        tmp = ((this.building['bc']+this.building['m']+.5*this.building['D'])*this.building['cg']/this.building['bc']) - this.building['cg'];
-        
+//        tmp = ((this.building['bc']+)*this.building['cg']/this.building['bc']) - this.building['cg'];
+        var x,y,z = 0;
+        x = -(this.building['bc']+this.building['m']+.5*this.building['D']);
+        y -= this.building['bc']+((this.building['m']+.5*this.building['D'])*this.building['cg'])/this.building['bc'];
+        this.sizes['B'] = {x:x,y:y,z:z};
+//        x= 
         this.sizes['A'] = {x:(-(this.building['bc']+this.building['m']+.5*this.building['D'])),y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
-        this.sizes['B'] = {x:(-(this.building['bc']+this.building['m']+.5*this.building['D'])),y:(-tmp),z:0};
+        
         this.sizes['D'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:0};
         this.sizes['E'] = {x:(this.building['bc']+this.building['m']+.5*this.building['D']),y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
         this.sizes['F'] = {x:0,y:(-tmp),z:(this.building['cg']+tmp)*this.building['cf']/this.building['cg']};
@@ -354,6 +359,8 @@ Drows = function (){
             K = 430/(this.sizes['points']['A']['z']+this.sizes['mar'][2]+.5*this.building['D']+.5*this.building['W']*100);
         }
         
+//        габарит по осям стен
+        
         var l = K*this.building['W']*100;
         
 //        x0 смещаем позицию отн точки А соотв схеме вправо
@@ -364,12 +371,17 @@ Drows = function (){
         
         var y0 = K*this.building['cg']+40;
         
-//        K*2*this.building['cf']+
+//        высота от 0000 до чердака
+
         var h = K*(100*this.building['Hh']-this.building['cg']-(this.sizes['points']['A']['y']-this.sizes['points']['a']['y']));
         
 //        высота бруса стропильной ноги
-//        
+        
         var hraft = K*this.sizes['H']/Math.cos(this.sizes['angleA']);
+        
+//        диаметр бревна
+
+        var w = K*this.building['D'];
         
 //        уровень чердака
 
@@ -382,8 +394,6 @@ Drows = function (){
         cont.lineTo(xn,yn);
         cont.stroke();
         
-        cont.beginPath();
-        
 //        уровень свеса крыши point 'A'
         
         xn = x0-K*(this.sizes['points']['A']['z']);
@@ -392,9 +402,27 @@ Drows = function (){
         
 //        point 'A1'
 
-        xn = x0-K*(this.sizes['points']['a']['z'])+l+(this.sizes['mar'][2]+this.building['D']);
+        xn += l+ w + K*2*(this.sizes['mar'][2]);
+        cont.lineTo(xn,yn);
+        cont.closePath();
+        cont.stroke();
+        
+//        оси стен a & a1
+        cont.beginPath();
+        cont.strokeStyle = 'green';
+        
+        xn = x0-K*(this.sizes['points']['a']['z']);
+        yn = y0-K*(this.sizes['points']['a']['y'])-20;
+        cont.moveTo(xn, yn);
+        yn += h+20;
         cont.lineTo(xn,yn);
         
+        xn = x0-K*(this.sizes['points']['a']['z'])+l;
+        yn = y0-K*(this.sizes['points']['a']['y'])-20;
+        cont.moveTo(xn, yn);
+        yn += h+20;
+        cont.lineTo(xn,yn);
+        cont.closePath();
         cont.stroke();
         
 //TODO это вид со стороны где видно g & g1
@@ -406,13 +434,14 @@ Drows = function (){
         var yn = y0-K*((this.sizes['points']['g']['y']));
         
 ////        g-g1
+        cont.strokeStyle = 'black';
 //        коньковый брус
         var kraft = K*(this.sizes['L']+this.building['D']);
         cont.strokeRect(xn,yn,kraft,hraft);
 //        
 //        a wholl
-        var w = K*this.building['D'];
-        xn = x0-K*(this.sizes['points']['a']['z']);
+        
+        xn = x0-K*(this.sizes['points']['a']['z'])-.5*w;
         yn = y0-K*(this.sizes['points']['a']['y']);
         
         cont.strokeRect(xn,yn,w,h);
@@ -428,7 +457,7 @@ Drows = function (){
         xn = x0-K*(this.sizes['points']['g']['z']);
         yn = y0-K*(this.sizes['points']['g']['y'])+hraft;
         cont.moveTo(xn, yn);   
-        xn = x0-K*(this.sizes['points']['A']['z']);
+        xn = x0-K*(this.sizes['points']['A']['z'])-.5*w;
         yn = y0-K*(this.sizes['points']['A']['y'])+hraft/Math.cos(this.sizes['angleB']);
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);

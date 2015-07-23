@@ -72,7 +72,7 @@
                      <input type="text" id="cf" placeholder="cf - sm." size="12"/><br/><br/>
                      Відстань від балок до стріхи - <strong>cg</strong><br/><br/>
                      <input type="text" id="cg" placeholder="cg - sm." size="12"/><br/><br/>
-                     Відстань від стіни до краю - <strong>m</strong><br/><br/>
+                     Відстань від стіни до краю даху з боку фасаду- <strong>m</strong><br/><br/>
                      <input type="text" id="m" placeholder="відстань" size="12"/><br/><br/>
                      Крок стропил - <strong>Step</strong><br/><br/>
                      <input type="text" id="step" placeholder="відстань" size="12"/><br/><br/>
