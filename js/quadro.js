@@ -171,9 +171,9 @@ $(document).ready(function(){
         var Fg = Math.ceil(obj['Fg']*100)/100;
         var cf = Math.ceil(obj['cf']*100)/100;
         var L = Math.ceil(obj['L']*100)/100;
-        var mf = Math.ceil(obj['mar'][0]*100)/100;
-        var mr = Math.ceil(obj['mar'][1]*100)/100;
-        var ms = Math.ceil(obj['mar'][2]*100)/100;
+        var mf = Math.ceil(obj['distance'][0]*100)/100;
+        var mr = Math.ceil(obj['distance'][1]*100)/100;
+        var ms = Math.ceil(obj['distance'][2]*100)/100;
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
         var QR = Math.ceil(obj['QR']*100)/100;
@@ -196,7 +196,7 @@ $(document).ready(function(){
                 $(this).attr('selected',true);
             }
         });
-        
+       
         if(obj['C'] < 0.75){
             $("table tbody tr td#res").append("<p><strong>Запас міцності дещо завеликий - можна спробувати зменшити перетин стропила</strong></p>");
         }
@@ -206,15 +206,16 @@ $(document).ready(function(){
         $("div#front").css({'display':'block'});
         $("div#side").css({'display':'block'});
         project.drowFront();
-        var string = '';
+         var string = '';
         
         for(var i in project.length){
             
             var lb = Math.ceil(Math.pow(Math.pow(project.length[i],2),1/2)*100)/100;
-            string += lb+"\n";
+            string += i+" -> "+ lb+";\n";
         }
         
-//        alert(string);
+        alert(string);
+        
     }
     
 });
