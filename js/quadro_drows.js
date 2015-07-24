@@ -546,16 +546,17 @@ Drows = function (){
         
         cont.stroke();
         
-        this.drowSide();
+        this.drowSide(hraft);
         
     };
     
-    this.drowSide = function(){
+    this.drowSide = function(hraft){
         // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.       
         var objb = new Object();
         objb = document.getElementById("c");
         var cont = objb.getContext("2d");
         cont.lineWidth = .5;
+        cont.strokeStile = 'black';
         
 //        var str = '';
         
@@ -576,7 +577,7 @@ Drows = function (){
         
 //        x0 смещаем позицию отн точки А соотв схеме вправо
 
-        var x0 = (900 - l  - K*(this.sizes['mar'][0]+this.sizes['mar'][1]+.5*this.building['D']))/2;
+        var x0 = (900)/2;
         
 //        var x0 = 20+(K*(this.sizes['points']['A']['z']+(this.sizes['mar'][2]+.5*this.building['D'])));+K*2*this.building['cf'] 
         
@@ -586,10 +587,10 @@ Drows = function (){
 
         cont.beginPath();
         
-        xn = x0-K*(this.sizes['points']['a']['x']);
+        xn = x0+K*(this.sizes['points']['a']['x']);
         yn = y0-K*(this.sizes['points']['a']['y']);
         cont.moveTo(xn, yn);
-        xn = x0-K*(this.sizes['points']['a']['x'])+l;
+        xn = x0+K*(this.sizes['points']['a']['x'])+l;
         cont.lineTo(xn,yn);
         cont.stroke();
         
@@ -597,26 +598,26 @@ Drows = function (){
         
 //        уровень свеса крыши point 'A'
         
-        xn = x0-K*(this.sizes['points']['A']['x']);
+        xn = x0+K*(this.sizes['points']['A']['x']);
         yn = y0-K*(this.sizes['points']['A']['y'])+hraft/Math.cos(this.sizes['angleB']);
         cont.moveTo(xn, yn);
-        
+        alert(x0+"\n"+y0+"\n\n"+xn+"\n"+yn);
 //        point 'A1'
 
-        xn = x0-K*(this.sizes['points']['a']['x'])+l+(this.sizes['mar'][2]+this.building['D']);
+        xn = x0+K*(this.sizes['points']['a']['x'])+l+(this.sizes['mar'][2]+this.building['D']);
         cont.lineTo(xn,yn);
         
         cont.stroke();
         
         //        нулевой уровень
-
-        cont.beginPath();
-        
-        yn = y0-K*(this.sizes['points']['a']['y'])+h;
-        cont.moveTo(0,yn);
-        cont.lineTo(900,yn);
-        
-        cont.stroke();
+//
+//        cont.beginPath();
+//        
+//        yn = y0-K*(this.sizes['points']['a']['y'])+h;
+//        cont.moveTo(0,yn);
+//        cont.lineTo(900,yn);
+//        
+//        cont.stroke();
     };
 };
 
