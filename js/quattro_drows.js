@@ -754,12 +754,12 @@ Drows = function (){
 //        this.length.push(1);
         var x = 0;
         for(var i = 1;i < (N);i++){
-            var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+.5*hraft/Math.sin(this.sizes['angleF']);
+            var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB']);
             x = x0+K*(this.sizes['A']['x'])+step*i;
             yn = y0-K*(this.sizes['A']['y'])-ls;
             cont.strokeRect(x,yn,ws,ls);
 
-//            this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
+//            this.length.push((ls/Math.sin(this.sizes['angleB'])/K));+.5*hraft/Math.sin(this.sizes['angleF'])
 //            this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
 //            x = xA1- step*i-K*this.sizes['W']-(hraft*Math.sin(this.sizes['angleA'])/2)- (hraft*Math.sin(this.sizes['angleA']));
 //            cont.strokeRect(x,yn,ws,ls);

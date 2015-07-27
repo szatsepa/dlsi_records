@@ -35,7 +35,7 @@ class Controller_Math extends Controller
             
             $data = 'izba';
             
-            $this->view->generate('quadro_view.php', 'template_view.php',$data);
+            $this->view->generate('quattro_view.php', 'template_view.php',$data);
             
             
         }

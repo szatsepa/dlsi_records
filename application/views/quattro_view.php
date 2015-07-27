@@ -86,5 +86,5 @@
    <div id='side' style="display: none;"><canvas id='c' width='900' height='630'></canvas></div>
 </div>
 <script type="text/javascript" src="js/jquery.printElement.js"></script>
-<script type="text/javascript" src="/js/quadro.js"></script>
-<script type="text/javascript" src="/js/quadro_drows.js"></script>
+<script type="text/javascript" src="/js/quattro.js"></script>
+<script type="text/javascript" src="/js/quattro_drows.js"></script>

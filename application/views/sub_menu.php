@@ -24,7 +24,7 @@ class SubMenu {
                     $sub_menu = array('order'=>'Расчет','order/his'=>'История','order/received'=>'Прийшло','order/providers'=>'Поставщики','order/departs'=>'Подраздел_','order/prices'=>'Цены');
                     break;
                 case 'math':
-                    $sub_menu = array('math/pif'=>'Теорема Піфагора','math/sin'=>'Теорема сінусів','math/strop/quadro'=>'Розрахунок стропильної системи','math/power'=>'Мощность 3-ф','math'=>'Тригонометрия',);
+                    $sub_menu = array('math/pif'=>'Теорема Піфагора','math/sin'=>'Теорема сінусів','math/strop/quattro'=>'Розрахунок стропильної системи','math/power'=>'Мощность 3-ф','math'=>'Тригонометрия',);
                     break;
                 case 'staff':
                     $sub_menu = array('staff'=>"Персонал",'staff/old'=>'Бувші працівники','staff/work'=>'Должности');
