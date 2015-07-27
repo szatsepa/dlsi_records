@@ -592,7 +592,8 @@ Drows = function (){
     };
     
     this.drowSide = function(hraft){
-        // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.       
+        // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
+        var hraft = hraft;
         var objb = new Object();
         objb = document.getElementById("c");
         var cont = objb.getContext("2d");
@@ -615,6 +616,8 @@ Drows = function (){
 //        
         var l = K*this.building['L']*100;
         
+        var angleA = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['x']-this.sizes['A']['x']));
+        var angleE = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['x']-this.sizes['E']['x']));
         
         var h = K*(100*this.building['Hh']-this.building['cg']-(this.sizes['A']['y']-this.sizes['a']['y']));
         
@@ -674,26 +677,29 @@ Drows = function (){
         
 //        cont.beginPath();
 //    центральная стойка  
-        var ws = K*this.sizes['W'];
-        var hs = K*this.building['cg']-hraft;
-        xn = x0-.5*ws;
-        yn = y0-K*this.sizes['g']['y']+hraft;
-        
-        cont.strokeRect(xn,yn,ws,hs);
+//        
+//        
+//        
+//        yn = y0-K*this.sizes['g']['y']+hraft;
+//        
+//        cont.strokeRect(xn,yn,ws,hs);
         
 //        коньковый брус стропильная нога Fg
-        yn -= hraft;
-        hs = K*(this.sizes['g']['y']-this.sizes['A']['y']);
+        var ws = K*this.sizes['W'];
+//        hs = K*this.building['cg'];
+        xn = x0-.5*ws;
+        yn = y0-K*this.sizes['g']['y'];
+        var hs = K*(this.sizes['g']['y']-this.sizes['A']['y']);
         cont.strokeRect(xn,yn,ws,hs);
         
 //        Bg
         cont.beginPath();
-        yn += hraft;
+        yn += hraft/Math.cos(angleA);
         cont.moveTo(xn,yn);
         xn = x0+K*(this.sizes['A']['x']);
         yn = y0-K*(this.sizes['A']['y']);
         cont.lineTo(xn,yn);
-        yn -= hraft;
+        yn -= hraft/Math.cos(angleA);
         cont.lineTo(xn,yn);
         xn = x0-.5*ws;
         yn = y0-K*this.sizes['g']['y'];
@@ -701,12 +707,12 @@ Drows = function (){
         
 //        gD
         xn = x0+.5*ws;
-        yn = y0-K*this.sizes['g']['y']+hraft;
+        yn = y0-K*this.sizes['g']['y']+hraft/Math.cos(angleA);
         cont.moveTo(xn,yn);
         xn = x0+K*(this.sizes['E']['x']);
         yn = y0-K*(this.sizes['A']['y']);
         cont.lineTo(xn,yn);
-        yn -= hraft;
+        yn -= hraft/Math.cos(angleA);
         cont.lineTo(xn,yn);
         xn = x0+.5*ws;
         yn = y0-K*this.sizes['g']['y'];
@@ -745,7 +751,7 @@ Drows = function (){
             
         var AB = K*(this.building['bc']+this.sizes['distance'][0]+this.building['D']/2);
         var N = Math.ceil(K*AB/this.sizes['step']);
-//        var xA1 = x0+K*(this.sizes['A']['x'])+(this.sizes['D']['x']-this.sizes['B']['x'])+(this.sizes['distance'][1]+this.building['D'])+ws;
+        
         var step = AB/(N);
         while(step/K > this.building['step']){
             N++;
@@ -753,18 +759,14 @@ Drows = function (){
         }
 //        this.length.push(1);
         var x = 0;
+//        var str = '';
         for(var i = 1;i < (N);i++){
-            var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB']);
-            x = x0+K*(this.sizes['A']['x'])+step*i;
-            yn = y0-K*(this.sizes['A']['y'])-ls;
+            
+            x = x0+K*(this.sizes['A']['x'])+step*i+.5*ws;
+            var dy = K*(this.sizes['g']['y']-(this.sizes['A']['y']+hraft/K*Math.cos(angleA)))/N;
+            yn = y0-K*(this.sizes['A']['y'])-hraft/Math.cos(angleA)-dy*i;
+            var ls = (y0-K*(this.sizes['A']['y']))-yn;
             cont.strokeRect(x,yn,ws,ls);
-
-//            this.length.push((ls/Math.sin(this.sizes['angleB'])/K));+.5*hraft/Math.sin(this.sizes['angleF'])
-//            this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
-//            x = xA1- step*i-K*this.sizes['W']-(hraft*Math.sin(this.sizes['angleA'])/2)- (hraft*Math.sin(this.sizes['angleA']));
-//            cont.strokeRect(x,yn,ws,ls);
-//            this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
-//            this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
         }
         
         AB = K*(this.building['cd']+this.sizes['distance'][1]+this.building['D']/2);
@@ -774,14 +776,22 @@ Drows = function (){
             N++;
             step = AB/(N);
         }
-//        for(var i = 1;i < (N);i++){
-//            var ls = K*(this.sizes['Dg']*step*i/AB)*Math.sin(this.sizes['angleD'])+.5*hraft/Math.sin(this.sizes['angleF']);
-//            x += step*i-K*this.sizes['W']-(hraft*Math.sin(this.sizes['angleA'])/2)- (hraft*Math.sin(this.sizes['angleA']));
-//            yn = y0-K*(this.sizes['A']['y'])-ls;
-//            cont.strokeRect(x,yn,ws,ls);
-////            this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
-////            this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
-//        }
+        
+        AB = K*(this.building['cd']+this.sizes['distance'][0]+this.building['D']/2);
+        N = Math.ceil(K*AB/this.sizes['step']);
+        step = AB/(N);
+        while(step/K > this.building['step']){
+            N++;
+            step = AB/(N);
+        }
+//        alert(str);
+        for(var i = 1;i < (N);i++){
+            x = x0+K*(this.sizes['E']['x'])-step*i-2*ws;
+            var dy = K*(this.sizes['g']['y']-(this.sizes['E']['y']+hraft/K*Math.cos(angleE)))/N;
+            yn = y0-K*(this.sizes['E']['y'])-hraft/Math.cos(angleE)-dy*i;
+            var ls = (y0-K*(this.sizes['E']['y']))-yn;
+            cont.strokeRect(x,yn,ws,ls);
+        }
 //       if(this.building['cf'] > 0){ }
         
                 
