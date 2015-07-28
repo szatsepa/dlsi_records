@@ -1,3 +1,4 @@
+/* global this */
 Drows = function (){
     
     var obj = new Object();
@@ -158,11 +159,18 @@ Drows = function (){
         
         
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
-        var tmp = '';
+//        var tmp = '';
         var flag = false;
 //        полбревна стены
         var log = .5*this.building['D'];
         
+        this.sizes['type'] = this.building['typeString'];
+        this.sizes['size'] = this.building['Hh']+" X "+this.building['W']+" X "+this.building['L'];
+        this.sizes['log'] = this.building['D'];
+        this.sizes['bc'] = this.building['bc'];
+        this.sizes['cd'] = this.building['cd'];
+        this.sizes['cg'] = this.building['cg'];
+        this.sizes['step'] = this.building['step'];
         
         this.sizes['distance'] = new Array();
         this.sizes['distance'].push(parseFloat(this.building['m']));
@@ -191,13 +199,7 @@ Drows = function (){
         this.sizes['distance'].push(ds);
         this.sizes['A'] = {'x':this.sizes['B']['x'],'y':y,'z':z};
         this.sizes['E'] = {'x':this.sizes['D']['x'],'y':y,'z':z};
-//        for(var i in this.sizes){
-//            tmp += i+' => X '+this.sizes[i]['x']+'; Y '+this.sizes[i]['y']+'; Z '+this.sizes[i]['z']+';\n';
-//        }
-//        alert(tmp);
-//        var points = {'a':this.sizes['a'],'b':this.sizes['b'],'c':this.sizes['c'],'d':this.sizes['d'],'e':this.sizes['e'],'f':this.sizes['f'],'g':this.sizes['g'],'A':this.sizes['A'],'B':this.sizes['B'],'D':this.sizes['D'],'E':this.sizes['E'],'F':this.sizes['F']};
-//        this.sizes['points'] = points;
-        
+                
 //        довжина стропильних ніг по осях
 
         this.sizes['Ag'] = Math.pow((Math.pow((this.sizes['A']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['A']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['A']['z']-this.sizes['g']['z']),2)),.5);
@@ -226,15 +228,9 @@ Drows = function (){
         this.sizes['angleD'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['d']['x']));
         this.sizes['angleE'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['e']['x']));
         this.sizes['angleF'] = Math.atan((this.building['cg'])/(this.building['cf']));
-//        alert('angle F '+this.sizes['angleF']*180/Math.PI);
         
 //      вылет крыши М
-        
-//        var m = new Array();
-        
-//        m.push((this.sizes['b']['x']-this.sizes['B']['x']-.5*this.building['D']));
-//        m.push((this.sizes['D']['x']-this.sizes['d']['x']-.5*this.building['D']));
-//        m.push((this.sizes['F']['z']-this.sizes['f']['z']-.5*this.building['D']));
+
         if(!flag){
             for(var i in this.sizes['distance']){
                 if(this.sizes['distance'][i]<40){
@@ -242,16 +238,16 @@ Drows = function (){
                         flag = !flag;
 
                     }else{
-    //                    flag = !flag;
                         return false;
                     }
                 }
                 
             }
         }
-//        this.sizes['distance'] = m;
         this.sizes['cf'] = this.building['cf'];
         this.sizes['L'] = 100*this.building['W']-2*this.building['cf'];
+        
+        this.Square();
         
         return this.sizes;
 
@@ -381,11 +377,9 @@ Drows = function (){
 
         var x0 = (900 - l - 2*K*(this.sizes['distance'][2]+.5*this.building['D'])+K*2*this.building['cf'])/2;
         
-//        var x0 = 20+(K*(this.sizes['A']['z']+(this.sizes['distance'][2]+.5*this.building['D']))); 
-        
         var y0 = K*this.building['cg']+40;
         
-//        высота от 0000 до чердака-(this.sizes['A']['y']-this.sizes['a']['y'])
+//        высота от 0000 до чердака
 
         var h = K*(100*this.building['Hh']-this.building['cf']);
         
@@ -450,12 +444,12 @@ Drows = function (){
         var xn = x0-K*(this.sizes['g']['z']);
         var yn = y0-K*((this.sizes['g']['y']));
         
-////        g-g1
+//        g-g1
         cont.strokeStyle = 'black';
-//        коньковый брус+w
+//        коньковый брус
         var kraft = K*(this.sizes['L']);
         cont.strokeRect(xn,yn,kraft,hraft/Math.cos(this.sizes['angleF']));
-//        
+        
 //        a wholl
         xn = x0-K*(this.sizes['a']['z'])-.5*w;
         yn = y0-K*(this.sizes['a']['y']);
@@ -477,7 +471,7 @@ Drows = function (){
         yn = y0-K*(this.sizes['A']['y']);
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
-//        yn -= 
+        
         xn -= hraft/Math.cos(this.sizes['angleF']);
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
@@ -532,13 +526,11 @@ Drows = function (){
         if(Math.floor(delta*10)/10>0){
             
             this.sizes['step'] = Math.floor(delta*10)/(10*K);
-        
-//            delta = delta;
             
         }else{
             this.sizes['step'] = this.building['step'];
-        } 
-//        this.length.push(0);
+        }
+        
         for(var i = 0;i<(N+1);i++){
             var x = x0-K*(this.sizes['g']['z'])+(i*delta);;
             
@@ -565,7 +557,7 @@ Drows = function (){
                 N++;
                 step = AB/(N);
             }
-//            this.length.push(1);
+            
             for(var i = 1;i < (N);i++){
                 var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+.5*hraft/Math.sin(this.sizes['angleF']);
                 x = x0-K*(this.sizes['A']['z'])+step*i;
@@ -575,9 +567,10 @@ Drows = function (){
                 this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
                 this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
                 x = xA1- step*i-1*ws;
-//                (hraft*Math.sin(this.sizes['angleA'])/2)- -K*this.sizes['W']-(hraft*Math.sin(this.sizes['angleA']))
+                
                 ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+.5*hraft/Math.sin(this.sizes['angleF']);
                 cont.strokeRect(x,yn,ws,ls);
+                
                 this.length.push((ls/Math.sin(this.sizes['angleB'])/K));
                 this.length.push((ls/Math.sin(this.sizes['angleD'])/K));
             }
@@ -606,9 +599,7 @@ Drows = function (){
         var cont = objb.getContext("2d");
         cont.lineWidth = .5;
         cont.strokeStile = 'black';
-        
-//        var str = '';
-        
+                
         var K = 1;
         
         var xn = 0;
@@ -619,9 +610,6 @@ Drows = function (){
         if(param > 820){
             K = 820/((-this.sizes['A']['x']+(this.sizes['distance'][0]+this.sizes['distance'][1])/2+.5*this.building['D']+.5*this.building['L']*100)+2*hraft/Math.sin(this.sizes['angleB']));
         }
-        var log = .5*this.building['D'];
-//        
-        var l = K*this.building['L']*100;
         
         var angleA = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['x']-this.sizes['A']['x']));
         var angleE = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['x']-this.sizes['E']['x']));
@@ -636,7 +624,7 @@ Drows = function (){
         
         var w = K*this.building['D'];
         
-        //        уровень чердака
+//        уровень чердака
         
         cont.strokeRect(x0,y0,6,6);
 
@@ -644,14 +632,11 @@ Drows = function (){
         
         xn = x0+K*(this.sizes['a']['x']);
         yn = y0+K*(this.sizes['a']['y']);
-//        alert('X0 '+x0+"; X "+xn);
         cont.moveTo(xn, yn);
         xn = x0+K*(this.sizes['e']['x']);
         cont.lineTo(xn,yn);
         cont.stroke();
-//        
-//        cont.beginPath();
-//        
+        
 //        уровень свеса крыши point 'A'
         
         xn = x0+K*(this.sizes['A']['x']);
@@ -667,10 +652,9 @@ Drows = function (){
         cont.stroke();
         cont.fillRect(xn,yn,3,3);
 
-//        /        a wholl
+//                a wholl
 
-        
-//        cont.beginPath();        
+               
         xn = x0+K*(this.sizes['b']['x'])-.5*w;
         yn = y0-K*(this.sizes['b']['y']);
         
@@ -684,12 +668,10 @@ Drows = function (){
         
 //        коньковый брус стропильная нога Fg
         var ws = K*this.sizes['W'];
-//        hs = K*this.building['cg'];
         xn = x0-.5*ws;
         yn = y0-K*this.sizes['g']['y'];
         var hs = K*(this.sizes['g']['y']-this.sizes['A']['y']);
         cont.strokeRect(xn,yn,ws,hs);
-//        this.length.push(2);
         this.length.push(hs/K);
         
 //        Bg
@@ -712,28 +694,12 @@ Drows = function (){
         xn = x0+K*(this.sizes['E']['x']);
         yn = y0-K*(this.sizes['A']['y']);
         cont.lineTo(xn,yn);
-//        yn -= hraft/Math.cos(angleA);
         xn -= hraft/Math.sin(this.sizes['angleD']);
         cont.lineTo(xn,yn);
         xn = x0+.5*ws;
         yn = y0-K*this.sizes['g']['y'];
         cont.lineTo(xn,yn);
-        cont.stroke();
-//        стяжка
-
-//        xn = x0-K*(((this.building['cg']-.5*hraft)/3)*(this.sizes['c']['x']-this.sizes['B']['x'])/this.building['cg'])+hraft/Math.cos(this.sizes['angleB']);
-//        yn = y0 - K*(2*this.building['cg']/3)+.5*hraft;
-//        cont.moveTo(xn,yn);
-//        xn = x0+K*(((this.building['cg']-.5*hraft)/3)*(this.sizes['D']['x']-this.sizes['c']['x'])/this.building['cg'])-hraft/Math.cos(this.sizes['angleD']);
-//        cont.lineTo(xn,yn);
-//        xn = x0-K*(((this.building['cg']-1.5*hraft)/3)*(this.sizes['c']['x']-this.sizes['B']['x'])/this.building['cg'])+2*hraft/Math.cos(this.sizes['angleB']);
-//        yn = y0 - K*(2*this.building['cg']/3)-.5*hraft;
-//        cont.moveTo(xn,yn);
-//        xn = x0+K*(((this.building['cg']-1.5*hraft)/3)*(this.sizes['D']['x']-this.sizes['c']['x'])/this.building['cg'])-2*hraft/Math.cos(this.sizes['angleD']);
-//        cont.lineTo(xn,yn);
-        
-//       
-        
+        cont.stroke(); 
         
 //        нулевой уровень
 
@@ -758,10 +724,10 @@ Drows = function (){
             N++;
             step = AB/(N);
         }
-//        this.length.push(3);
+        
         var x = 0;
         var dz = 0;
-//        var str = '';
+        
         for(var i = 1;i < (N);i++){
             
             x = x0+K*(this.sizes['A']['x'])+step*i+.5*ws;
@@ -772,7 +738,6 @@ Drows = function (){
             cont.strokeRect(x,yn,ws,ls);
             ls = Math.pow(Math.pow(ls,2)+Math.pow(dz,2),1/2)/K;
             this.length.push(ls);
-//            str += ls+";\n";
         }
         
         AB = K*(this.building['cd']+this.sizes['distance'][1]+this.building['D']/2);
@@ -790,8 +755,7 @@ Drows = function (){
             N++;
             step = AB/(N);
         }
-//        str += "\n";
-//        this.length.push(4)
+        
         for(var i = 1;i < (N);i++){
             x = x0+K*(this.sizes['E']['x'])-step*i-2*ws;
             var dy = K*(this.sizes['g']['y']-(this.sizes['E']['y']+hraft/K*Math.cos(angleE)))/N;
@@ -802,10 +766,9 @@ Drows = function (){
             dz = i*(this.sizes['A']['z']-this.sizes['g']['z'])/N;
             ls = Math.pow(Math.pow(ls,2)+Math.pow(dz,2),1/2)/K;
             this.length.push(ls);
-//            str += ls+";\n";
+            
         }
-//        alert(str);
-//       if(this.building['cf'] > 0){ }
+        
         for(var i in this.length){
             this.length[i]=Math.ceil(Math.pow(Math.pow(this.length[i],2),1/2)*10)/10;
         }
@@ -829,6 +792,48 @@ Drows = function (){
         cont.stroke();
         
         
+    };
+    
+    this.Square = function(){
+        var h = 0,b = 0,square = [],str = '',summ = 0, tmp = 0;
+//        front
+        h = this.sizes['Bg']/100;
+        b = (this.sizes['A']['z']-this.sizes['B']['z'])/100;
+//        tmp['comment'] = 'Перед';
+        tmp=Math.ceil(h*b*100)/100;
+        summ = Math.ceil(h*b*100)/100;
+        b = this.building['L'];
+        tmp += Math.ceil(h*b*100)/100;
+        summ+=Math.ceil(h*b*100)/100;
+        square.push({'comment':'Перед','val':tmp});
+//        rear
+        h = this.sizes['Dg']/100;
+        b = (this.sizes['E']['z']-this.sizes['D']['z'])/100;
+//        tmp['comment'] = '';
+        tmp = Math.ceil(h*b*100)/100;
+        summ+=Math.ceil(h*b*100)/100;
+        b = this.building['L'];
+        tmp += Math.ceil(h*b*100)/100;
+        summ+=Math.ceil(h*b*100)/100;
+        square.push({'comment':'Тил','val':tmp});
+//        side
+        h = this.sizes['Fg']/100;
+        b = (this.sizes['E']['x']-this.sizes['A']['x'])/100;
+//        tmp['comment'] = '';
+        tmp = Math.ceil(h*b*100)/100;
+        summ+=Math.ceil(h*b*100)/100;
+        square.push({'comment':'Бік','val':tmp});
+        
+//        tmp['comment'] = '';
+        tmp = Math.ceil(summ*100)/100;
+        square.push({'comment':'Загальна','val':summ});
+        this.sizes['square'] = square;
+        for(var i in square){
+            
+            str += square[i]['comment']+" -> "+square[i]['val']+";\n";
+        }
+        
+        alert(str);
     };
 };
 

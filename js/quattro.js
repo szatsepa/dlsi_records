@@ -141,6 +141,8 @@ $(document).ready(function(){
             dataobj[$(this).attr('id')] = parseFloat($(this).val());
         });
         
+        dataobj['typeString'] = $("select#type option:selected").text();
+        
         if(!flag){
             alert("Не все заповнено - перевірте");
                 return false;
@@ -152,28 +154,24 @@ $(document).ready(function(){
     }
     
     function view(obj){
+        var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Вилыт даху','val':obj['distance'][0]},{'comment':'Крок стропил','val':obj['step']});
         
-        var Ag = Math.ceil(obj['Ag']*100)/100;
-        var Bg = Math.ceil(obj['Bg']*100)/100;
-        var Dg = Math.ceil(obj['Dg']*100)/100;
-        var Eg = Math.ceil(obj['Eg'])*100/100;
-        var Fg = Math.ceil(obj['Fg']*100)/100;
-        var cf = Math.ceil(obj['cf']*100)/100;
-        var L = Math.ceil(obj['L']*100)/100;
-        var mf = Math.ceil(obj['distance'][0]*100)/100;
-        var mr = Math.ceil(obj['distance'][1]*100)/100;
-        var ms = Math.ceil(obj['distance'][2]*100)/100;
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
-        var QR = Math.ceil(obj['QR']*100)/100;
-        
-//        $("table tbody tr td#res").empty();
-//        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+"  sm.<br/>Виліт даху(тил) - "+mr+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<br/>Найбільше навантаження на стропило - "+QR+" кг/м<p><a>Перерахувати</a></p>");
+        var t = obj['typeString'];
         
         $.each($("select#ws option"),function(){
             $(this).attr('selected',false);
             var w = parseFloat($(this).text());
             if(W === w){
+                $(this).attr('selected',true);
+            }
+        });
+        
+        $.each($("select#type option"),function(){
+            var str = $(this).text();
+            $(this).attr('selected',false);
+            if(t === str){
                 $(this).attr('selected',true);
             }
         });
@@ -194,11 +192,17 @@ $(document).ready(function(){
         $("canvas#b").css({'outline':'1px solid #ccc'});
         $("div#front").css({'display':'block'});
         $("div#side").css({'display':'block'});
+        $("div#resume").css({'display':'block'});
+        $("table#resumeTab tbody").empty();
+        
+        $.each(data,function(){
+            $("table#resumeTab tbody").append("<tr><td>"+this['comment']+"</td><td>"+this['val']+"</td></tr>");
+        });
+        $("table#resumeTab tbody").append("<tr><td colspan='2'>Розміри стропильних ніг</td></tr><tr><td>Довжина в см.</td><td>Кількість шт.</td></tr>");
+        
         project.drowFront();
          var string = '';
-        var count = 0;
-        var ls = 0;
-        
+         
         project.length.sort(compare);
         
         var oobj = onlyOrigin(project.length);
@@ -208,10 +212,19 @@ $(document).ready(function(){
         oobj = countRafts(oobj,project.length);
         
         for(var i in oobj){
-            string += i+" -> "+ oobj[i]+";\n";
+            
+            $("table#resumeTab tbody").append("<tr><td>"+i+" см.</td><td>"+oobj[i]+" шт.</td></tr>");
         }
-
-        alert(string);
+        $("table#resumeTab tbody").append("<tr><td colspan='2'>Kоньковий брус</td></tr><tr><td>Довжина в см.</td><td>Кількість шт.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td>"+obj['L']+" см.</td><td>1 шт.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td colspan='2'>Площа даху</td></tr>");
+        
+        for(var i in obj['square']){
+            $("table#resumeTab tbody").append("<tr><td>"+obj['square'][i]['comment']+"</td><td>"+obj['square'][i]['val']+" м.кв</td></tr>");
+        }
+        
+            
+        
     }
     
     function compare(a, b) {
