@@ -828,12 +828,7 @@ Drows = function (){
         tmp = Math.ceil(summ*100)/100;
         square.push({'comment':'Загальна','val':summ});
         this.sizes['square'] = square;
-        for(var i in square){
-            
-            str += square[i]['comment']+" -> "+square[i]['val']+";\n";
-        }
         
-        alert(str);
     };
 };
 
