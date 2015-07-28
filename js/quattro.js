@@ -196,12 +196,12 @@ $(document).ready(function(){
         $("table#resumeTab tbody").empty();
         
         $.each(data,function(){
-            $("table#resumeTab tbody").append("<tr><td>"+this['comment']+"</td><td>"+this['val']+"</td></tr>");
+            $("table#resumeTab tbody").append("<tr><td>"+this['comment']+"</td><td align='center'>"+this['val']+"</td></tr>");
         });
-        $("table#resumeTab tbody").append("<tr><td colspan='2'>Розміри стропильних ніг</td></tr><tr><td>Довжина в см.</td><td>Кількість шт.</td></tr>");
-        
-        project.drowFront();
-         var string = '';
+        $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Розміри стропильних ніг</td></tr><tr><td align='center'>Довжина в см.</td><td align='center'>Кількість шт.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td>Перетин брусу стропильної ноги</td><td align='center'>"+obj['W']+" X "+obj['H']+" см.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td>Розраховане навантаження</td><td align='center'>"+(Math.ceil(obj['QR']*100)/100)+" кг на м.п.</td></tr>");
+//         var string = '';
          
         project.length.sort(compare);
         
@@ -213,16 +213,20 @@ $(document).ready(function(){
         
         for(var i in oobj){
             
-            $("table#resumeTab tbody").append("<tr><td>"+i+" см.</td><td>"+oobj[i]+" шт.</td></tr>");
+            $("table#resumeTab tbody").append("<tr><td align='center'>"+i+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
         }
-        $("table#resumeTab tbody").append("<tr><td colspan='2'>Kоньковий брус</td></tr><tr><td>Довжина в см.</td><td>Кількість шт.</td></tr>");
-        $("table#resumeTab tbody").append("<tr><td>"+obj['L']+" см.</td><td>1 шт.</td></tr>");
-        $("table#resumeTab tbody").append("<tr><td colspan='2'>Площа даху</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Kоньковий брус</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td align='center'>"+obj['L']+" см.</td><td align='center'>1 шт.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Площа даху</td></tr>");
         
         for(var i in obj['square']){
-            $("table#resumeTab tbody").append("<tr><td>"+obj['square'][i]['comment']+"</td><td>"+obj['square'][i]['val']+" м.кв</td></tr>");
+            $("table#resumeTab tbody").append("<tr><td>"+obj['square'][i]['comment']+"</td><td align='center'>"+obj['square'][i]['val']+" м.кв</td></tr>");
         }
         
+        
+        
+        project.drowFront();
+//        $("table#resumeTab tbody tr td:eq(1)").attr('align','center');
             
         
     }
@@ -241,7 +245,7 @@ $(document).ready(function(){
                 
                 if(parseFloat(arr1[i]) === parseFloat(arr2[j])){
                     num++;
-                    tmp[parseFloat(arr1[i])] = num;
+                    tmp[Math.ceil(parseFloat(arr1[i])*100)/100] = num;
                 }
             }
             

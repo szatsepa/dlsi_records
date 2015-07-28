@@ -357,6 +357,7 @@ Drows = function (){
         var objb = new Object();
         objb = document.getElementById("b");
         var cont = objb.getContext("2d");
+        objb.width = objb.width;
         cont.lineWidth = .5;
         
 //        var str = '';
@@ -386,6 +387,7 @@ Drows = function (){
 //        высота бруса стропильной ноги
         
         var hraft = K*this.sizes['H'];
+        var angleF = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['z']-this.sizes['B']['z']));
         
 //        диаметр бревна
 
@@ -448,7 +450,12 @@ Drows = function (){
         cont.strokeStyle = 'black';
 //        коньковый брус
         var kraft = K*(this.sizes['L']);
-        cont.strokeRect(xn,yn,kraft,hraft/Math.cos(this.sizes['angleF']));
+        var Vraft = hraft/Math.cos(angleF);
+        Vraft = Math.pow(Math.pow(Vraft,2),.5);
+        var Hraft = hraft/Math.cos(Math.PI-angleF);
+        Hraft = Math.pow(Math.pow(Hraft,2),.5);
+//        alert(hraft+";\n"+Vraft+";\n"+Hraft);
+        cont.strokeRect(xn,yn,kraft,Vraft);
         
 //        a wholl
         xn = x0-K*(this.sizes['a']['z'])-.5*w;
@@ -463,16 +470,16 @@ Drows = function (){
         
         cont.beginPath();
         
-//        Ag
+//        Ag TODO
         xn = x0-K*(this.sizes['g']['z']);
-        yn = y0-K*(this.sizes['g']['y'])+hraft/Math.sin(Math.PI/2-this.sizes['angleF']);
+        yn = y0-K*(this.sizes['g']['y'])+Vraft;
         cont.moveTo(xn, yn);   
         xn = x0-K*(this.sizes['A']['z']);
         yn = y0-K*(this.sizes['A']['y']);
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
         
-        xn -= hraft/Math.cos(this.sizes['angleF']);
+        xn -= Hraft;
         cont.lineTo(xn,yn);
         cont.moveTo(xn, yn);
         xn = x0-K*(this.sizes['g']['z']);
@@ -481,7 +488,7 @@ Drows = function (){
         
 //        A1g
         xn = x0+K*(this.sizes['g']['z'])+kraft;
-        yn = y0-K*(this.sizes['g']['y'])+hraft/Math.sin(Math.PI/2-this.sizes['angleF']);
+        yn = y0-K*(this.sizes['g']['y'])+Vraft;
         
         cont.moveTo(xn, yn);
         
@@ -492,7 +499,7 @@ Drows = function (){
         
         cont.moveTo(xn, yn);
         
-        xn += hraft/Math.cos(this.sizes['angleF']);
+        xn += Hraft;
         
         cont.lineTo(xn,yn);
         
@@ -599,7 +606,8 @@ Drows = function (){
         var cont = objb.getContext("2d");
         cont.lineWidth = .5;
         cont.strokeStile = 'black';
-                
+        objb.width = objb.width;
+        
         var K = 1;
         
         var xn = 0;

@@ -85,7 +85,7 @@
    <div id='front' style="display: none;"><canvas id='b' width='900' height='630'></canvas></div>
    <div id='side' style="display: none;"><canvas id='c' width='900' height='630'></canvas></div>
    <div id="resume" style="display: none">
-       <table id="resumeTab">
+       <table id="resumeTab" width="90%">
            <tbody>
                
            </tbody>
