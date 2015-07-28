@@ -107,17 +107,6 @@ $(document).ready(function(){
                 return false;
             }
      });
-//     
-//     var flag = false;
-//     
-//    $("canvas#b").mousedown(function(){
-//        if(!flag){            
-//            project.drowSide();
-//        }else{
-//            project.drowFront();
-//        }
-//        flag = !flag;
-//    }); 
     
     function _size(){
         var height = new Array();
@@ -178,8 +167,8 @@ $(document).ready(function(){
         var H = Math.ceil(obj['H']*10);
         var QR = Math.ceil(obj['QR']*100)/100;
         
-        $("table tbody tr td#res").empty();
-        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+"  sm.<br/>Виліт даху(тил) - "+mr+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<br/>Найбільше навантаження на стропило - "+QR+" кг/м<p><a>Перерахувати</a></p>");
+//        $("table tbody tr td#res").empty();
+//        $("table tbody tr td#res").append("<p><strong>Геометричні розміри</strong></p>Загальні:<br/>Габарити по осях - "+$("input#W").val()+" X "+$("input#L").val()+" m.;<br/><br/>Стропило Ag - "+Ag+" sm.<br/>Стропило Bg - "+Bg+" sm.<br/>Стропило Dg - "+Dg+" sm.<br/>Стропило Eg - "+Eg+" sm.<br/>Стропило Fg - "+Fg+" sm.<br/>Відстань cf - "+cf+" sm.<br/>Довжина конькового брусу - "+L+" sm.<br/>Виліт даху(фронт) - "+mf+"  sm.<br/>Виліт даху(тил) - "+mr+" sm.<br/>Виліт даху(збоків) - "+ms+" sm.<br/>Перетин стропила щонайменше - "+W+"X"+H+" mm.<br/>Найбільше навантаження на стропило - "+QR+" кг/м<p><a>Перерахувати</a></p>");
         
         $.each($("select#ws option"),function(){
             $(this).attr('selected',false);
@@ -207,15 +196,53 @@ $(document).ready(function(){
         $("div#side").css({'display':'block'});
         project.drowFront();
          var string = '';
+        var count = 0;
+        var ls = 0;
         
-        for(var i in project.length){
-            
-            var lb = Math.ceil(Math.pow(Math.pow(project.length[i],2),1/2)*100)/100;
-            string += i+" -> "+ lb+";\n";
+        project.length.sort(compare);
+        
+        var oobj = onlyOrigin(project.length);
+        
+        oobj.sort(compare);
+        
+        oobj = countRafts(oobj,project.length);
+        
+        for(var i in oobj){
+            string += i+" -> "+ oobj[i]+";\n";
+        }
+
+        alert(string);
+    }
+    
+    function compare(a, b) {
+          if (parseFloat(a) > parseFloat(b)) return 1;
+          if (parseFloat(a) < parseFloat(b)) return -1;
         }
         
-        alert(string);
+    function countRafts(arr1,arr2){
+        var tmp = {};
         
-    }
+        for(var i in arr1){
+            var num = 0;
+            for(var j in arr2){
+                
+                if(parseFloat(arr1[i]) === parseFloat(arr2[j])){
+                    num++;
+                    tmp[parseFloat(arr1[i])] = num;
+                }
+            }
+            
+        }
+        return tmp;
+    }    
+
+    function onlyOrigin(arr) {
+      var x, result = {}, num = 0;
+      for (x = 0; x < arr.length; x++) {
+        result[ arr[x] ] = x;
+        num++;
+      }
+      return Object.keys( result );
+    }   
     
 });

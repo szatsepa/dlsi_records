@@ -538,7 +538,7 @@ Drows = function (){
         }else{
             this.sizes['step'] = this.building['step'];
         } 
-        this.length.push(0);
+//        this.length.push(0);
         for(var i = 0;i<(N+1);i++){
             var x = x0-K*(this.sizes['g']['z'])+(i*delta);;
             
@@ -565,7 +565,7 @@ Drows = function (){
                 N++;
                 step = AB/(N);
             }
-            this.length.push(1);
+//            this.length.push(1);
             for(var i = 1;i < (N);i++){
                 var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+.5*hraft/Math.sin(this.sizes['angleF']);
                 x = x0-K*(this.sizes['A']['z'])+step*i;
@@ -689,7 +689,7 @@ Drows = function (){
         yn = y0-K*this.sizes['g']['y'];
         var hs = K*(this.sizes['g']['y']-this.sizes['A']['y']);
         cont.strokeRect(xn,yn,ws,hs);
-        this.length.push(2);
+//        this.length.push(2);
         this.length.push(hs/K);
         
 //        Bg
@@ -758,14 +758,15 @@ Drows = function (){
             N++;
             step = AB/(N);
         }
-        this.length.push(3);
+//        this.length.push(3);
         var x = 0;
+        var dz = 0;
 //        var str = '';
         for(var i = 1;i < (N);i++){
             
             x = x0+K*(this.sizes['A']['x'])+step*i+.5*ws;
             var dy = K*(this.sizes['g']['y']-(this.sizes['A']['y']+hraft/K*Math.cos(angleA)))/N;
-            var dz = i*(this.sizes['A']['z']-this.sizes['g']['z'])/N;
+            dz = i*(this.sizes['A']['z']-this.sizes['g']['z'])/N;
             yn = y0-K*(this.sizes['A']['y'])-hraft/Math.cos(angleA)-dy*i;
             var ls = (y0-K*(this.sizes['A']['y']))-yn;
             cont.strokeRect(x,yn,ws,ls);
@@ -790,7 +791,7 @@ Drows = function (){
             step = AB/(N);
         }
 //        str += "\n";
-        this.length.push(4)
+//        this.length.push(4)
         for(var i = 1;i < (N);i++){
             x = x0+K*(this.sizes['E']['x'])-step*i-2*ws;
             var dy = K*(this.sizes['g']['y']-(this.sizes['E']['y']+hraft/K*Math.cos(angleE)))/N;
@@ -805,7 +806,9 @@ Drows = function (){
         }
 //        alert(str);
 //       if(this.building['cf'] > 0){ }
-        
+        for(var i in this.length){
+            this.length[i]=Math.ceil(Math.pow(Math.pow(this.length[i],2),1/2)*10)/10;
+        }
                 
 //        оси стен a & a1
         cont.beginPath();
