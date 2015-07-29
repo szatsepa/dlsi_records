@@ -1,4 +1,4 @@
-<h1>Добро пожаловать!</h1>
+<h1>Welcome - чи шо!</h1>
  <audio autoplay>
     <!--<source src="media/woods2.wav" type="audio/ogg; codecs=vorbis">-->
   </audio>

@@ -231,9 +231,10 @@ $(document).ready(function(){
         oobj = countRafts(oobj,project.length);
         var long = 0,n=0;
         for(var i in oobj){
-            n = Math.ceil(parseFloat(oobj[i])*(parseFloat(i)+dl)*100)/100;
+            n = Math.ceil(parseFloat(oobj[i])*((parseFloat(i)+dl))*100)/100;
             long += n;
-            $("table#resumeTab tbody").append("<tr><td align='center'>"+i+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
+            n = Math.ceil((parseFloat(i)+dl)*100)/100;
+            $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
         }
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Рігеля</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         n = Math.ceil((parseFloat(obj['rigel']['long'])+dl)*10)/10;
@@ -242,7 +243,7 @@ $(document).ready(function(){
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Kоньковий брус</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td align='center'>"+obj['L']+" см.</td><td align='center'>1 шт.</td></tr>");
         long += parseFloat(obj['L']);
-        long = Math.ceil(100*long/10)/10;
+        long = Math.ceil(.01*long*10)/10;
         $("table#resumeTab tbody").append("<tr><td align='center'>Загальна довжина брусу</td><td align='center'>"+long+" м.пог.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Площа даху</td></tr>");
         
