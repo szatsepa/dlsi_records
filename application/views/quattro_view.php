@@ -76,7 +76,7 @@
                      <input type="text" id="m" placeholder="відстань" size="12"/><br/><br/>
                      Крок стропил - <strong>Step</strong><br/><br/>
                      <input type="text" id="step" placeholder="відстань" size="12"/><br/><br/>
-                     <input type="button" class="btn-save" value="Порахувати"/><br/><br/>
+                     <input type="button" class="btn-save" id="count" value="Порахувати"/><br/><br/>
                  </td>
              </tr>
              
@@ -84,14 +84,18 @@
      </table>
    <div id='front' style="display: none;"><canvas id='b' width='900' height='630'></canvas></div>
    <div id='side' style="display: none;"><canvas id='c' width='900' height='630'></canvas></div>
-   <div id="resume" style="display: none">
+   <div id="re" style="display: none">
+      <div id="resume">
        <table id="resumeTab" width="90%">
            <tbody>
                
            </tbody>
        </table>
+   </div> 
+       <p style="text-align: center">
+           <a id="print">Друквати?</a>
+       </p>
    </div>
-</div>
-<script type="text/javascript" src="js/jquery.printElement.js"></script>
+   <script type="text/javascript" src="/js/jquery.printElement.js"></script>
 <script type="text/javascript" src="/js/quattro.js"></script>
 <script type="text/javascript" src="/js/quattro_drows.js"></script>

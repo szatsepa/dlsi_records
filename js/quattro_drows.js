@@ -7,6 +7,7 @@ Drows = function (){
     this.building = new Object();
     this.sizes = new Object();
     this.length = new Array();
+    this.angles = new Array();
     
     context.font = "bold 12px sans-serif";
     
@@ -229,6 +230,17 @@ Drows = function (){
         this.sizes['angleE'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['e']['x']));
         this.sizes['angleF'] = Math.atan((this.building['cg'])/(this.building['cf']));
         
+//        var str = '';
+        
+        for(var i in this.sizes){
+            var parm = i.substr(0,5);
+            if(parm==='angle'){
+//                str += parm+";\n";
+                this.angles.push(this.sizes[i]);
+            }
+        }
+//        alert(str);    
+        
 //      вылет крыши М
 
         if(!flag){
@@ -389,6 +401,7 @@ Drows = function (){
         var hraft = K*this.sizes['H'];
         var angleF = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['z']-this.sizes['B']['z']));
         
+        this.angles.push(angleF);
 //        диаметр бревна
 
         var w = K*this.building['D'];
@@ -454,7 +467,6 @@ Drows = function (){
         Vraft = Math.pow(Math.pow(Vraft,2),.5);
         var Hraft = hraft/Math.cos(Math.PI-angleF);
         Hraft = Math.pow(Math.pow(Hraft,2),.5);
-//        alert(hraft+";\n"+Vraft+";\n"+Hraft);
         cont.strokeRect(xn,yn,kraft,Vraft);
         
 //        a wholl
@@ -527,6 +539,8 @@ Drows = function (){
         
         var delta = kraft/N;
         
+        var rigel = new Array();
+        
         if(N === 0){
             delta = 0;
         }
@@ -548,6 +562,8 @@ Drows = function (){
             }
             cont.strokeRect(x,yn,ws,hs);
             
+            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['F']['y'])/3)/(this.sizes['g']['y']-this.sizes['F']['y']);
+            rigel.push(ri);
             this.length.push((hs/Math.sin(this.sizes['angleB'])/K));
             this.length.push((hs/Math.sin(this.sizes['angleD'])/K));
 
@@ -584,6 +600,17 @@ Drows = function (){
             
         }
         
+        var rig = {'long':0,'count':0};
+        
+        for(var i in rigel){
+            rig['count']++;
+            rig['long'] = Math.ceil(rigel[i]*100)/100;
+        }
+        
+//        alert(rig['count']+" sht;\n"+rig['long']+" sm.;");
+        
+        this.sizes['rigel'] = rig;
+        
 //        нулевой уровень
 
         cont.beginPath();
@@ -614,13 +641,16 @@ Drows = function (){
         var yn = 0;
         
         var param = (K*(-this.sizes['A']['x']+this.sizes['distance'][2]+.5*this.building['D']+.5*this.building['L']*100))+2*hraft/Math.sin(this.sizes['angleB']);
-        
+//        TODO view K
         if(param > 820){
             K = 820/((-this.sizes['A']['x']+(this.sizes['distance'][0]+this.sizes['distance'][1])/2+.5*this.building['D']+.5*this.building['L']*100)+2*hraft/Math.sin(this.sizes['angleB']));
         }
         
         var angleA = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['x']-this.sizes['A']['x']));
         var angleE = Math.atan((this.sizes['g']['y']-this.sizes['F']['y'])/(this.sizes['F']['x']-this.sizes['E']['x']));
+        
+        this.angles.push(angleA);
+        this.angles.push(angleE);
         
         var h = K*(100*this.building['Hh']-this.building['cg']-(this.sizes['A']['y']-this.sizes['a']['y']));
         
@@ -800,6 +830,13 @@ Drows = function (){
         cont.stroke();
         
         
+        for(var i in this.angles){
+            this.angles[i] = Math.pow(Math.pow(180*this.angles[i]/Math.PI,2),.5);
+        }
+        
+        this.sizes['angles'] = this.angles;
+//        alert(this.angles.join('\n'));
+//        alert(Math.min.apply(null, this.sizes['angles']));
     };
     
     this.Square = function(){
@@ -834,7 +871,7 @@ Drows = function (){
         
 //        tmp['comment'] = '';
         tmp = Math.ceil(summ*100)/100;
-        square.push({'comment':'Загальна','val':summ});
+        square.push({'comment':'Загальна','val':tmp});
         this.sizes['square'] = square;
         
     };

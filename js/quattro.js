@@ -4,6 +4,15 @@ $(document).ready(function(){
     
     project.init();
     
+     $("a#print").live('click',function(){
+        $('div#resume').printElement({
+            overrideElementCSS:[
+            '/css/print_element.css',
+            { href:'/css/print_element.css',media:'print'}],
+            leaveOpen:true,
+            printMode:'popup'
+         });
+    });
     
     $("canvas#a").css('outline','1px solid #ccc');
     
@@ -84,10 +93,11 @@ $(document).ready(function(){
         if(e.which === 13){
             var whot = prepare();
             if(whot){
-               project.setData(whot);
-               project.geometry();
-               _size();
-               view(project.getSizes());
+//               project.setData(whot);
+//               project.geometry();
+//               view();
+               _size(whot);
+               
             }else{
                 return false;
             }
@@ -95,20 +105,24 @@ $(document).ready(function(){
     }).focus();
     
     
-    $("input.btn-save").mousedown(function(){
-        
+    $("input#count").live('click',function(){
             var whot = prepare();
             if(whot){
-               project.setData(whot);
-               project.geometry();
-               _size();
-               view(project.getSizes());
+//               project.setData(whot);
+//               project.geometry();
+//               view();
+               _size(whot);
+               
             }else{
                 return false;
             }
      });
+     
+     $("input#recount").live('click',function(){
+            document.location.reload();
+     });
     
-    function _size(){
+    function _size(whot){
         var height = new Array();
         $.each($("select#hs option"),function(){
             var h = parseFloat($(this).val());
@@ -116,8 +130,10 @@ $(document).ready(function(){
                 height.push(h);
             }
         });
-        
-        return project.calculateHeight(height);
+        project.setData(whot);
+        project.geometry();
+        project.calculateHeight(height);
+        view();        
     }
     
     function prepare(){
@@ -153,8 +169,15 @@ $(document).ready(function(){
    
     }
     
-    function view(obj){
-        var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Вилыт даху','val':obj['distance'][0]},{'comment':'Крок стропил','val':obj['step']});
+    function view(){
+        project.drowFront();
+        var obj = project.getSizes();
+        var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Вилiт даху','val':obj['distance'][0]},{'comment':'Крок стропил','val':Math.ceil(obj['step']*100)/100});
+        
+        var angle = Math.min.apply(null, obj['angles']);
+        var dl = Math.ceil(100*obj['H']/Math.sin(Math.PI*angle/180))/100;
+//        
+//        alert(dl);
         
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
@@ -192,15 +215,17 @@ $(document).ready(function(){
         $("canvas#b").css({'outline':'1px solid #ccc'});
         $("div#front").css({'display':'block'});
         $("div#side").css({'display':'block'});
-        $("div#resume").css({'display':'block'});
+        $("div#re").css({'display':'block'});
         $("table#resumeTab tbody").empty();
         
         $.each(data,function(){
             $("table#resumeTab tbody").append("<tr><td>"+this['comment']+"</td><td align='center'>"+this['val']+"</td></tr>");
         });
-        $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Розміри стропильних ніг</td></tr><tr><td align='center'>Довжина в см.</td><td align='center'>Кількість шт.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Розміри стропильних ніг</td></tr>");
         $("table#resumeTab tbody").append("<tr><td>Перетин брусу стропильної ноги</td><td align='center'>"+obj['W']+" X "+obj['H']+" см.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td>Розраховане навантаження</td><td align='center'>"+(Math.ceil(obj['QR']*100)/100)+" кг на м.п.</td></tr>");
+        $("table#resumeTab tbody").append("<tr><td align='center'>Довжина в см.</td><td align='center'>Кількість шт.</td></tr>");
+        
 //         var string = '';
          
         project.length.sort(compare);
@@ -210,13 +235,21 @@ $(document).ready(function(){
         oobj.sort(compare);
         
         oobj = countRafts(oobj,project.length);
-        
+        var long = 0,n=0;
         for(var i in oobj){
-            
-            $("table#resumeTab tbody").append("<tr><td align='center'>"+i+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
+            n = Math.ceil(parseFloat(oobj[i])*(parseFloat(i)+dl)*100)/100;
+            long += n;
+            $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
         }
+        $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Рігеля</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
+        n = Math.ceil((parseFloat(obj['rigel']['long'])+dl)*100)/100;
+        long += Math.ceil(n*parseInt(obj['rigel']['count'])*100)/100;
+        $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel']['count']+" шт.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Kоньковий брус</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td align='center'>"+obj['L']+" см.</td><td align='center'>1 шт.</td></tr>");
+        long += parseFloat(obj['L']);
+        long = Math.ceil(100*long/100)/100;
+        $("table#resumeTab tbody").append("<tr><td align='center'>Загальна довжина брусу</td><td align='center'>"+long+" м.пог.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Площа даху</td></tr>");
         
         for(var i in obj['square']){
@@ -224,8 +257,8 @@ $(document).ready(function(){
         }
         
         
+        $("input#count").attr('id','recount').val('Перерахувати?');
         
-        project.drowFront();
 //        $("table#resumeTab tbody tr td:eq(1)").attr('align','center');
             
         
