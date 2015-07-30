@@ -99,7 +99,7 @@ $(document).ready(function(){
                 return false;
             }
         }
-    });
+    }).focus();
     
     
     $("input#count").live('click',function(){

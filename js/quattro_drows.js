@@ -160,7 +160,7 @@ Drows = function (){
         
         
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
-//        var tmp = '';
+
         var flag = false;
 //        полбревна стены
         var log = .5*this.building['D'];
@@ -187,7 +187,6 @@ Drows = function (){
 //      Cc -> tmp нижний уровень кріши отн плоскости abcdef 
 //      
         var x,y,z = 0;
-//        x = -(this.building['bc']++log);
         x = this.sizes['b']['x']-this.building['m']-log;
         y = this.sizes['g']['y']-(this.sizes['g']['y']*x/this.sizes['b']['x']);
         this.sizes['B'] = {'x':x,'y':y,'z':z};
@@ -197,7 +196,6 @@ Drows = function (){
         this.sizes['distance'].push(ds);
         this.sizes['D'] = {'x':x,'y':y,'z':z};
         z = log+this.sizes['f']['z']-this.sizes['f']['z']*(y)/(this.sizes['g']['y']);
-//        tmp += 'dx -> '+(this.sizes['d']['x'])*(y)/(this.sizes['g']['y'])+'\n\n';
         this.sizes['F'] = {'x':0,'y':y,'z':z};
 //        вылет по бокам
         ds = Math.ceil((z-this.sizes['f']['z']-log)*100)/100;
@@ -239,11 +237,9 @@ Drows = function (){
         for(var i in this.sizes){
             var parm = i.substr(0,5);
             if(parm==='angle'){
-//                str += parm+";\n";
                 this.angles.push(this.sizes[i]);
             }
-        }
-//        alert(str);    
+        }   
         
 //      вылет крыши М
 
@@ -411,6 +407,8 @@ Drows = function (){
 
         var w = K*this.building['D'];
         
+        var radius = w/2;
+        
 //        уровень чердака
 
         cont.beginPath();
@@ -418,27 +416,30 @@ Drows = function (){
         xn = x0-K*(this.sizes['a']['z']);
         yn = y0-K*(this.sizes['a']['y']);
         cont.moveTo(xn, yn);
+        var a = {'x':xn,'y':yn};
         xn = x0-K*(this.sizes['a']['z'])+l;
         cont.lineTo(xn,yn);
         cont.stroke();
-        
+        var a1 = {'x':xn,'y':yn};
 //        уровень свеса крыши point 'A'
         
-        xn = x0-K*(this.sizes['A']['z']);
+//        xn = x0-K*(this.sizes['A']['z']);
+        var side2 = radius+K*this.sizes['distance'][2];
+        xn = a['x']- side2;
         yn = y0-K*(this.sizes['A']['y']);
         cont.fillRect(xn,yn,2,2);
         cont.beginPath();
         cont.moveTo(xn, yn);
+        var A = {'x':xn,'y':yn};
         
 //        point 'A1'
 
-        xn += l+ w + K*2*(this.sizes['distance'][2]);
+        xn = a1['x']+side2;
         cont.lineTo(xn,yn);
         cont.stroke();
         cont.closePath();
         cont.fillRect(xn,yn,2,2);
-        var xA1 = xn;
-        
+        var A1 = {'x':xn,'y':yn};
 
         
 //TODO это вид со стороны где видно g & g1
@@ -458,9 +459,10 @@ Drows = function (){
         var Hraft = hraft/Math.cos(Math.PI-angleF);
         Hraft = Math.pow(Math.pow(Hraft,2),.5);
         cont.strokeRect(xn,yn,kraft,Vraft);
+        var g = {x:xn,y:yn};
         
 //        a wholl
-        var radius = K*this.building['D']/2;
+        
         xn = x0-K*(this.sizes['a']['z'])-.5*w;
         yn = y0-K*(this.sizes['a']['y'])+radius;
         
@@ -481,50 +483,42 @@ Drows = function (){
         
 //        Ag TODO
         xn = x0-K*(this.sizes['g']['z']);
-        yn = y0-K*(this.sizes['g']['y'])+Vraft;
-        cont.moveTo(xn, yn);   
-        xn = x0-K*(this.sizes['A']['z']);
-        yn = y0-K*(this.sizes['A']['y']);
-        cont.lineTo(xn,yn);
-        cont.moveTo(xn, yn);
-        
-        xn -= Hraft;
-        cont.lineTo(xn,yn);
-        cont.moveTo(xn, yn);
-        xn = x0-K*(this.sizes['g']['z']);
         yn = y0-K*(this.sizes['g']['y']);
+        cont.moveTo(xn, yn); 
+        var g = {'x':xn,y:yn};
+        xn = A['x'];
+        yn = A['y'];
+        cont.lineTo(xn,yn);
+        cont.moveTo(xn, yn);
+        var angleGAF = Math.atan(this.sizes['Fg']/(this.sizes['E']['x']-this.sizes['A']['x']));
+        var Av = (hraft/Math.cos(this.sizes['angleA']))*Math.cos(angleGAF);
+        xn += Av;
+        cont.lineTo(xn,yn);
+        cont.moveTo(xn, yn);
+        xn = g['x'];
+        yn = g['y']+Hraft;
         cont.lineTo(xn,yn);
         
 //        A1g
-        xn = x0+K*(this.sizes['g']['z'])+kraft;
-        yn = y0-K*(this.sizes['g']['y'])+Vraft;
+        xn = g['x']+kraft;
+        yn = g['y'];
         
         cont.moveTo(xn, yn);
         
-        xn = x0-K*(this.sizes['A']['z'])+ l+ w + K*2*(this.sizes['distance'][2]);
-        yn = y0-K*(this.sizes['A']['y']);
+        xn = A1['x'];
+        yn = A1['y'];
         
         cont.lineTo(xn,yn);
-        
-        cont.moveTo(xn, yn);
-        
-        xn += Hraft;
+        xn -= Av;
         
         cont.lineTo(xn,yn);
-        
-        cont.moveTo(xn, yn);
-        
-        xn = x0+K*(this.sizes['g']['z'])+kraft;
-        yn = y0-K*(this.sizes['g']['y']);
+        xn = g['x']+kraft;
+        yn = g['y']+Hraft;
         
         cont.lineTo(xn,yn);
         
         cont.stroke();
         cont.closePath();
-        
-        
-        
-//alert(this.length.join('\n'));
         
 //        прорисовка стропильных ног
 
@@ -583,16 +577,17 @@ Drows = function (){
             }
             
             for(var i = 1;i < (N);i++){
-                var ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+.5*hraft/Math.sin(this.sizes['angleF']);
-                x = x0-K*(this.sizes['A']['z'])+step*i;
-                yn = y0-K*(this.sizes['A']['y'])-ls;
+                
+                var ys = (A['y']-g['y'])/N;
+                x = A['x']+step*i;
+                yn = A['y']-ys*i;
+                var ls = A['y']-yn;
                 cont.strokeRect(x,yn,ws,ls);
                 
                 this.length.push(Math.pow(Math.pow((ls/Math.sin(this.sizes['angleB']))/K,2),.5));
                 this.length.push(Math.pow(Math.pow((ls/Math.sin(this.sizes['angleD']))/K,2),.5));
-                x = xA1- step*i-1*ws;
                 
-                ls = K*(this.sizes['Bg']*step*i/AB)*Math.sin(this.sizes['angleB'])+.5*hraft/Math.sin(this.sizes['angleF']);
+                x = A1['x']-step*i-1*ws;
                 cont.strokeRect(x,yn,ws,ls);
                 
                 this.length.push(Math.pow(Math.pow((ls/Math.sin(this.sizes['angleB']))/K,2),.5));
@@ -607,8 +602,6 @@ Drows = function (){
             rig['count']++;
             rig['long'] = Math.ceil(rigel[i]*100)/100;
         }
-        
-//        alert(rig['count']+" sht;\n"+rig['long']+" sm.;");
         
         this.sizes['rigel'] = rig;
         
@@ -641,11 +634,11 @@ Drows = function (){
         cont.closePath();
         cont.stroke();
         
-        this.drowSide(hraft);
+        this.drowSide(hraft,Av,Hraft);
         
     };
     
-    this.drowSide = function(hraft){
+    this.drowSide = function(hraft,Av,Hraft){
         // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
         var hraft = hraft;
         var objb = new Object();
@@ -703,10 +696,11 @@ Drows = function (){
         
 //        уровень свеса крыши point 'A'
         
-        xn = x0+K*(this.sizes['A']['x'])-.5*w;
+        xn = x0+K*(this.sizes['A']['x']);
         yn = y0-K*(this.sizes['A']['y']);
         cont.fillRect(xn,yn,3,3);
         cont.moveTo(xn, yn);
+        var A = {x:xn,y:yn};
         
 //        point 'A1'
 
@@ -715,6 +709,7 @@ Drows = function (){
         
         cont.stroke();
         cont.fillRect(xn,yn,3,3);
+        var A1 = {x:xn,y:yn};
 
 //                a wholl
 
@@ -741,34 +736,34 @@ Drows = function (){
         var ws = K*this.sizes['W'];
         xn = x0-.5*ws;
         yn = y0-K*this.sizes['g']['y'];
+        var g  = {x:xn,y:yn};
         var hs = K*(this.sizes['g']['y']-this.sizes['A']['y']);
         cont.strokeRect(xn,yn,ws,hs);
         this.length.push(hs/K);
         
 //        Ag
         cont.beginPath();
-        yn += hraft/Math.cos(angleA);
         cont.moveTo(xn,yn);
-        xn = x0+K*(this.sizes['A']['x'])-.5*w;
-        yn = y0-K*(this.sizes['A']['y']);
+        xn = A['x'];
+        yn = A['y'];
         cont.lineTo(xn,yn);
-        xn -= hraft/Math.sin(angleA);
+        xn += Av;
         cont.lineTo(xn,yn);
-        xn = x0-.5*ws;
-        yn = y0-K*this.sizes['g']['y'];
+        xn = g['x'];
+        yn = g['y']+Hraft;
         cont.lineTo(xn,yn);
         
 //        gD
         xn = x0+.5*ws;
-        yn = y0-K*this.sizes['g']['y']+hraft/Math.cos(angleA);
+        yn = g['y'];
         cont.moveTo(xn,yn);
-        xn = x0+K*(this.sizes['E']['x']);
-        yn = y0-K*(this.sizes['A']['y']);
+        xn = A1['x'];
+        yn = A1['y'];
         cont.lineTo(xn,yn);
-        xn -= hraft/Math.sin(this.sizes['angleD']);
+        xn -= Av;
         cont.lineTo(xn,yn);
         xn = x0+.5*ws;
-        yn = y0-K*this.sizes['g']['y'];
+        yn = g['y']+Hraft;
         cont.lineTo(xn,yn);
         cont.stroke(); 
         
@@ -801,11 +796,11 @@ Drows = function (){
    
         for(var i = 1;i < (N);i++){
             
-            x = x0+K*(this.sizes['A']['x'])+step*i+.5*ws;
-            var dy = K*(this.sizes['g']['y']-(this.sizes['A']['y']+hraft/K*Math.cos(angleA)))/N;
-            dz = i*(this.sizes['A']['z']-this.sizes['g']['z'])/N;
-            yn = y0-K*(this.sizes['A']['y'])-hraft/Math.cos(angleA)-dy*i;
-            var ls = (y0-K*(this.sizes['A']['y']))-yn;
+            var ys = (A['y']-g['y'])/N;
+            x = A['x']+step*i;
+            yn = A['y']-ys*i;
+            var ls = A['y']-yn;
+            
             cont.strokeRect(x,yn,ws,ls);
             ls = Math.pow(Math.pow(ls,2)+Math.pow(dz,2),1/2)/K;
             this.length.push(ls);
@@ -821,14 +816,13 @@ Drows = function (){
         }
         
         for(var i = 1;i < (N);i++){
-            x = x0+K*(this.sizes['E']['x'])-step*i-2*ws;
-            var dy = K*(this.sizes['g']['y']-(this.sizes['E']['y']+hraft/K*Math.cos(angleE)))/N;
-            yn = y0-K*(this.sizes['E']['y'])-hraft/Math.cos(angleE)-dy*i;
-            var ls = (y0-K*(this.sizes['E']['y']))-yn;
+            var ys = (A1['y']-g['y'])/N;
+            x = A1['x']-step*i-.5*w;
+            yn = A1['y']-ys*i;
+            var ls = A1['y']-yn;
             
             cont.strokeRect(x,yn,ws,ls);
-            dz = i*(this.sizes['A']['z']-this.sizes['g']['z'])/N;
-            ls = Math.pow(Math.pow(ls,2)+Math.pow(dz,2),1/2)/K;
+            
             this.length.push(ls);
             
         }
@@ -861,8 +855,6 @@ Drows = function (){
         }
         
         this.sizes['angles'] = this.angles;
-//        alert(this.angles.join('\n'));
-//        alert(Math.min.apply(null, this.sizes['angles']));
     };
     
     this.Square = function(){
