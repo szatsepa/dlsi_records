@@ -16,8 +16,8 @@
                          <option value="40">Керамическая черепица</option>
                          <option value="50">Цементно-песчаная черепица</option>                         
                      </select>
-<!--                     &nbsp;&nbsp;
-                     <input type="checkbox" id="rigel" title="Ділить вишину на 2/3 до 1/3"/>&nbsp;Є ригель(стяжкa).-->
+                     &nbsp;&nbsp;
+                     <input type="checkbox" id="skate" title="Кількисть скатів даху"/>&nbsp;Чотире, або Двохскатий
                      <br/><br/>
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
@@ -76,7 +76,9 @@
                      <input type="text" id="m" placeholder="відстань" size="12"/><br/><br/>
                      Крок стропил - <strong>Step</strong><br/><br/>
                      <input type="text" id="step" placeholder="відстань" size="12"/><br/><br/>
-                     <input type="button" class="btn-save" id="count" value="Порахувати"/><br/><br/>
+                     <p style="text-align: center">
+                         <input type="button" class="btn-save" id="count" value="Порахувати"/>
+                     </p>
                  </td>
              </tr>
              

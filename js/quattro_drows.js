@@ -156,6 +156,11 @@ Drows = function (){
         this.building['cf'] = data;
     };
     
+    this.geometry2 = function(){
+        alert('Розрахунок геометрії двоскатного даху\n дещо відрізняється і його ще не зроблено! \n\t\t\t Tому звиняйте :-(');
+        return false;
+    };
+    
     this.geometry = function(){ 
         
         
@@ -454,9 +459,9 @@ Drows = function (){
         
 //        коньковый брус
         var kraft = K*(this.sizes['L']);
-        var Vraft = hraft/Math.cos(angleF);
+        var Vraft = hraft;
         Vraft = Math.pow(Math.pow(Vraft,2),.5);
-        var Hraft = hraft/Math.cos(Math.PI-angleF);
+        var Hraft = hraft;
         Hraft = Math.pow(Math.pow(Hraft,2),.5);
         cont.strokeRect(xn,yn,kraft,Vraft);
         var g = {x:xn,y:yn};
@@ -559,10 +564,18 @@ Drows = function (){
             var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['F']['y'])/3)/(this.sizes['g']['y']-this.sizes['F']['y']);
             rigel.push(ri);
             
+            
+            
+            
+            
             this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleB']))/K,2),.5));
             this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleD']))/K,2),.5));
 
         }
+        
+        ri = ((this.sizes['E']['x']-this.sizes['A']['x'])/3);
+        this.sizes['rigel2'] = {'count':2,'long':Math.ceil(ri*100)/100};
+//            alert(ri);
 //        стропильные ноги на участках cf & c1f1
 
         if(this.building['cf'] > 0){
@@ -599,12 +612,12 @@ Drows = function (){
         var rig = {'long':0,'count':0};
         
         for(var i in rigel){
-            rig['count']++;
-            rig['long'] = Math.ceil(rigel[i]*100)/100;
-        }
+              rig['count']++; 
+              rig['long'] = Math.ceil(rigel[i]*100)/100; 
+            }  
         
         this.sizes['rigel'] = rig;
-        
+//alert(rigel.join('\n'));        
 //        нулевой уровень
 
         cont.beginPath();
@@ -732,7 +745,7 @@ Drows = function (){
         cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
         cont.stroke();
         
-//        коньковый брус стропильная нога Fg
+//        коньковый брус 
         var ws = K*this.sizes['W'];
         xn = x0-.5*ws;
         yn = y0-K*this.sizes['g']['y'];
@@ -770,13 +783,28 @@ Drows = function (){
 //        нулевой уровень
 
         
-        
         yn = y0-K*(this.sizes['a']['y'])+h;
         cont.moveTo(0,yn);
         cont.lineTo(900,yn);
         
+        
+        
+//        rigel
+
+        xn = A['x']+2*(g['x']-A['x'])/3;
+        yn = A['y']-2*(A['y']-g['y'])/3;
+        cont.moveTo(xn,yn);
+        xn = A1['x']+ws - 2*(+A1['x'] - g['x'])/3;
+        cont.lineTo(xn,yn);
+        yn += Hraft*Math.cos(this.sizes['angleF']);
+        cont.lineTo(xn,yn);
+        xn = A['x']+2*(g['x']-A['x'])/3;
+        cont.lineTo(xn,yn);
+        yn -= Hraft*Math.cos(this.sizes['angleF']);
+        cont.lineTo(xn,yn);
         cont.stroke();
         cont.closePath();
+//        cont.strokeRect(xn,yn,this.sizes['rigel2']['long']*K,Hraft*.5);
         
 //        стропильные ноги на участках Bc & cD
 //    points A & F 

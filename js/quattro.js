@@ -9,9 +9,21 @@ $(document).ready(function(){
             overrideElementCSS:[
             '/css/print_element.css',
             { href:'/css/print_element.css',media:'print'}],
-            leaveOpen:false,
+            leaveOpen:true,
             printMode:'popup'
          });
+    });
+    
+    var skate = true;
+    
+    $("input#skate").change(function(){
+        if($(this).attr('checked')){
+            $("input#cf").attr('disabled',true).val('');
+            skate = false;
+        }else{
+            $("input#cf").attr('disabled',false);
+            skate = true;
+        }
     });
     
     $("canvas#a").css('outline','1px solid #ccc');
@@ -125,7 +137,12 @@ $(document).ready(function(){
             }
         });
         project.setData(whot);
-        project.geometry();
+        if($("input#skate").attr('checked')==='checked'){
+            project.geometry2();  
+        }else{
+           project.geometry(); 
+        }
+        
         project.calculateHeight(height);
         view();        
     }
@@ -154,8 +171,12 @@ $(document).ready(function(){
         dataobj['typeString'] = $("select#type option:selected").text();
         
         if(!flag){
-            alert("Не все заповнено - перевірте");
+            if($("input#skate").attr('checked')===false){
+                alert("Не все заповнено - перевірте");
                 return false;
+            }
+            
+            return dataobj;    
         }else{
             
             return dataobj;
@@ -240,6 +261,9 @@ $(document).ready(function(){
         n = Math.ceil((parseFloat(obj['rigel']['long'])+dl)*10)/10;
         long += Math.ceil(n*parseInt(obj['rigel']['count'])*10)/10;
         $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel']['count']+" шт.</td></tr>");
+        n = Math.ceil((parseFloat(obj['rigel2']['long'])+dl)*10)/10;
+        long += Math.ceil(n*parseInt(obj['rigel2']['count'])*10)/10;
+        $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel2']['count']+" шт.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Kоньковий брус</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td align='center'>"+obj['L']+" см.</td><td align='center'>1 шт.</td></tr>");
         long += parseFloat(obj['L']);
