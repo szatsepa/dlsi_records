@@ -213,7 +213,7 @@ Drows = function (){
         x = this.sizes['A']['x'];
         this.sizes['A1'] = {'x':x,'y':y,'z':z}; 
         x = this.sizes['E']['x'];
-        z -= 2*(this.building['m']+log)+100*this.building['W'];
+        z = this.sizes['A1']['z'];
         this.sizes['E1'] = {'x':x,'y':y,'z':z};
         
 //        довжина стропильних ніг по осях
@@ -572,16 +572,16 @@ Drows = function (){
         var param = Math.abs((K*(this.sizes['A1']['z']+this.sizes['A']['z'])));
         
         if(param > 450){
-            K = 2*450/param;
+            K = 2*420/param;
         }
-        alert(param+'\n'+K);
+        
 //        габарит по осям стен
         
-        var l = param;
+        var l = K*param;
         
 //        x0 смещаем позицию отн точки А соотв схеме вправо
-
-        var x0 = (900 - l - 2*K*(this.sizes['distance'][2]+.5*this.building['D'])+K*2*this.building['cf'])/2;
+//alert('a a1  '+this.sizes['a']['z']+';'+this.sizes['a1']['z']);
+        var x0 = (900 - K*(this.sizes['a']['z']-this.sizes['a1']['z']))/2;
         
         var y0 = K*this.building['cg']+40;
         
@@ -592,6 +592,33 @@ Drows = function (){
 //        высота бруса стропильной ноги
         
         var hraft = K*this.sizes['H'];
+        
+//        диаметр бревна
+
+        var w = K*this.building['D'];
+        
+        var radius = w/2;
+        
+        var xn = 0,yn = 0;
+        
+//        уровень чердака
+
+        cont.beginPath();
+        
+        xn = x0-K*(this.sizes['a']['z']);
+        yn = y0-K*(this.sizes['a']['y']);
+        cont.moveTo(xn, yn);
+        xn += K*Math.abs(this.sizes['a1']['z']);
+        cont.lineTo(xn,yn);
+        cont.stroke();
+        
+//        уровень свеса крыши point 'A' 'A1'
+
+        xn = x0+K*this.sizes['A']['z'];
+        yn = y0-K*this.sizes['A']['y'];
+        cont.fillRect(xn,yn,2,2);
+        xn = x0+K*this.sizes['A1']['z'];
+        cont.fillRect(xn,yn,2,2);
         
     };
     
