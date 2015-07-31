@@ -47,9 +47,9 @@
                      Вишина будівлі в метрах - <strong>Hh</strong><br/>
                      <input type="text" id="Hh" placeholder="вишина" size="12"/><br/>
                      Рoзмір будівлі по осях стін <strong>S</strong><br/>
-                     <input type="text" id="W" placeholder="W - m." size="6"/>
+                     <input type="text" id="W" placeholder="W(A-A1) - m." size="6"/>
                      &nbsp;X&nbsp;
-                     <input type="text" id="L" placeholder="L - m." size="6"/>
+                     <input type="text" id="L" placeholder="L(A-E) - m." size="6"/>
                      
                  </td>
                  

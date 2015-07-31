@@ -146,10 +146,29 @@ Drows = function (){
         
         context.strokeStyle = "#666";
         context.stroke();
+        context.closePath();
+        context.beginPath();
+        context.strokeStyle = "#000";
+        context.moveTo(130,130);
+        context.lineTo(30,130);
+        context.lineTo(130,200);
+        context.lineTo(110,200);
+        context.moveTo(130,200);
+        context.lineTo(125,180);
+        context.stroke();
+        context.font = "normal 12px sans-serif";
+        context.fillText('Дивимося звідси!', 33, 130);
     };
     
     this.setData = function(obj){
         this.building = obj;
+        this.sizes['type'] = obj['typeString'];
+        this.sizes['size'] = obj['Hh']+" X "+obj['W']+" X "+obj['L'];
+        this.sizes['log'] = obj['D'];
+        this.sizes['bc'] = obj['bc'];
+        this.sizes['cd'] = obj['cd'];
+        this.sizes['cg'] = obj['cg'];
+        this.sizes['step'] = obj['step'];
     };
     
     this.setCF = function(data){
@@ -158,7 +177,58 @@ Drows = function (){
     
     this.geometry2 = function(){
         alert('Розрахунок геометрії двоскатного даху\n дещо відрізняється і його ще не зроблено! \n\t\t\t Tому звиняйте :-(');
-        return false;
+//        return false;
+//        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
+        var str = '';
+        var flag = false;
+//        полбревна стены
+        var log = .5*this.building['D'];
+        
+        this.sizes['distance'] = new Array();
+//        вылет в задании
+        this.sizes['distance'].push(Math.ceil(parseFloat(this.building['m'])*100)/100);
+        
+        this.sizes['a'] = {x:(-this.building['bc']),y:0,z:0};
+        this.sizes['c'] = {x:0,y:0,z:0};
+        this.sizes['e'] = {x:this.building['cd'],y:0,z:0};
+        this.sizes['g'] = {x:0,y:this.building['cg'],z:0};
+        this.sizes['a1'] = {x:(this.sizes['a']['x']),y:0,z: (- this.building['W'])*100};
+        this.sizes['e1'] = {x:this.sizes['e']['x'],y:0,z:(- this.building['W'])*100};
+        this.sizes['g1'] = {x:0,y:this.building['cg'],z:(- this.building['W'])*100};
+        
+        
+        
+//      Cc -> tmp нижний уровень кріши отн плоскости abcdef 
+//      
+
+        var x,y,z = 0;
+        x = this.sizes['a']['x']-(this.building['m']+log);
+        y = this.sizes['g']['y']-(this.sizes['g']['y']*x/this.sizes['a']['x']);
+        z = this.building['m']+log;
+        this.sizes['A'] = {'x':x,'y':y,'z':z};
+        x += 100*this.building['L']+2*(this.building['m']+log);
+        this.sizes['E'] = {'x':x,'y':y,'z':z};
+        z += (- this.building['W'])*100-2*(this.building['m']+log);
+        x = this.sizes['A']['x'];
+        this.sizes['A1'] = {'x':x,'y':y,'z':z}; 
+        x = this.sizes['E']['x'];
+        z -= 2*(this.building['m']+log)+100*this.building['W'];
+        this.sizes['E1'] = {'x':x,'y':y,'z':z};
+        
+//        @todo control
+        for(var i in this.sizes){
+            str += i+' -> ';
+            for(var j in this.sizes[i]){
+                if(j==='x' || j==='y' || j==='z'){
+                    str += j+" = "+this.sizes[i][j]+";\t";
+                }else{
+                    continue;
+                }                
+            }
+            str += ';\n';
+        }
+        
+        alert(str);
     };
     
     this.geometry = function(){ 
@@ -169,14 +239,6 @@ Drows = function (){
         var flag = false;
 //        полбревна стены
         var log = .5*this.building['D'];
-        
-        this.sizes['type'] = this.building['typeString'];
-        this.sizes['size'] = this.building['Hh']+" X "+this.building['W']+" X "+this.building['L'];
-        this.sizes['log'] = this.building['D'];
-        this.sizes['bc'] = this.building['bc'];
-        this.sizes['cd'] = this.building['cd'];
-        this.sizes['cg'] = this.building['cg'];
-        this.sizes['step'] = this.building['step'];
         
         this.sizes['distance'] = new Array();
 //        вылет в задании
@@ -767,6 +829,13 @@ Drows = function (){
         xn = g['x'];
         yn = g['y']+Hraft;
         cont.lineTo(xn,yn);
+        yn = g['y'];
+        cont.moveTo(xn,yn);
+        xn += .5*ws;
+        cont.lineTo(xn,yn);
+        xn = A['x']+.5*ws;
+        yn = A['y'];
+        cont.lineTo(xn,yn);
         
 //        gD
         xn = x0+.5*ws;
@@ -780,7 +849,15 @@ Drows = function (){
         xn = x0+.5*ws;
         yn = g['y']+Hraft;
         cont.lineTo(xn,yn);
-        cont.stroke(); 
+        cont.stroke();
+        xn = x0+.5*ws;
+        yn = g['y'];
+        cont.moveTo(xn,yn);
+        xn -= .5*ws;
+        cont.lineTo(xn,yn);
+        xn = A1['x']-.5*ws;
+        yn = A1['y'];
+        cont.lineTo(xn,yn);
         
 //        нулевой уровень
 
