@@ -138,7 +138,7 @@ $(document).ready(function(){
         });
         project.setData(whot);
         if($("input#skate").attr('checked')==='checked'){
-            project.geometry2();  
+            project.geometry2(height);  
         }else{
            project.geometry(); 
         }

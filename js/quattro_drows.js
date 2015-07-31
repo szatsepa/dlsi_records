@@ -162,6 +162,7 @@ Drows = function (){
     
     this.setData = function(obj){
         this.building = obj;
+        
         this.sizes['type'] = obj['typeString'];
         this.sizes['size'] = obj['Hh']+" X "+obj['W']+" X "+obj['L'];
         this.sizes['log'] = obj['D'];
@@ -175,7 +176,7 @@ Drows = function (){
         this.building['cf'] = data;
     };
     
-    this.geometry2 = function(){
+    this.geometry2 = function(height){
         alert('Розрахунок геометрії двоскатного даху\n дещо відрізняється і його ще не зроблено! \n\t\t\t Tому звиняйте :-(');
 //        return false;
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
@@ -215,20 +216,127 @@ Drows = function (){
         z -= 2*(this.building['m']+log)+100*this.building['W'];
         this.sizes['E1'] = {'x':x,'y':y,'z':z};
         
+//        довжина стропильних ніг по осях
+        
+                this.sizes['Ag'] = Math.pow((Math.pow((this.sizes['A']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['A']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['A']['z']-this.sizes['g']['z']),2)),.5);
+        this.sizes['Eg'] = Math.pow((Math.pow((this.sizes['E']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['E']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['E']['z']-this.sizes['g']['z']),2)),.5);
+        
+//        все размеры стропильных ног поместим в массив
+
+        this.length.push(this.sizes['Ag']);
+        this.length.push(this.sizes['Eg']);
+        
+//      углы наклона стропильных ног по реперным точкам
+
+        this.sizes['angleA'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['a']['x']));
+        this.sizes['angleE'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['e']['x']));
+        
 //        @todo control
         for(var i in this.sizes){
-            str += i+' -> ';
+//            str += i+' -> ';
             for(var j in this.sizes[i]){
                 if(j==='x' || j==='y' || j==='z'){
-                    str += j+" = "+this.sizes[i][j]+";\t";
+                    str += i+"("+j+") = "+this.sizes[i][j]+";\t";
                 }else{
                     continue;
-                }                
+                } 
+                
             }
-            str += ';\n';
+            if(i==='Ag' || i==='Eg'){
+                str += i+' -> '+ this.sizes[i];
+            }
+            str += '\n';
         }
         
-        alert(str);
+        var raft = 'Ag';
+        
+        if(this.sizes['Ag'] < this.sizes['Eg']){
+            raft = 'Eg';
+        }
+        
+        this.controlPower(raft,height); 
+//        alert(str);
+    };
+    
+    this.controlPower = function(raft,height){
+//        размеры стропильных ног для расчета сечения оных
+        var rafter = new Object();
+        var tmp = 0;
+        var alpha = 0;
+        var W = this.building['ws'];
+        var ks = 0.0098;
+        var SIZE = new Array();
+        var index = '';
+        if(raft === 'Ag'){
+            index = 'a';
+        }else{
+            index = 'e';
+        }
+        
+//        расчитаем длину наибольшей ноги
+        
+        tmp = Math.pow(Math.pow((this.sizes['g']['x']-this.sizes[index]['x']),2)+Math.pow((this.sizes['g']['y']-this.sizes[index]['y']),2)+Math.pow((this.sizes['g']['z']-this.sizes[index]['z']),2),0.5)*2/300;
+        alpha = this.sizes['angleA'];
+        rafter = {'alpha':alpha,'l':tmp};
+        
+//            угол наклона стропила
+        var gamma = rafter['alpha']*180/Math.PI;
+
+        var mu = 0;
+
+        if(gamma <= 30){
+            mu = 1;
+        }else if(gamma > 30 && gamma <= 60){
+            mu =  .033*(60-gamma);
+        }
+//            все нагрузки в килоньютонах
+//            снеговая нагрузка для нашего региона
+        var Snow = ks*mu*150;
+
+        var K = .75;
+
+        if(this.building['Hh'] > 500 && this.building['Hh'] < 1000){
+            K = 1;
+        }else if(this.building['Hh'] > 1000 && this.building['Hh'] < 2000){
+            K = 1.25;
+        }
+//  ветровая нагрузка для нашего региона      
+        var Wind = ks*45*K*.8;
+// суммарная нагрузка ветровая снегрвая и человег на м кв// (ks*this.building['type'])+1.2 - суммарная нагрузка кровли и человека с инструментом      
+        var SUM = Snow+Wind+(ks*this.building['type'])+1.2;
+
+// с учетом шага стропил на пог м      
+        var QR = SUM*(this.building['step']/100);
+//            изгибающий момент kN*m
+        var Mi = (QR*(Math.pow(rafter['l'],2))/8)+(1.2*(rafter['l']*Math.cos(rafter['alpha']))/4);
+
+//            Определяем расчетное сопротивление древесины изгибу MPa - 10^3 kN/m^2
+        var Ri = 14*Math.pow(10,3)*0.8;
+
+//            Определяемтребуемый момент сопротивления сечения
+
+        var Wt = Math.pow(100,3)*Mi/Ri; 
+
+//            высота сечения стропильной ноги не менее sm
+
+        var Hr = Math.pow((6*Wt/W),1/2);
+
+        tmp = Math.ceil(Hr*10)/10;
+        for(var hs=0;hs < height.length;hs++){
+
+            if(!(tmp >= height[hs])){  
+                var hh = height[hs];
+                SIZE.push({'W':W,'H':hh,'QR':QR});
+                break;
+            }
+
+        }
+        
+        this.sizes['W'] = W;
+        this.sizes['H'] = hh;
+        this.sizes['QR'] = QR/ks;
+                
+        return false;
     };
     
     this.geometry = function(){ 
