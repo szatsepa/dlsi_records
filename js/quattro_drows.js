@@ -9,7 +9,7 @@ Drows = function (){
     this.length = new Array();
     this.angles = new Array();
     
-    context.font = "bold 12px sans-serif";
+    context.font = "bold 16px sans-serif";
     
     this.init = function(){
         
@@ -236,6 +236,8 @@ Drows = function (){
         this.sizes['angleD'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['d']['x']));
         this.sizes['angleE'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['e']['x']));
         this.sizes['angleF'] = Math.atan((this.building['cg'])/(this.building['cf']));
+        
+//        this.calculateHeight(this.building['']);
         
 //        var str = '';
         

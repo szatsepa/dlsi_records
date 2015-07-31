@@ -21,7 +21,7 @@ $(document).ready(function(){
             $("input#cf").attr('disabled',true).val('');
             skate = false;
         }else{
-            $("input#cf").attr('disabled',false);
+            $("input#cf").attr('disabled',false).focus();
             skate = true;
         }
     });
