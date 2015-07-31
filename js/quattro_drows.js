@@ -231,6 +231,13 @@ Drows = function (){
         this.sizes['angleA'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['a']['x']));
         this.sizes['angleE'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['e']['x']));
         
+        for(var i in this.sizes){
+            var parm = i.substr(0,5);
+            if(parm==='angle'){
+                this.angles.push(this.sizes[i]);
+            }
+        }
+        
 //        @todo control
         for(var i in this.sizes){
 //            str += i+' -> ';
@@ -254,8 +261,16 @@ Drows = function (){
             raft = 'Eg';
         }
         
+//        @todo 
+
+        for(var i in this.angles){
+            this.angles[i] = Math.pow(Math.pow(180*this.angles[i]/Math.PI,2),.5);
+        }
+        
+        this.sizes['angles'] = this.angles;
+        
         this.controlPower(raft,height); 
-//        alert(str);
+        alert(str);
     };
     
     this.controlPower = function(raft,height){
@@ -338,6 +353,8 @@ Drows = function (){
                 
         return false;
     };
+    
+    
     
     this.geometry = function(){ 
         
@@ -539,6 +556,43 @@ Drows = function (){
        this.sizes['H'] = out['H'];
        this.sizes['QR'] = out['QR']/ks;
        return out;
+    };
+    
+    this.drowTwoside = function(){
+// Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.       
+        var objb = new Object();
+        objb = document.getElementById("b");
+        var cont = objb.getContext("2d");
+        objb.width = objb.width;
+        cont.lineWidth = .5;
+        cont.strokeStyle = 'black';
+        
+        var K = 1;
+        
+        var param = Math.abs((K*(this.sizes['A1']['z']+this.sizes['A']['z'])));
+        
+        if(param > 450){
+            K = 2*450/param;
+        }
+        alert(param+'\n'+K);
+//        габарит по осям стен
+        
+        var l = param;
+        
+//        x0 смещаем позицию отн точки А соотв схеме вправо
+
+        var x0 = (900 - l - 2*K*(this.sizes['distance'][2]+.5*this.building['D'])+K*2*this.building['cf'])/2;
+        
+        var y0 = K*this.building['cg']+40;
+        
+//        высота от 0000 до чердака
+
+        var h = K*(100*this.building['Hh']-this.building['cf']);
+        
+//        высота бруса стропильной ноги
+        
+        var hraft = K*this.sizes['H'];
+        
     };
     
     this.drowFront = function(){

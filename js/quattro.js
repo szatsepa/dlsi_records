@@ -140,10 +140,11 @@ $(document).ready(function(){
         if($("input#skate").attr('checked')==='checked'){
             project.geometry2(height);  
         }else{
-           project.geometry(); 
+           project.geometry();
+           project.calculateHeight(height);
         }
         
-        project.calculateHeight(height);
+        
         view();        
     }
     
@@ -185,9 +186,14 @@ $(document).ready(function(){
     }
     
     function view(){
-        project.drowFront();
+        
+        if($("input#skate").attr('checked')==='checked'){
+           project.drowTwoside();  
+        }else{
+           project.drowFront();
+        }
         var obj = project.getSizes();
-        var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Відстань від стіни до краю даха з фасаду','val':obj['distance'][0]},{'comment':'Відстань від стіни до краю даха з заду','val':obj['distance'][1]},{'comment':'Відстань від стіни до краю даха з боків','val':obj['distance'][2]},{'comment':'Крок стропил','val':Math.ceil(obj['step']*100)/100});
+        var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі по осях стін','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Відстань від стіни до краю даха з фасаду','val':obj['distance'][0]},{'comment':'Відстань від стіни до краю даха з заду','val':obj['distance'][1]},{'comment':'Відстань від стіни до краю даха з боків','val':obj['distance'][2]},{'comment':'Крок стропил','val':Math.ceil(obj['step']*100)/100});
         
         var angle = Math.min.apply(null, obj['angles']);
         var dl = Math.ceil(100*obj['H']/Math.sin(Math.PI*angle/180))/100;
@@ -234,7 +240,10 @@ $(document).ready(function(){
         $("table#resumeTab tbody").empty();
         
         $.each(data,function(){
-            $("table#resumeTab tbody").append("<tr><td>"+this['comment']+"</td><td align='center'>"+this['val']+"</td></tr>");
+            if(this['val']!== undefined){
+                $("table#resumeTab tbody").append("<tr><td>"+this['comment']+"</td><td align='center'>"+this['val']+"</td></tr>");
+            }
+            
         });
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Розміри стропильних ніг</td></tr>");
         $("table#resumeTab tbody").append("<tr><td>Перетин брусу стропильної ноги</td><td align='center'>"+obj['W']+" X "+obj['H']+" см.</td></tr>");
@@ -250,6 +259,11 @@ $(document).ready(function(){
         oobj.sort(compare);
         
         oobj = countRafts(oobj,project.length);
+        var str = '';
+        for(var i in oobj){
+            str += i+" "+oobj[i]+'\n';
+        }
+//        alert(str);
         var long = 0,n=0;
         for(var i in oobj){
             n = Math.ceil(parseFloat(oobj[i])*((parseFloat(i)+dl))*100)/100;
