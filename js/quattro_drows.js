@@ -569,7 +569,7 @@ Drows = function (){
         
         var K = 1;
         
-        var param = Math.abs((K*(this.sizes['A1']['z']+this.sizes['A']['z'])));
+        var param = Math.abs((K*(this.sizes['A']['z']-this.sizes['A1']['z'])));
         
         if(param > 450){
             K = 2*420/param;
@@ -581,7 +581,7 @@ Drows = function (){
         
 //        x0 смещаем позицию отн точки А соотв схеме вправо
 //alert('a a1  '+this.sizes['a']['z']+';'+this.sizes['a1']['z']);
-        var x0 = (900 - K*(this.sizes['a']['z']-this.sizes['a1']['z']))/2;
+        var x0 = 900-(900 - K*(this.sizes['a']['z']-this.sizes['a1']['z']))/2;
         
         var y0 = K*this.building['cg']+40;
         
@@ -605,10 +605,12 @@ Drows = function (){
 
         cont.beginPath();
         
-        xn = x0-K*(this.sizes['a']['z']);
+        xn = x0+K*(this.sizes['a']['z']);
         yn = y0-K*(this.sizes['a']['y']);
+        cont.fillText ('a',xn,yn-2);
         cont.moveTo(xn, yn);
-        xn += K*Math.abs(this.sizes['a1']['z']);
+        xn += K*(this.sizes['a1']['z']);
+        cont.fillText ('a1',xn,yn-2);
         cont.lineTo(xn,yn);
         cont.stroke();
         
@@ -617,9 +619,38 @@ Drows = function (){
         xn = x0+K*this.sizes['A']['z'];
         yn = y0-K*this.sizes['A']['y'];
         cont.fillRect(xn,yn,2,2);
-        xn = x0+K*this.sizes['A1']['z'];
+        cont.fillText('A',xn,yn-2);
+        cont.moveTo(xn,yn);
+        xn = x0 + K*this.sizes['A1']['z'];
         cont.fillRect(xn,yn,2,2);
+        cont.fillText('A1',xn,yn-2);
+        cont.lineTo(xn,yn);
         
+//        уровень конька
+
+        xn = x0+K*this.sizes['A']['z'];
+        yn = y0 - K*this.sizes['g']['y'];
+        cont.fillRect (xn,yn,2,2);
+        cont.fillText('g',xn,yn-3);
+        cont.moveTo(xn,yn);
+        xn = x0+K*this.sizes['A1']['z'];
+        cont.fillRect (xn,yn,2,2);
+        cont.fillText('g1',xn,yn-3);
+        cont.lineTo(xn,yn);
+        
+        cont.stroke ();
+        
+//        a woll
+        cont.beginPath ();
+        xn = x0+K*(this.sizes['a']['z']);
+        yn = y0-K*(this.sizes['a']['y']);
+        cont.arc(xn, yn+radius, radius, 0, Math.PI*2, true);
+        cont.stroke ();
+        cont.beginPath ();
+        xn = x0+K*(this.sizes['a1']['z']);
+        cont.arc(xn, yn+radius, radius, 0, Math.PI*2, true);
+        
+        cont.stroke ();
     };
     
     this.drowFront = function(){

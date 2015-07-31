@@ -1,11 +1,11 @@
 $(document).ready(function(){
     
-    var huynja =  new Drows();
+    var project =  new Drows();
     
     var dataobj = new Object();
 
     
-    huynja.init();
+    project.init();
     
 //    $("#print").mousedown(function(){
 //        
@@ -22,37 +22,37 @@ $(document).ready(function(){
     
     $("input#rigel").change(function(){
         if($("input#rigel").attr('checked') === 'checked'){
-            huynja.drowRigel(true);
+            project.drowRigel(true);
         }else{
-            huynja.drowRigel(false);
+            project.drowRigel(false);
         }
     });
     
     $("select#ws").change(function(){
-        huynja.setWidth($("select#ws option:selected").val());
+        project.setWidth($("select#ws option:selected").val());
 //        $("input#Hh").focus().select();
     });
     
     $("select#hs").change(function(){
-        huynja.setHeight($("select#hs option:selected").val());
+        project.setHeight($("select#hs option:selected").val());
         $("input#Hh").focus().select();
     });        
     
     $("select#type").change(function(){
-        huynja.setP($("select#type option:selected").val());
+        project.setP($("select#type option:selected").val());
 //        $("input#Hh").focus().select();
     });
     
     $("input#Hh").keypress(function(e){
         if(e.which === 13){
-            huynja.setHh($("input#Hh").val());
+            project.setHh($("input#Hh").val());
             $("input#D").focus().select();
         }
     });
     $("input#D").keypress(function(e){
         if(e.which === 13){
             dataobj['D'] = parseFloat($("input#D").val());
-            huynja.setD($("input#D").val());
+            project.setD($("input#D").val());
             $("input#L").focus().select();
         }
     });
@@ -60,7 +60,7 @@ $(document).ready(function(){
     $("input#L").keypress(function(e){
         if(e.which === 13){
             dataobj['L'] = parseFloat($("input#L").val());
-            huynja.setL($("input#L").val());
+            project.setL($("input#L").val());
             $("input#L1").focus().select();
         }
     });
@@ -68,7 +68,7 @@ $(document).ready(function(){
     $("input#L1").keypress(function(e){
         if(e.which === 13){
             dataobj['L1'] = parseFloat($("input#L1").val());
-            huynja.setL1($("input#L1").val());
+            project.setL1($("input#L1").val());
             $("input#H").focus().select();
         }
     });
@@ -76,16 +76,16 @@ $(document).ready(function(){
     $("input#H").keypress(function(e){
         if(e.which === 13){
             dataobj['H'] = parseFloat($("input#H").val());
-            huynja.setH($("input#H").val());
+            project.setH($("input#H").val());
             $("input#m").focus().select();
         }
     });
     $("input#m").keypress(function(e){
         if(e.which === 13){
             dataobj['m'] = parseFloat($("input#m").val());            
-            huynja.setM($("input#m").val());
+            project.setM($("input#m").val());
             $("input#step").focus().select();
-//            huynja.calculate(dataobj);
+//            project.calculate(dataobj);
         }
     });
     
@@ -93,7 +93,7 @@ $(document).ready(function(){
         if(e.which === 13){
             
             dataobj['step'] = parseFloat($("input#step").val());
-            huynja.calculate(dataobj);
+            project.calculate(dataobj);
         }
     });
     
@@ -104,7 +104,7 @@ $(document).ready(function(){
         dataobj['H'] = parseFloat($("input#H").val());
         dataobj['m'] = parseFloat($("input#m").val());
         obj['step'] = parseFloat($("input#step").val());
-        huynja.calculate(obj);
+        project.calculate(obj);
     });
     
     
