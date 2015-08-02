@@ -77,7 +77,12 @@ $(document).ready(function(){
             
             var bc = parseFloat($("input#W").val())*100 - parseFloat($(this).val());
             $("input#bc").val(bc);
-            $("input#cf").focus().select();
+//            alert($("input#skate").attr('checked'));
+            if($("input#skate").attr('checked')==='checked'){
+                $("input#cg").focus().select();
+            }else{
+                $("input#cf").focus().select();
+            }
         }
     });
     
