@@ -14,18 +14,25 @@ $(document).ready(function(){
          });
     });
     
-    var skate = true;
+    var skate = false;
+    if($("#rd2").attr('checked')){
+        skate = true;
+    }
+    alert(skate);
     
-    $("input#skate").change(function(){
-        if($(this).attr('checked')){
-            $("input#cf").attr('disabled',true).val('');
+    $(":radio").change(function(){
+       $(":radio").attr('checked',false);
+       $(this).attr('checked',true);
+       var val = $(this).val();
+       if(val === '1'){
+           $("input#cf").attr('disabled',false).focus();
             skate = false;
-        }else{
-            $("input#cf").attr('disabled',false).focus();
+       }else{
+           $("input#cf").attr('disabled',true).val('');
             skate = true;
-        }
+       }
     });
-    
+
     $("canvas#a").css('outline','1px solid #ccc');
     
     $("a").live('click',function(){
@@ -77,8 +84,7 @@ $(document).ready(function(){
             
             var bc = parseFloat($("input#W").val())*100 - parseFloat($(this).val());
             $("input#bc").val(bc);
-//            alert($("input#skate").attr('checked'));
-            if($("input#skate").attr('checked')==='checked'){
+            if(skate){
                 $("input#cg").focus().select();
             }else{
                 $("input#cf").focus().select();
@@ -142,7 +148,7 @@ $(document).ready(function(){
             }
         });
         project.setData(whot);
-        if($("input#skate").attr('checked')==='checked'){
+        if(skate){
             project.geometry2(height);  
         }else{
            project.geometry();
@@ -175,29 +181,39 @@ $(document).ready(function(){
         });
         
         dataobj['typeString'] = $("select#type option:selected").text();
-        
-        if(!flag){
-            if($("input#skate").attr('checked')===false){
-                alert("Не все заповнено - перевірте");
-                return false;
-            }
-            
-            return dataobj;    
-        }else{
+//        @todo
+//        if(!flag){
+////            if(!skate){
+////                alert("Не все заповнено - перевірте");
+////                return false;
+////            }
+//            
+//            return dataobj;    
+//        }else{}
             
             return dataobj;
-        }
+        
    
     }
     
     function view(){
         
-        if($("input#skate").attr('checked')==='checked'){
+        $("canvas#c").css({'outline':'1px solid #ccc'});
+        $("canvas#b").css({'outline':'1px solid #ccc'});
+        $("div#front").css({'display':'block'});
+        $("div#side").css({'display':'block'});
+        $("div#re").css({'display':'block'});
+        $("table#resumeTab tbody").empty();
+        
+        if(skate){
+            
            project.drowTwoside();  
         }else{
            project.drowFront();
         }
         var obj = project.getSizes();
+//        @todo
+        if(skate)return false;
         var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі по осях стін','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Відстань від стіни до краю даха з фасаду','val':obj['distance'][0]},{'comment':'Відстань від стіни до краю даха з заду','val':obj['distance'][1]},{'comment':'Відстань від стіни до краю даха з боків','val':obj['distance'][2]},{'comment':'Крок стропил','val':Math.ceil(obj['step']*100)/100});
         
         var angle = Math.min.apply(null, obj['angles']);
@@ -237,12 +253,7 @@ $(document).ready(function(){
             $("table tbody tr td#res").append("<p><strong>Запас міцності дещо завеликий - можна спробувати зменшити перетин стропила</strong></p>");
         }
         
-        $("canvas#c").css({'outline':'1px solid #ccc'});
-        $("canvas#b").css({'outline':'1px solid #ccc'});
-        $("div#front").css({'display':'block'});
-        $("div#side").css({'display':'block'});
-        $("div#re").css({'display':'block'});
-        $("table#resumeTab tbody").empty();
+        
         
         $.each(data,function(){
             if(this['val']!== undefined){

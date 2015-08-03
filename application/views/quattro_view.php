@@ -15,10 +15,12 @@
                          <option value="15">Шифер</option>
                          <option value="40">Керамическая черепица</option>
                          <option value="50">Цементно-песчаная черепица</option>                         
-                     </select>
-                     &nbsp;&nbsp;
-                     <input type="checkbox" id="skate" title="Кількисть скатів даху"/>&nbsp;Чотире, або Двохскатий
-                     <br/><br/>
+                     </select><br/><br/>
+                     <form>
+                         <input type="radio" id="rd1" value="1"/>&nbsp;&nbsp;Чотире
+                         <input type="radio" id="rd2" value="2"/>&nbsp;&nbsp;Двохскатий
+                     </form>
+                     <br/>
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
                          <option value="5">50</option>
