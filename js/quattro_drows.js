@@ -637,20 +637,122 @@ Drows = function (){
         cont.fillRect (xn,yn,2,2);
         cont.fillText('g1',xn,yn-3);
         cont.lineTo(xn,yn);
-        
+        xn = x0+K*this.sizes['A']['z'];
+        yn = y0 - K*this.sizes['g']['y'];
+        cont.moveTo(xn,yn);
+        yn = y0-K*this.sizes['A']['y'];
+        cont.lineTo(xn,yn);
+        xn = x0+K*this.sizes['A1']['z'];
+        cont.moveTo(xn,yn);
+        yn = y0 - K*this.sizes['g']['y'];
+        cont.lineTo(xn,yn);
+        yn = y0-K*this.sizes['A']['y'];
+        cont.moveTo(xn,yn);
+        xn = x0 + K*this.sizes['a1']['z'];
+        yn = y0 - K*this.sizes['a1']['y'];
+        cont.lineTo(xn,yn);
+        xn = x0+K*this.sizes['a']['z'];
+        yn = y0 - K*this.sizes['a']['y'];
+        cont.moveTo(xn,yn);
+        xn = x0+K*this.sizes['A']['z'];
+        yn = y0-K*this.sizes['A1']['y'];
+        cont.lineTo(xn,yn);
         cont.stroke ();
         
 //        a woll
         cont.beginPath ();
         xn = x0+K*(this.sizes['a']['z']);
-        yn = y0-K*(this.sizes['a']['y']);
-        cont.arc(xn, yn+radius, radius, 0, Math.PI*2, true);
-        cont.stroke ();
+        yn = y0-K*(this.sizes['a']['y'])+radius;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           cont.arc(xn, yn+(1.8*radius*i), radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
+        
+//        cont.strokeRect(xn-radius,yn+radius,2*radius,150);
+        
         cont.beginPath ();
         xn = x0+K*(this.sizes['a1']['z']);
-        cont.arc(xn, yn+radius, radius, 0, Math.PI*2, true);
+        var y = 0;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           y = yn+(1.8*radius*i);
+           cont.arc(xn, y, radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
+        
+//        null level
+
+        cont.beginPath();
+        cont.moveTo(xn,y+radius);
+        xn = x0+K*(this.sizes['a']['z']);
+        cont.lineTo(xn,y+radius);
+        
+//        крньковий брус
+        xn = x0+K*this.sizes['g1']['z'];
+        yn = y0 - K*this.sizes['g1']['y'];
+        var br = K*(this.sizes['a']['z']-this.sizes['a1']['z']);
+        alert(xn+"\n"+yn);
+        cont.strokeRect(xn,yn,br,hraft);
         
         cont.stroke ();
+        
+//        прорисовка стропильных ног
+
+        var kraft = br;
+        var Vraft = hraft;
+        Vraft = Math.pow(Math.pow(Vraft,2),.5);
+        var Hraft = hraft;
+        Hraft = Math.pow(Math.pow(Hraft,2),.5);
+
+//        xn = x0-K*(this.sizes['g']['z']);
+        yn = y0-K*(this.sizes['g']['y']);
+        
+        var ws = K*this.sizes['W'];
+        
+        var hs = K*(this.sizes['g']['y']-this.sizes['A']['y']);
+       
+        var N = Math.ceil(br/this.building['step']);
+        
+        var delta = kraft/N;
+        
+        var rigel = new Array();
+        
+        if(N === 0){
+            delta = 0;
+        }
+        if(Math.floor(delta*10)/10>0){
+            
+            this.sizes['step'] = Math.floor(delta*10)/(10*K);
+            
+        }else{
+            this.sizes['step'] = this.building['step'];
+        }
+        var str = 'PI\n'+N+'\n'+br+'\n'+delta+'\n';
+        
+        for(var i = 0;i<(N+1);i++){
+            var x = xn+(i*delta);;
+            
+            if(i>0 && i<(N)){
+                x -= .5*ws;
+            }else if(i>=(N)){
+                x -= ws;
+            }
+            str += 'x '+x+' y '+yn+"\n";
+            cont.strokeRect(x,yn,ws,hs);
+            
+//            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['F']['y'])/3)/(this.sizes['g']['y']-this.sizes['F']['y']);
+//            rigel.push(ri);
+            
+            
+            
+            
+            
+            this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleB']))/K,2),.5));
+            this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleD']))/K,2),.5));
+
+        }
+//        alert(str);
     };
     
     this.drowFront = function(){

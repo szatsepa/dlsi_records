@@ -18,7 +18,6 @@ $(document).ready(function(){
     if($("#rd2").attr('checked')){
         skate = true;
     }
-    alert(skate);
     
     $(":radio").change(function(){
        $(":radio").attr('checked',false);
