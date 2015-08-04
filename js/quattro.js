@@ -172,29 +172,33 @@ $(document).ready(function(){
             }
             
             dataobj[$(this).parent().attr('id')] = parseFloat($(this).val());
+            if(dataobj['type'] === 0){
+               dataobj['type'] === 15;
+            }
         });
         
         $.each($("input"),function(){
-            if($(this).val() === undefined || $(this).val() === ''){
+            
+            var cf = ($(this).attr('disabled')==='undefined');
+             
+            if($(this).val() === undefined || $(this).val() === '' && cf){
                 flag =  false;
             }
             dataobj[$(this).attr('id')] = parseFloat($(this).val());
         });
         
         dataobj['typeString'] = $("select#type option:selected").text();
-//        @todo
-//        if(!flag){
-////            if(!skate){
-////                alert("Не все заповнено - перевірте");
-////                return false;
-////            }
-//            
-//            return dataobj;    
-//        }else{}
-            
-            return dataobj;
         
-   
+        if(dataobj['typeString']==='Виберіть тип кровельного матеріалу'){
+            dataobj['typeString'] = 'Шифер';
+        }
+        
+        if(!flag){
+                alert("Не  все заповнено - перевірте!");
+                return false;      
+        }
+        
+        return dataobj;
     }
     
     function view(){
@@ -213,14 +217,11 @@ $(document).ready(function(){
            project.drowFront();
         }
         var obj = project.getSizes();
-//        @todo
-//        if(skate)return false;
+        
         var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі по осях стін','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Відстань від стіни до краю даха з фасаду','val':obj['distance'][0]},{'comment':'Відстань від стіни до краю даха з заду','val':obj['distance'][1]},{'comment':'Відстань від стіни до краю даха з боків','val':obj['distance'][2]},{'comment':'Крок стропил','val':Math.ceil(obj['step']*100)/100});
         
         var angle = Math.min.apply(null, obj['angles']);
         var dl = Math.ceil(100*obj['H']/Math.sin(Math.PI*angle/180))/100;
-//        
-//        alert(dl);
         
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
@@ -266,8 +267,6 @@ $(document).ready(function(){
         $("table#resumeTab tbody").append("<tr><td>Перетин брусу стропильної ноги</td><td align='center'>"+obj['W']+" X "+obj['H']+" см.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td>Розраховане навантаження</td><td align='center'>"+(Math.ceil(obj['QR']*100)/100)+" кг на м.п.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td align='center'>Довжина в см.</td><td align='center'>Кількість шт.</td></tr>");
-        
-//         var string = '';
          
         project.length.sort(compare);
         
@@ -276,10 +275,6 @@ $(document).ready(function(){
         oobj.sort(compare);
         
         oobj = countRafts(oobj,project.length);
-        var str = '';
-//        for(var i in oobj){
-////            str += i+" "+oobj[i]+'\n';
-//        }
         
         var long = 0,n=0;
         for(var i in oobj){
@@ -287,11 +282,12 @@ $(document).ready(function(){
             long += n;
             $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
         }
-//        alert(str);
+        
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Рігеля</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         n = Math.ceil((parseFloat(obj['rigel']['long'])+dl)*10)/10;
         long += Math.ceil(n*parseInt(obj['rigel']['count'])*10)/10;
         $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel']['count']+" шт.</td></tr>");
+        
         if(!skate){
             n = Math.ceil((parseFloat(obj['rigel2']['long'])+dl)*10)/10;
             long += Math.ceil(n*parseInt(obj['rigel2']['count'])*10)/10;

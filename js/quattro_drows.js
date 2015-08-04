@@ -177,11 +177,9 @@ Drows = function (){
     };
     
     this.geometry2 = function(height){
-        alert('Розрахунок геометрії двоскатного даху\n дещо відрізняється і його ще не зроблено! \n\t\t\t Tому звиняйте :-(');
-//        return false;
+        
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
-        var str = '';
-//        var flag = false;
+//        
 //        полбревна стены
         var log = .5*this.building['D'];
         
@@ -199,10 +197,7 @@ Drows = function (){
         this.sizes['e1'] = {x:this.sizes['e']['x'],y:0,z:(- this.building['W'])*100};
         this.sizes['g1'] = {x:0,y:this.building['cg'],z:(- this.building['W'])*100};
         
-        
-        
 //      Cc -> tmp нижний уровень кріши отн плоскости abcdef 
-//      
 
         var x,y,z = 0;
         x = this.sizes['a']['x']-(this.building['m']+log);
@@ -223,11 +218,6 @@ Drows = function (){
                 this.sizes['Ag'] = Math.pow((Math.pow((this.sizes['A']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['A']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['A']['z']-this.sizes['g']['z']),2)),.5);
         this.sizes['Eg'] = Math.pow((Math.pow((this.sizes['E']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['E']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['E']['z']-this.sizes['g']['z']),2)),.5);
         
-////        все размеры стропильных ног поместим в массив
-//
-//        this.length.push(this.sizes['Ag']);
-//        this.length.push(this.sizes['Eg']);
-        
 //      углы наклона стропильных ног по реперным точкам
 
         this.sizes['angleA'] = Math.atan((this.sizes['g']['y']-this.sizes['c']['y'])/(this.sizes['c']['x']-this.sizes['a']['x']));
@@ -240,31 +230,12 @@ Drows = function (){
             }
         }
         
-//        @todo control
-        for(var i in this.sizes){
-//            str += i+' -> ';
-            for(var j in this.sizes[i]){
-                if(j==='x' || j==='y' || j==='z'){
-                    str += i+"("+j+") = "+this.sizes[i][j]+";\t";
-                }else{
-                    continue;
-                } 
-                
-            }
-            if(i==='Ag' || i==='Eg'){
-                str += i+' -> '+ this.sizes[i];
-            }
-            str += '\n';
-        }
-        
         var raft = 'Ag';
         
         if(this.sizes['Ag'] < this.sizes['Eg']){
             raft = 'Eg';
         }
         
-//        @todo 
-
         for(var i in this.angles){
             this.angles[i] = Math.pow(Math.pow(180*this.angles[i]/Math.PI,2),.5);
         }
@@ -272,7 +243,7 @@ Drows = function (){
         this.sizes['angles'] = this.angles;
         
         this.controlPower(raft,height); 
-//        alert(str);
+        
     };
     
     this.controlPower = function(raft,height){
@@ -582,7 +553,7 @@ Drows = function (){
         var l = K*param;
         
 //        x0 смещаем позицию отн точки А соотв схеме вправо
-//alert('a a1  '+this.sizes['a']['z']+';'+this.sizes['a1']['z']);
+        
         var x0 = 900-(900 - K*(this.sizes['a']['z']-this.sizes['a1']['z']))/2;
         
         var y0 = K*this.building['cg']+40;
@@ -692,7 +663,6 @@ Drows = function (){
         xn = x0+K*this.sizes['g1']['z'];
         yn = y0 - K*this.sizes['g1']['y'];
         var br = K*(this.sizes['a']['z']-this.sizes['a1']['z']);
-//        alert(xn+"\n"+yn);
         cont.strokeRect(xn,yn,br,hraft);
         
         cont.stroke ();
@@ -704,8 +674,7 @@ Drows = function (){
         Vraft = Math.pow(Math.pow(Vraft,2),.5);
         var Hraft = hraft;
         Hraft = Math.pow(Math.pow(Hraft,2),.5);
-
-//        xn = x0-K*(this.sizes['g']['z']);
+        
         yn = y0-K*(this.sizes['g']['y']);
         
         var ws = K*this.sizes['W'];
@@ -726,7 +695,6 @@ Drows = function (){
         }else{
             this.sizes['step'] = this.building['step'];
         }
-//        var str = 'PI\n'+N+'\n'+br+'\n'+delta+'\n';
         
         for(var i = 0;i<(N+1);i++){
             var x = xn+(i*delta);;
@@ -736,30 +704,13 @@ Drows = function (){
             }else if(i>=(N)){
                 x -= ws;
             }
-//            str += 'x '+x+' y '+yn+"\n";
+            
             cont.strokeRect(x,yn,ws,hs);
-            
-//            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['A']['y'])/3)/(this.sizes['g']['y']-this.sizes['A']['y']);
-//            rigel.push(ri);
-            
-            
-            
-            
             
             this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleA']))/K,2),.5));
             this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleE']))/K,2),.5));
 
         }
-//        alert(rigel.join('\n'));
-
-//         var rig = {'long':0,'count':0};
-//        
-//        for(var i in rigel){
-//              rig['count']++; 
-//              rig['long'] = Math.ceil(rigel[i]*100)/100; 
-//            }  
-//        
-//        this.sizes['rigel'] = rig;
         
         this.drowTwoS(hraft,N);
         
@@ -774,8 +725,6 @@ Drows = function (){
         cont.lineWidth = .5;
         cont.strokeStile = 'black';
         objb.width = objb.width;
-        
-//        var radius = K*this.building['D']/2;
         
         var K = 1;
         
@@ -793,12 +742,10 @@ Drows = function (){
 //        x0 смещаем позицию отн точки А соотв схеме вправо 
 
         var x0 = 450+Math.abs(K*(Math.abs(this.sizes['E']['x'])-Math.abs(this.sizes['A']['x'])))/2;
-        
-//        alert((this.sizes['E']['x']-this.sizes['A']['x'])+"\n AE = "+(K*(Math.abs(this.sizes['E']['x'])-Math.abs(this.sizes['A']['x']))));
-        
+                
         var y0 = K*this.building['cg']+40;
 
-        //        диаметр бревна
+//        диаметр бревна
 
         var w = K*this.building['D'];
         
@@ -812,7 +759,7 @@ Drows = function (){
 
         cont.beginPath();      
         xn = x0+K*(this.sizes['a']['x']);
-        yn = y0-K*(this.sizes['a']['y'])
+        yn = y0-K*(this.sizes['a']['y']);
         cont.moveTo(xn, yn);
         xn += K*(this.sizes['e']['x']-this.sizes['a']['x']);
         cont.fillText ('e',xn,yn-2);
@@ -855,7 +802,7 @@ Drows = function (){
 
         var xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-hraft/Math.cos(this.sizes['angleA']);
         var yr = y0-K*this.sizes['g']['y'] + K*(this.sizes['g']['y']-this.sizes['A']['y']+hraft/Math.sin(this.sizes['angleA']))/3;
-//        cont.fillRect(xr,yr,3,3);
+        
         cont.moveTo(xr,yr);
         xr = x0 + ws + Math.abs(K*(this.sizes['E']['x'])/3)+hraft/Math.cos(this.sizes['angleE']);
 //        
@@ -866,7 +813,7 @@ Drows = function (){
         var ri = (xr - (x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA'])))/K;
         xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA']);
         cont.lineTo(xr,yr);
-//        alert('RIGEL '+rigel);
+        
         cont.stroke();
         
         for(var i = 0;i<(N+1);i++){
@@ -973,8 +920,6 @@ Drows = function (){
         square.push({'comment':'Загальна','val':tmp});
         this.sizes['square'] = square;
         
-//        alert(this.sizes['square'][0]['comment']+"\n"+this.sizes['square'][0]['val']);
-        
     };
     
     this.drowFront = function(){
@@ -985,8 +930,6 @@ Drows = function (){
         objb.width = objb.width;
         cont.lineWidth = .5;
         cont.strokeStyle = 'black';
-        
-//        var str = '';
         
         var K = 1;
         
@@ -1035,8 +978,7 @@ Drows = function (){
         cont.stroke();
         var a1 = {'x':xn,'y':yn};
 //        уровень свеса крыши point 'A'
-        
-//        xn = x0-K*(this.sizes['A']['z']);
+
         var side2 = radius+K*this.sizes['distance'][2];
         xn = a['x']- side2;
         yn = y0-K*(this.sizes['A']['y']);
@@ -1183,7 +1125,7 @@ Drows = function (){
         
         ri = ((this.sizes['E']['x']-this.sizes['A']['x'])/3);
         this.sizes['rigel2'] = {'count':2,'long':Math.ceil(ri*100)/100};
-//            alert(ri);
+        
 //        стропильные ноги на участках cf & c1f1
 
         if(this.building['cf'] > 0){
@@ -1225,7 +1167,7 @@ Drows = function (){
             }  
         
         this.sizes['rigel'] = rig;
-//alert(rigel.join('\n'));        
+        
 //        нулевой уровень
 
         cont.beginPath();
@@ -1237,7 +1179,7 @@ Drows = function (){
         cont.stroke();
         cont.closePath();
         
-        //        оси стен a & a1
+//        оси стен a & a1
         cont.beginPath();
         cont.strokeStyle = 'green';
         
@@ -1268,9 +1210,7 @@ Drows = function (){
         cont.lineWidth = .5;
         cont.strokeStile = 'black';
         objb.width = objb.width;
-        
-//        var radius = K*this.building['D']/2;
-        
+                
         var K = 1;
         
         var xn = 0;
@@ -1278,7 +1218,6 @@ Drows = function (){
         
         var param = (K*(this.sizes['E']['x']-this.sizes['A']['x']));
         
-//        TODO view K
         if(param > 820){
             K = 800/param;
         }
@@ -1427,7 +1366,6 @@ Drows = function (){
         cont.lineTo(xn,yn);
         cont.stroke();
         cont.closePath();
-//        cont.strokeRect(xn,yn,this.sizes['rigel2']['long']*K,Hraft*.5);
         
 //        стропильные ноги на участках Bc & cD
 //    points A & F 
@@ -1509,11 +1447,10 @@ Drows = function (){
     };
     
     this.Square = function(){
-        var h = 0,b = 0,square = [],str = '',summ = 0, tmp = 0;
+        var h = 0,b = 0,square = [],summ = 0, tmp = 0;
 //        front
         h = this.sizes['Bg']/100;
         b = (this.sizes['A']['z']-this.sizes['B']['z'])/100;
-//        tmp['comment'] = 'Перед';
         tmp=Math.ceil(h*b*100)/100;
         summ = Math.ceil(h*b*100)/100;
         b = this.building['L'];
@@ -1523,7 +1460,6 @@ Drows = function (){
 //        rear
         h = this.sizes['Dg']/100;
         b = (this.sizes['E']['z']-this.sizes['D']['z'])/100;
-//        tmp['comment'] = '';
         tmp = Math.ceil(h*b*100)/100;
         summ+=Math.ceil(h*b*100)/100;
         b = this.building['L'];
@@ -1533,12 +1469,10 @@ Drows = function (){
 //        side
         h = this.sizes['Fg']/100;
         b = (this.sizes['E']['x']-this.sizes['A']['x'])/100;
-//        tmp['comment'] = '';
         tmp = Math.ceil(h*b*100)/100;
         summ+=Math.ceil(h*b*100)/100;
         square.push({'comment':'Бік','val':tmp});
         
-//        tmp['comment'] = '';
         tmp = Math.ceil(summ*100)/100;
         square.push({'comment':'Загальна','val':tmp});
         this.sizes['square'] = square;
