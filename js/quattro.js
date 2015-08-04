@@ -283,20 +283,21 @@ $(document).ready(function(){
         
         var long = 0,n=0;
         for(var i in oobj){
-//            n = Math.ceil(parseFloat(i)*((parseFloat(i)+dl))*100)/100;
-           str += i+" "+oobj[i]+'\n';
             n = Math.ceil((parseFloat(i)+dl)*100)/100;
             long += n;
             $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
         }
-        alert(str);
+//        alert(str);
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Рігеля</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         n = Math.ceil((parseFloat(obj['rigel']['long'])+dl)*10)/10;
         long += Math.ceil(n*parseInt(obj['rigel']['count'])*10)/10;
         $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel']['count']+" шт.</td></tr>");
-        n = Math.ceil((parseFloat(obj['rigel2']['long'])+dl)*10)/10;
-        long += Math.ceil(n*parseInt(obj['rigel2']['count'])*10)/10;
-        $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel2']['count']+" шт.</td></tr>");
+        if(!skate){
+            n = Math.ceil((parseFloat(obj['rigel2']['long'])+dl)*10)/10;
+            long += Math.ceil(n*parseInt(obj['rigel2']['count'])*10)/10;
+            $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+obj['rigel2']['count']+" шт.</td></tr>");
+        }
+        
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Kоньковий брус</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         $("table#resumeTab tbody").append("<tr><td align='center'>"+obj['L']+" см.</td><td align='center'>1 шт.</td></tr>");
         long += parseFloat(obj['L']);

@@ -181,9 +181,11 @@ Drows = function (){
 //        return false;
 //        вычисляем координаты реперных точек в трех координатной системе принимая за начало отсчета точку с 1 пкс = 1 см каждая точка объект с тремя свойствами при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
         var str = '';
-        var flag = false;
+//        var flag = false;
 //        полбревна стены
         var log = .5*this.building['D'];
+        
+        this.sizes['L'] = this.building['W']*100+2*this.building['m'];
         
         this.sizes['distance'] = new Array();
 //        вылет в задании
@@ -221,10 +223,10 @@ Drows = function (){
                 this.sizes['Ag'] = Math.pow((Math.pow((this.sizes['A']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['A']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['A']['z']-this.sizes['g']['z']),2)),.5);
         this.sizes['Eg'] = Math.pow((Math.pow((this.sizes['E']['x']-this.sizes['g']['x']),2)+Math.pow((this.sizes['E']['y']-this.sizes['g']['y']),2)+Math.pow((this.sizes['E']['z']-this.sizes['g']['z']),2)),.5);
         
-//        все размеры стропильных ног поместим в массив
-
-        this.length.push(this.sizes['Ag']);
-        this.length.push(this.sizes['Eg']);
+////        все размеры стропильных ног поместим в массив
+//
+//        this.length.push(this.sizes['Ag']);
+//        this.length.push(this.sizes['Eg']);
         
 //      углы наклона стропильных ног по реперным точкам
 
@@ -714,8 +716,6 @@ Drows = function (){
         
         var delta = kraft/N;
         
-        var rigel = new Array();
-        
         if(N === 0){
             delta = 0;
         }
@@ -739,8 +739,8 @@ Drows = function (){
 //            str += 'x '+x+' y '+yn+"\n";
             cont.strokeRect(x,yn,ws,hs);
             
-            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['A']['y'])/3)/(this.sizes['g']['y']-this.sizes['A']['y']);
-            rigel.push(ri);
+//            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['A']['y'])/3)/(this.sizes['g']['y']-this.sizes['A']['y']);
+//            rigel.push(ri);
             
             
             
@@ -752,20 +752,20 @@ Drows = function (){
         }
 //        alert(rigel.join('\n'));
 
-         var rig = {'long':0,'count':0};
+//         var rig = {'long':0,'count':0};
+//        
+//        for(var i in rigel){
+//              rig['count']++; 
+//              rig['long'] = Math.ceil(rigel[i]*100)/100; 
+//            }  
+//        
+//        this.sizes['rigel'] = rig;
         
-        for(var i in rigel){
-              rig['count']++; 
-              rig['long'] = Math.ceil(rigel[i]*100)/100; 
-            }  
-        
-        this.sizes['rigel'] = rig;
-        
-        this.drowTwoS(hraft);
+        this.drowTwoS(hraft,N);
         
     };
     
-    this.drowTwoS = function(hraft){
+    this.drowTwoS = function(hraft,N){
         // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
         var hraft = hraft;
         var objb = new Object();
@@ -851,12 +851,36 @@ Drows = function (){
         cont.stroke();
         
 //        rigel
+        var rigel = new Array();
 
         var xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-hraft/Math.cos(this.sizes['angleA']);
         var yr = y0-K*this.sizes['g']['y'] + K*(this.sizes['g']['y']-this.sizes['A']['y']+hraft/Math.sin(this.sizes['angleA']))/3;
-        cont.fillRect(xr,yr,3,3);
-        xr = x0 + ws + Math.abs(K*(this.sizes['E']['x'])/3)+hraft/Math.cos(this.sizes['angleA']);
-        cont.fillRect(xr,yr,3,3);
+//        cont.fillRect(xr,yr,3,3);
+        cont.moveTo(xr,yr);
+        xr = x0 + ws + Math.abs(K*(this.sizes['E']['x'])/3)+hraft/Math.cos(this.sizes['angleE']);
+//        
+        cont.lineTo(xr,yr);
+        yr += hraft;
+        xr += hraft/Math.cos(this.sizes['angleE']);
+        cont.moveTo(xr,yr);
+        var ri = (xr - (x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA'])))/K;
+        xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA']);
+        cont.lineTo(xr,yr);
+//        alert('RIGEL '+rigel);
+        cont.stroke();
+        
+        for(var i = 0;i<(N+1);i++){
+            rigel.push(ri);
+        }
+        
+        var rig = {'long':0,'count':0};
+        
+        for(var i in rigel){
+              rig['count']++; 
+              rig['long'] = Math.ceil(rigel[i]*100)/100; 
+            }  
+        
+        this.sizes['rigel'] = rig;
 //        point g
 
         xn = x0;
@@ -920,6 +944,36 @@ Drows = function (){
         cont.lineTo(xn,yn);
         cont.closePath();
         cont.stroke();
+        
+//        squares
+        var h = 0,b = 0,square = [],str = '',summ = 0, tmp = 0;
+        
+//        front
+        h = this.sizes['Ag']/100;
+        b = Math.abs(this.sizes['A1']['z']-this.sizes['A']['z'])/100;
+        tmp = Math.ceil(b*h*100)/100;
+        summ += tmp;
+        square.push({'comment':'Перед','val':tmp});
+        
+//        rear
+        h = this.sizes['Eg']/100;
+        b = Math.abs(this.sizes['A1']['z']-this.sizes['A']['z'])/100;
+        tmp = Math.ceil(b*h*100)/100;
+        summ += tmp;
+        
+        square.push({'comment':'Тил','val':tmp});
+//        sides
+        h = Math.abs(this.sizes['g']['y']-this.sizes['A']['y'])/100;
+        b = Math.abs(this.sizes['E']['x']-this.sizes['A']['x'])/100;
+        tmp = Math.ceil(b*h*100)/100;
+        summ += tmp;
+        square.push({'comment':'Два боки','val':tmp});
+        
+        tmp = Math.ceil(summ*100)/100;
+        square.push({'comment':'Загальна','val':tmp});
+        this.sizes['square'] = square;
+        
+//        alert(this.sizes['square'][0]['comment']+"\n"+this.sizes['square'][0]['val']);
         
     };
     
