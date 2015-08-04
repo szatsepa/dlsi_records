@@ -214,7 +214,7 @@ $(document).ready(function(){
         }
         var obj = project.getSizes();
 //        @todo
-        if(skate)return false;
+//        if(skate)return false;
         var data = new Array({'comment':'Покрівельний матеріал','val':obj['type']},{'comment':'Габаритні розміри будівлі по осях стін','val':obj['size']},{'comment':'Діметер стінової колоди','val':obj['log']},{'comment':'Відстань від фасаду до осі даха','val':obj['bc']},{'comment':'Відстань від осі даха до задньої стіни','val':obj['cd']},{'comment':'Відстань до осі бокових скатів','val':obj['cf']},{'comment':'Вишина від рівня горища до стріхи','val':obj['cg']},{'comment':'Відстань від стіни до краю даха з фасаду','val':obj['distance'][0]},{'comment':'Відстань від стіни до краю даха з заду','val':obj['distance'][1]},{'comment':'Відстань від стіни до краю даха з боків','val':obj['distance'][2]},{'comment':'Крок стропил','val':Math.ceil(obj['step']*100)/100});
         
         var angle = Math.min.apply(null, obj['angles']);
@@ -277,17 +277,19 @@ $(document).ready(function(){
         
         oobj = countRafts(oobj,project.length);
         var str = '';
-        for(var i in oobj){
-            str += i+" "+oobj[i]+'\n';
-        }
-//        alert(str);
+//        for(var i in oobj){
+////            str += i+" "+oobj[i]+'\n';
+//        }
+        
         var long = 0,n=0;
         for(var i in oobj){
-            n = Math.ceil(parseFloat(oobj[i])*((parseFloat(i)+dl))*100)/100;
-            long += n;
+//            n = Math.ceil(parseFloat(i)*((parseFloat(i)+dl))*100)/100;
+           str += i+" "+oobj[i]+'\n';
             n = Math.ceil((parseFloat(i)+dl)*100)/100;
+            long += n;
             $("table#resumeTab tbody").append("<tr><td align='center'>"+n+" см.</td><td align='center'>"+oobj[i]+" шт.</td></tr>");
         }
+        alert(str);
         $("table#resumeTab tbody").append("<tr><td colspan='2' align='center'>Рігеля</td></tr><tr><td align='center'>Довжина в см.</td><td align='center' align='center'>Кількість шт.</td></tr>");
         n = Math.ceil((parseFloat(obj['rigel']['long'])+dl)*10)/10;
         long += Math.ceil(n*parseInt(obj['rigel']['count'])*10)/10;

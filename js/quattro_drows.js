@@ -270,7 +270,7 @@ Drows = function (){
         this.sizes['angles'] = this.angles;
         
         this.controlPower(raft,height); 
-        alert(str);
+//        alert(str);
     };
     
     this.controlPower = function(raft,height){
@@ -668,9 +668,7 @@ Drows = function (){
            cont.arc(xn, yn+(1.8*radius*i), radius, 0, Math.PI*2, true); 
            cont.stroke ();
         }
-        
-//        cont.strokeRect(xn-radius,yn+radius,2*radius,150);
-        
+                
         cont.beginPath ();
         xn = x0+K*(this.sizes['a1']['z']);
         var y = 0;
@@ -692,7 +690,7 @@ Drows = function (){
         xn = x0+K*this.sizes['g1']['z'];
         yn = y0 - K*this.sizes['g1']['y'];
         var br = K*(this.sizes['a']['z']-this.sizes['a1']['z']);
-        alert(xn+"\n"+yn);
+//        alert(xn+"\n"+yn);
         cont.strokeRect(xn,yn,br,hraft);
         
         cont.stroke ();
@@ -728,7 +726,7 @@ Drows = function (){
         }else{
             this.sizes['step'] = this.building['step'];
         }
-        var str = 'PI\n'+N+'\n'+br+'\n'+delta+'\n';
+//        var str = 'PI\n'+N+'\n'+br+'\n'+delta+'\n';
         
         for(var i = 0;i<(N+1);i++){
             var x = xn+(i*delta);;
@@ -738,21 +736,191 @@ Drows = function (){
             }else if(i>=(N)){
                 x -= ws;
             }
-            str += 'x '+x+' y '+yn+"\n";
+//            str += 'x '+x+' y '+yn+"\n";
             cont.strokeRect(x,yn,ws,hs);
             
-//            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['F']['y'])/3)/(this.sizes['g']['y']-this.sizes['F']['y']);
-//            rigel.push(ri);
+            var ri = ((this.sizes['E']['x']-this.sizes['A']['x'])*(this.sizes['g']['y']-this.sizes['A']['y'])/3)/(this.sizes['g']['y']-this.sizes['A']['y']);
+            rigel.push(ri);
             
             
             
             
             
-            this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleB']))/K,2),.5));
-            this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleD']))/K,2),.5));
+            this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleA']))/K,2),.5));
+            this.length.push(Math.pow(Math.pow((hs/Math.sin(this.sizes['angleE']))/K,2),.5));
 
         }
-//        alert(str);
+//        alert(rigel.join('\n'));
+
+         var rig = {'long':0,'count':0};
+        
+        for(var i in rigel){
+              rig['count']++; 
+              rig['long'] = Math.ceil(rigel[i]*100)/100; 
+            }  
+        
+        this.sizes['rigel'] = rig;
+        
+        this.drowTwoS(hraft);
+        
+    };
+    
+    this.drowTwoS = function(hraft){
+        // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
+        var hraft = hraft;
+        var objb = new Object();
+        objb = document.getElementById("c");
+        var cont = objb.getContext("2d");
+        cont.lineWidth = .5;
+        cont.strokeStile = 'black';
+        objb.width = objb.width;
+        
+//        var radius = K*this.building['D']/2;
+        
+        var K = 1;
+        
+        var xn = 0;
+        var yn = 0;
+        
+        var param = Math.abs((K*(this.sizes['E']['x']-this.sizes['A']['x'])));
+        
+        if(param > 450){
+            K = 2*420/param;
+        }
+        
+        var h = K*(100*this.building['Hh']-this.building['cg']-(this.sizes['A']['y']-this.sizes['a']['y']));
+        
+//        x0 смещаем позицию отн точки А соотв схеме вправо 
+
+        var x0 = 450+Math.abs(K*(Math.abs(this.sizes['E']['x'])-Math.abs(this.sizes['A']['x'])))/2;
+        
+//        alert((this.sizes['E']['x']-this.sizes['A']['x'])+"\n AE = "+(K*(Math.abs(this.sizes['E']['x'])-Math.abs(this.sizes['A']['x']))));
+        
+        var y0 = K*this.building['cg']+40;
+
+        //        диаметр бревна
+
+        var w = K*this.building['D'];
+        
+        var radius = w/2;
+        
+        var xn = 0,yn = 0;
+        
+        var ws = K*this.sizes['W'];
+        
+//        уровень чердака
+
+        cont.beginPath();      
+        xn = x0+K*(this.sizes['a']['x']);
+        yn = y0-K*(this.sizes['a']['y'])
+        cont.moveTo(xn, yn);
+        xn += K*(this.sizes['e']['x']-this.sizes['a']['x']);
+        cont.fillText ('e',xn,yn-2);
+        cont.lineTo(xn,yn);
+        cont.stroke();
+        
+//        коньковый брус 
+        xn = x0-.5*ws;
+        yn = y0-K*this.sizes['g']['y']-hraft;
+        cont.strokeRect(xn,yn,ws,hraft);
+        
+//        Ag
+
+        cont.moveTo(xn,yn);
+        xn = x0 + K*this.sizes['A']['x'];
+        yn = y0 - K*this.sizes['A']['y'];
+        cont.lineTo(xn,yn);
+        xn += hraft/Math.cos(this.sizes['angleA']);
+        cont.lineTo(xn,yn);
+        xn = x0-.5*ws;
+        yn = y0-K*this.sizes['g']['y'];
+        cont.lineTo(xn,yn);
+        
+//        Eg
+        xn = x0+.5*ws;
+        yn = y0-K*this.sizes['g']['y']-hraft;
+        cont.moveTo(xn,yn);
+        xn = x0 + K*this.sizes['E']['x'];
+        yn = y0 - K*this.sizes['E']['y'];
+        cont.lineTo(xn,yn);
+        xn -= hraft/Math.cos(this.sizes['angleE']);
+        cont.lineTo(xn,yn);
+        xn = x0+.5*ws;
+        yn = y0-K*this.sizes['g']['y'];
+        cont.lineTo(xn,yn);        
+        cont.stroke();
+        
+//        rigel
+
+        var xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-hraft/Math.cos(this.sizes['angleA']);
+        var yr = y0-K*this.sizes['g']['y'] + K*(this.sizes['g']['y']-this.sizes['A']['y']+hraft/Math.sin(this.sizes['angleA']))/3;
+        cont.fillRect(xr,yr,3,3);
+        xr = x0 + ws + Math.abs(K*(this.sizes['E']['x'])/3)+hraft/Math.cos(this.sizes['angleA']);
+        cont.fillRect(xr,yr,3,3);
+//        point g
+
+        xn = x0;
+        yn = y0 - K*this.sizes['g']['y']-hraft;
+        cont.fillText ('a',xn,yn-2);;
+        cont.fillText ('g',xn,yn-2);
+        cont.fillRect(xn,yn,2,2);
+        
+//        свеса кровли
+
+        cont.beginPath();      
+        xn = x0+K*(this.sizes['A']['x']);
+        yn = y0-K*(this.sizes['A']['y']);
+        cont.fillText ('A',xn,yn-2);
+        cont.moveTo(xn, yn);
+        xn += K*(this.sizes['E']['x']-this.sizes['A']['x']);
+        cont.fillText ('E',xn,yn-2);
+        cont.lineTo(xn,yn);
+        cont.stroke();
+        
+//        a woll
+        cont.beginPath ();
+        xn = x0+K*(this.sizes['a']['x']);
+        yn = y0-K*(this.sizes['a']['y'])+radius;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           cont.arc(xn, yn+(1.8*radius*i), radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
+                
+        cont.beginPath ();
+        xn = x0+K*(this.sizes['e']['x']);
+        var y = 0;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           y = yn+(1.8*radius*i);
+           cont.arc(xn, y, radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
+        
+//        null level
+        cont.beginPath();
+        cont.moveTo(xn,y+radius);
+        xn = x0+K*(this.sizes['a']['x']);
+        cont.lineTo(xn,y+radius);
+        cont.stroke();
+//        оси стен a & a1
+        cont.beginPath();
+        cont.strokeStyle = 'green';
+        
+        xn = x0+K*(this.sizes['a']['x']);
+        yn = y0-K*(this.sizes['a']['y'])-20;
+        cont.moveTo(xn, yn);
+        yn += h;
+        cont.lineTo(xn,yn);
+        
+        xn = x0 + K*(this.sizes['e']['x']);
+        yn = y0-K*(this.sizes['e']['y'])-20;
+        cont.moveTo(xn, yn);
+        yn += h;
+        cont.lineTo(xn,yn);
+        cont.closePath();
+        cont.stroke();
+        
     };
     
     this.drowFront = function(){
