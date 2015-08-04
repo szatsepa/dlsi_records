@@ -6,7 +6,12 @@
          <tbody>
              <tr>
                  <td>
-                     <select id="type">
+                     <form>
+                         <input type="radio" id="rd1" value="1"/>&nbsp;&nbsp;Чотире
+                         <input type="radio" id="rd2" value="2"/>&nbsp;&nbsp;Двохскатий
+                     </form>
+                     <br/>
+                     <select id="type">                         
                          <option value="0" selected>Виберіть тип кровельного матеріалу</option>
                          <option value="5">Ондулин (битумный шифер)</option>
                          <option value="5">Металлочерепица</option>
@@ -16,11 +21,7 @@
                          <option value="40">Керамическая черепица</option>
                          <option value="50">Цементно-песчаная черепица</option>                         
                      </select><br/><br/>
-                     <form>
-                         <input type="radio" id="rd1" value="1"/>&nbsp;&nbsp;Чотире
-                         <input type="radio" id="rd2" value="2"/>&nbsp;&nbsp;Двохскатий
-                     </form>
-                     <br/>
+                     
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
                          <option value="5">50</option>

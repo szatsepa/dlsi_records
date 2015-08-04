@@ -1016,25 +1016,55 @@ Drows = function (){
         cont.strokeRect(xn,yn,kraft,Vraft);
         var g = {x:xn,y:yn};
         
-//        a wholl
-        
-        xn = x0-K*(this.sizes['a']['z'])-.5*w;
+        var radius = .5*w;
+        cont.beginPath ();
+//        xn = x0+K*(this.sizes['a']['z']);
+//        yn = y0-K*(this.sizes['a']['y'])+radius;
+        xn = x0-K*(this.sizes['a']['z']);
         yn = y0-K*(this.sizes['a']['y'])+radius;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           cont.arc(xn, yn+(1.8*radius*i), radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
+                
+        cont.beginPath ();
+//        xn = x0+K*(this.sizes['a1']['z']);
+        xn += l;
+        var y = 0;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           y = yn+(1.8*radius*i);
+           cont.arc(xn, y, radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
         
-        cont.strokeRect(xn,yn,w,h-radius);
+//        null level
+
+//        cont.beginPath();
+//        cont.moveTo(xn,y+radius);
+//        xn = x0+K*(this.sizes['b']['x']);
+//        cont.lineTo(xn,y+radius);
         
-        cont.beginPath();
-        cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
-        cont.stroke();
-        
-//        a1 wholl
-        xn += (l);
-        
-        cont.strokeRect(xn,yn,w,h-radius); 
-        
-        cont.beginPath();
-        cont.arc(xn+radius, yn, radius, 0, Math.PI * 2, true);
-        cont.stroke();
+////        a wholl
+//        
+//        xn = x0-K*(this.sizes['a']['z'])-.5*w;
+//        yn = y0-K*(this.sizes['a']['y'])+radius;
+//        
+//        cont.strokeRect(xn,yn,w,h-radius);
+//        
+//        cont.beginPath();
+//        cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
+//        cont.stroke();
+//        
+////        a1 wholl
+//        xn += (l);
+//        
+//        cont.strokeRect(xn,yn,w,h-radius); 
+//        
+//        cont.beginPath();
+//        cont.arc(xn+radius, yn, radius, 0, Math.PI * 2, true);
+//        cont.stroke();
         
 //        Ag TODO
         xn = x0-K*(this.sizes['g']['z']);
@@ -1179,23 +1209,23 @@ Drows = function (){
         cont.stroke();
         cont.closePath();
         
-//        оси стен a & a1
-        cont.beginPath();
-        cont.strokeStyle = 'green';
-        
-        xn = x0-K*(this.sizes['a']['z']);
-        yn = y0-K*(this.sizes['a']['y'])-20;
-        cont.moveTo(xn, yn);
-        yn += h+20;
-        cont.lineTo(xn,yn);
-        
-        xn = x0-K*(this.sizes['a']['z'])+l;
-        yn = y0-K*(this.sizes['a']['y'])-20;
-        cont.moveTo(xn, yn);
-        yn += h+20;
-        cont.lineTo(xn,yn);
-        cont.closePath();
-        cont.stroke();
+////        оси стен a & a1
+//        cont.beginPath();
+//        cont.strokeStyle = 'green';
+//        
+//        xn = x0-K*(this.sizes['a']['z']);
+//        yn = y0-K*(this.sizes['a']['y'])-20;
+//        cont.moveTo(xn, yn);
+//        yn += h+20;
+//        cont.lineTo(xn,yn);
+//        
+//        xn = x0-K*(this.sizes['a']['z'])+l;
+//        yn = y0-K*(this.sizes['a']['y'])-20;
+//        cont.moveTo(xn, yn);
+//        yn += h+20;
+//        cont.lineTo(xn,yn);
+//        cont.closePath();
+//        cont.stroke();
         
         this.drowSide(hraft,Av,Hraft);
         
@@ -1270,28 +1300,59 @@ Drows = function (){
         cont.stroke();
         cont.fillRect(xn,yn,3,3);
         var A1 = {x:xn,y:yn};
-
-//                a wholl
-
-               
-        xn = x0+K*(this.sizes['b']['x'])-.5*w;
-        yn = y0-K*(this.sizes['b']['y'])+.5*w;
         
-        cont.strokeRect(xn,yn,w,h-.5*w);
+//        a woll
         var radius = .5*w;
-        cont.beginPath();
-        cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
-        cont.stroke();
+        cont.beginPath ();
+//        xn = x0+K*(this.sizes['a']['z']);
+//        yn = y0-K*(this.sizes['a']['y'])+radius;
+        xn = x0+K*(this.sizes['b']['x'])+10;
+        yn = y0-K*(this.sizes['b']['y'])+radius;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           cont.arc(xn, yn+(1.8*radius*i), radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
+                
+        cont.beginPath ();
+//        xn = x0+K*(this.sizes['a1']['z']);
+        xn += K*(this.sizes['d']['x']-this.sizes['b']['x'])-10;
+        var y = 0;
+        for(var i = 0;i<9;i++){
+           cont.beginPath ();
+           y = yn+(1.8*radius*i);
+           cont.arc(xn, y, radius, 0, Math.PI*2, true); 
+           cont.stroke ();
+        }
         
-//        a1 wholl
+//        null level
 
-        xn += K*(this.sizes['d']['x']-this.sizes['b']['x']);
-        
-        cont.strokeRect(xn,yn,w,h-.5*w); 
         cont.beginPath();
-        cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
-        cont.stroke();
-        
+        cont.moveTo(xn,y+radius);
+        xn = x0+K*(this.sizes['b']['x']);
+        cont.lineTo(xn,y+radius);
+
+////                a wholl
+//
+//               
+//        xn = x0+K*(this.sizes['b']['x'])-.5*w;
+//        yn = y0-K*(this.sizes['b']['y'])+.5*w;
+//        
+//        cont.strokeRect(xn,yn,w,h-.5*w);
+//        
+//        cont.beginPath();
+//        cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
+//        cont.stroke();
+//        
+////        a1 wholl
+//
+//        xn += K*(this.sizes['d']['x']-this.sizes['b']['x']);
+//        
+//        cont.strokeRect(xn,yn,w,h-.5*w); 
+//        cont.beginPath();
+//        cont.arc(xn+radius, yn, radius, 0, Math.PI*2, true);
+//        cont.stroke();
+//        
 //        коньковый брус 
         var ws = K*this.sizes['W'];
         xn = x0-.5*ws;
@@ -1420,23 +1481,23 @@ Drows = function (){
             this.length[i]=Math.ceil(Math.pow(Math.pow(this.length[i],2),1/2)*10)/10;
         }
                 
-//        оси стен a & a1
-        cont.beginPath();
-        cont.strokeStyle = 'green';
-        
-        xn = x0+K*(this.sizes['b']['x']);
-        yn = y0-K*(this.sizes['b']['y'])-20;
-        cont.moveTo(xn, yn);
-        yn += h+40;
-        cont.lineTo(xn,yn);
-        
-        xn += K*(this.sizes['d']['x']-this.sizes['b']['x']);;;
-        yn = y0-K*(this.sizes['b']['y'])-20;
-        cont.moveTo(xn, yn);
-        yn += h+40;
-        cont.lineTo(xn,yn);
-        cont.closePath();
-        cont.stroke();
+////        оси стен a & a1
+//        cont.beginPath();
+//        cont.strokeStyle = 'green';
+//        
+//        xn = x0+K*(this.sizes['b']['x']);
+//        yn = y0-K*(this.sizes['b']['y'])-20;
+//        cont.moveTo(xn, yn);
+//        yn += h+40;
+//        cont.lineTo(xn,yn);
+//        
+//        xn += K*(this.sizes['d']['x']-this.sizes['b']['x']);;;
+//        yn = y0-K*(this.sizes['b']['y'])-20;
+//        cont.moveTo(xn, yn);
+//        yn += h+40;
+//        cont.lineTo(xn,yn);
+//        cont.closePath();
+//        cont.stroke();
         
         
         for(var i in this.angles){
