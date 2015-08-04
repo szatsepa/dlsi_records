@@ -18,7 +18,9 @@ $(document).ready(function(){
     if($("#rd2").attr('checked')){
         skate = true;
     }
-    
+    $("canvas#b").mousedown(function(){
+        
+    });
     $(":radio").change(function(){
        $(":radio").attr('checked',false);
        $(this).attr('checked',true);
