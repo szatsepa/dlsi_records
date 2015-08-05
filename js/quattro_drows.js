@@ -755,7 +755,7 @@ Drows = function (){
         
         var ws = K*this.sizes['W'];
         
-//        уровень чердака
+//        уровень чердака @todo
 
         cont.beginPath();      
         xn = x0+K*(this.sizes['a']['x']);
@@ -874,23 +874,23 @@ Drows = function (){
         xn = x0+K*(this.sizes['a']['x']);
         cont.lineTo(xn,y+radius);
         cont.stroke();
-//        оси стен a & a1
-        cont.beginPath();
-        cont.strokeStyle = 'green';
-        
-        xn = x0+K*(this.sizes['a']['x']);
-        yn = y0-K*(this.sizes['a']['y'])-20;
-        cont.moveTo(xn, yn);
-        yn += h;
-        cont.lineTo(xn,yn);
-        
-        xn = x0 + K*(this.sizes['e']['x']);
-        yn = y0-K*(this.sizes['e']['y'])-20;
-        cont.moveTo(xn, yn);
-        yn += h;
-        cont.lineTo(xn,yn);
-        cont.closePath();
-        cont.stroke();
+////        оси стен a & a1
+//        cont.beginPath();
+//        cont.strokeStyle = 'green';
+//        
+//        xn = x0+K*(this.sizes['a']['x']);
+//        yn = y0-K*(this.sizes['a']['y'])-20;
+//        cont.moveTo(xn, yn);
+//        yn += h;
+//        cont.lineTo(xn,yn);
+//        
+//        xn = x0 + K*(this.sizes['e']['x']);
+//        yn = y0-K*(this.sizes['e']['y'])-20;
+//        cont.moveTo(xn, yn);
+//        yn += h;
+//        cont.lineTo(xn,yn);
+//        cont.closePath();
+//        cont.stroke();
         
 //        squares
         var h = 0,b = 0,square = [],str = '',summ = 0, tmp = 0;

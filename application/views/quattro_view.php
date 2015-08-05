@@ -7,7 +7,7 @@
              <tr>
                  <td>
                      <form>
-                         <input type="radio" id="rd1" value="1"/>&nbsp;&nbsp;Чотире
+                         <input type="radio" id="rd1" value="1"/>&nbsp;&nbsp;Чотирескатний
                          <input type="radio" id="rd2" value="2"/>&nbsp;&nbsp;Двохскатий
                      </form>
                      <br/>
@@ -21,29 +21,30 @@
                          <option value="40">Керамическая черепица</option>
                          <option value="50">Цементно-песчаная черепица</option>                         
                      </select><br/><br/>
-                     
+                     <strong>По ГОСТ 24454-80</strong><br/><br/>
                      <select id="ws">
                          <option value="0" selected>Виберіть ширшину бруса</option>
                          <option value="5">50</option>
                          <option value="6">60</option>
-                         <option value="8">80</option>
-                         <option value="9">90</option>
+                         <option value="7.5">75</option>
                          <option value="10">100</option>
-                         <option value="12">120</option>
+                         <option value="12.5">125</option>
                          <option value="15">150</option>
+                         <option value="17.5">175</option>
+                         <option value="20">200</option>
+                         <option value="22.5">225</option>
                      </select>
                      &nbsp;
                      <select id="hs">
                          <option value="0" selected>Виберіть вишину бруса</option>
-                         <option value="8">80</option>
-                         <option value="9">90</option>
+                         <option value="7.5">75</option>
                          <option value="10">100</option>
-                         <option value="12">120</option>
+                         <option value="12.5">125</option>
                          <option value="15">150</option>
-                         <option value="18">180</option>
-                         <option value="20">200</option> 
-                         <option value="22">220</option>
-                         <option value="25">250</option>
+                         <option value="17.5">175</option>
+                         <option value="22.5">225</option>
+                         <option value="25">250</option> 
+                         <option value="27.5">275</option>
                      </select>
                  </td>
                  <td>
