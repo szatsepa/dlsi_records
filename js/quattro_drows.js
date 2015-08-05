@@ -10,6 +10,9 @@ Drows = function (){
     this.angles = new Array();
     
     context.font = "bold 16px sans-serif";
+    context.textAlign = "left";
+    context.textBaseline = "bottom";
+        
     
     this.init = function(){
         
@@ -25,7 +28,30 @@ Drows = function (){
         context.strokeStyle = "#eee";
         context.stroke();        
         
+        context.strokeStyle = '#666';
+        context.beginPath();
         
+        context.moveTo(90,420);
+        context.lineTo(367,580);
+        context.moveTo(90,420);
+        context.lineTo(102,422);
+        context.moveTo(90,420);
+        context.lineTo(100,430);
+        context.moveTo(367,580);
+        context.lineTo(355,578);
+        context.moveTo(367,580);
+        context.lineTo(356,568);
+        
+        context.moveTo(367,580);
+        context.lineTo(900,380);
+        context.moveTo(367,580);
+        context.lineTo(380,580);
+        context.moveTo(367,580);
+        context.lineTo(380,570);
+        context.stroke();
+        
+        context.fillText('L', 225, 500);
+        context.fillText('W', 471, 530);
         
         context.fillRect(90, 420,2,2);
         context.fillRect(90, 300,2,2);
@@ -40,10 +66,7 @@ Drows = function (){
         
         context.fillRect(330.5, 340,1,1);
         context.fillRect(330.5, 260,1,1);
-        
-        context.textAlign = "left";
-        context.textBaseline = "bottom";
-        
+                
         context.fillText('a', 80, 315);
         context.fillText('A', 30, 305);
         context.fillText('b', 199, 255);

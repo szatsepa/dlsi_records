@@ -226,7 +226,6 @@ $(document).ready(function(){
         var W = Math.ceil(obj['W']*10);
         var H = Math.ceil(obj['H']*10);
         var t = obj['type'];
-        alert(t);
         
         $.each($("select#ws option"),function(){
             $(this).attr('selected',false);
