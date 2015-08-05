@@ -36,7 +36,11 @@ class Controller_Math extends Controller
             $data = 'izba';
             
             $this->view->generate('quattro_view.php', 'template_view.php',$data);
+        }
+        
+        function action_beam($param) {
+            $data = NULL;
             
-            
+            $this->view->generate('beam_view.php', 'template_view.php',$data);
         }
 }
