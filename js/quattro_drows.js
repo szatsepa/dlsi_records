@@ -740,6 +740,7 @@ Drows = function (){
     };
     
     this.drowTwoS = function(hraft,N){
+//        @todo REMAKE
         // Пам'ятай що => при этом точка С центр координат СЕ - ось Х, СG - ось У, CF - ось Z.
         var hraft = hraft;
         var objb = new Object();

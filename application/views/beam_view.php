@@ -26,6 +26,7 @@
                              <option value="17.5">175</option>
                              <option value="20">200</option>
                              <option value="22.5">225</option>
+                             <option value="25">250</option>
                          </select>
                          &nbsp;
                          <select id="h">
@@ -35,6 +36,7 @@
                              <option value="12.5">125</option>
                              <option value="15">150</option>
                              <option value="17.5">175</option>
+                             <option value="20">200</option>
                              <option value="22.5">225</option>
                              <option value="25">250</option> 
                              <option value="27.5">275</option>
@@ -46,7 +48,7 @@
                      Довжина між опорами - <strong>L</strong><br/>
                      <input type="number" min="1" max="12" step="0.250"  id="L" value="1"/><br/>
                      Навантаження Кг на м.п. <strong>Q</strong><br/>
-                     <input type="number" id="Q" min="50" max="2500" step="50" value="50"/>
+                     <input type="number" id="Q" min="50" max="2500" step="25" value="50"/>
                      
                  </td>
                  
