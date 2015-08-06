@@ -219,7 +219,6 @@ Drows = function (){
         this.sizes['a1'] = {x:(this.sizes['a']['x']),y:0,z: (- this.building['W'])*100};
         this.sizes['e1'] = {x:this.sizes['e']['x'],y:0,z:(- this.building['W'])*100};
         this.sizes['g1'] = {x:0,y:this.building['cg'],z:(- this.building['W'])*100};
-        
 //      Cc -> tmp нижний уровень кріши отн плоскости abcdef 
 
         var x,y,z = 0;
@@ -227,9 +226,9 @@ Drows = function (){
         y = this.sizes['g']['y']-(this.sizes['g']['y']*x/this.sizes['a']['x']);
         z = this.building['m']+log;
         this.sizes['A'] = {'x':x,'y':y,'z':z};
-        x += 100*this.building['L']+2*(this.building['m']+log);
+        x = this.sizes['e']['x']+(this.building['m']+log);
         this.sizes['E'] = {'x':x,'y':y,'z':z};
-        z += (- this.building['W'])*100-2*(this.building['m']+log);
+        z = this.sizes['a1']['z']-(this.building['m']+log);
         x = this.sizes['A']['x'];
         this.sizes['A1'] = {'x':x,'y':y,'z':z}; 
         x = this.sizes['E']['x'];
@@ -784,8 +783,9 @@ Drows = function (){
         cont.beginPath();      
         xn = x0+K*(this.sizes['a']['x']);
         yn = y0-K*(this.sizes['a']['y']);
+        cont.fillText ('a',xn,yn-2);
         cont.moveTo(xn, yn);
-        xn += K*(this.sizes['e']['x']-this.sizes['a']['x']);
+        xn = x0+K*(this.sizes['e']['x']);
         cont.fillText ('e',xn,yn-2);
         cont.lineTo(xn,yn);
         cont.stroke();
@@ -796,16 +796,21 @@ Drows = function (){
         cont.strokeRect(xn,yn,ws,hraft);
         
 //        Ag
-
+//        var xa = K*();
         cont.moveTo(xn,yn);
         xn = x0 + K*this.sizes['A']['x'];
         yn = y0 - K*this.sizes['A']['y'];
         cont.lineTo(xn,yn);
-        xn += hraft/Math.cos(this.sizes['angleA']);
-        cont.lineTo(xn,yn);
-        xn = x0-.5*ws;
+        
+        xn += hraft/Math.tan(this.sizes['angleA']);
+        cont.moveTo(xn,yn);
         yn = y0-K*this.sizes['g']['y'];
+        xn = x0-.5*ws;
+//        xn += hraft/Math.cos(this.sizes['angleA']);
         cont.lineTo(xn,yn);
+//        xn = x0-.5*ws;
+//        
+//        cont.lineTo(xn,yn);
         
 //        Eg
         xn = x0+.5*ws;
@@ -814,42 +819,42 @@ Drows = function (){
         xn = x0 + K*this.sizes['E']['x'];
         yn = y0 - K*this.sizes['E']['y'];
         cont.lineTo(xn,yn);
-        xn -= hraft/Math.cos(this.sizes['angleE']);
-        cont.lineTo(xn,yn);
+        xn += hraft/Math.tan(this.sizes['angleE']);
+        cont.moveTo(xn,yn);
         xn = x0+.5*ws;
         yn = y0-K*this.sizes['g']['y'];
         cont.lineTo(xn,yn);        
         cont.stroke();
         
 //        rigel
-        var rigel = new Array();
-
-        var xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-hraft/Math.cos(this.sizes['angleA']);
-        var yr = y0-K*this.sizes['g']['y'] + K*(this.sizes['g']['y']-this.sizes['A']['y']+hraft/Math.sin(this.sizes['angleA']))/3;
-        
-        cont.moveTo(xr,yr);
-        xr = x0 + ws + Math.abs(K*(this.sizes['E']['x'])/3)+hraft/Math.cos(this.sizes['angleE']);
+//        var rigel = new Array();
+//
+//        var xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-hraft/Math.cos(this.sizes['angleA']);
+//        var yr = y0-K*this.sizes['g']['y'] + K*(this.sizes['g']['y']-this.sizes['A']['y']+hraft/Math.sin(this.sizes['angleA']))/3;
 //        
-        cont.lineTo(xr,yr);
-        yr += hraft;
-        xr += hraft/Math.cos(this.sizes['angleE']);
-        cont.moveTo(xr,yr);
-        var ri = (xr - (x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA'])))/K;
-        xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA']);
-        cont.lineTo(xr,yr);
-        
-        cont.stroke();
-        
-        for(var i = 0;i<(N+1);i++){
-            rigel.push(ri);
-        }
+//        cont.moveTo(xr,yr);
+//        xr = x0 + ws + Math.abs(K*(this.sizes['E']['x'])/3)+hraft/Math.cos(this.sizes['angleE']);
+////        
+//        cont.lineTo(xr,yr);
+//        yr += hraft;
+//        xr += hraft/Math.cos(this.sizes['angleE']);
+//        cont.moveTo(xr,yr);
+//        var ri = (xr - (x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA'])))/K;
+//        xr = x0 - ws - Math.abs(K*(this.sizes['A']['x'])/3)-2*hraft/Math.cos(this.sizes['angleA']);
+//        cont.lineTo(xr,yr);
+//        
+//        cont.stroke();
+//        
+//        for(var i = 0;i<(N+1);i++){
+//            rigel.push(ri);
+//        }
         
         var rig = {'long':0,'count':0};
-        
-        for(var i in rigel){
-              rig['count']++; 
-              rig['long'] = Math.ceil(rigel[i]*100)/100; 
-            }  
+//        
+//        for(var i in rigel){
+//              rig['count']++; 
+//              rig['long'] = Math.ceil(rigel[i]*100)/100; 
+//            }  
         
         this.sizes['rigel'] = rig;
 //        point g
